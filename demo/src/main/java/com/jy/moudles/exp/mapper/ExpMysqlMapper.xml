@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.exp.dao.ExpDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.exp.entity.Exp">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+		<result column="names" property="names" jdbcType="VARCHAR"/>
+		<result column="ages" property="ages" jdbcType="INTEGER"/>
+		<result column="times" property="times" jdbcType="TIMESTAMP"/>
+		<result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        id, names, ages, times, create_user, create_date, update_user, update_date
+    </sql>
+    
+    <insert id="insertExp">
+        INSERT INTO JY_EXP_TAB
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+			<if test="names != null">names,</if>
+			<if test="ages != null">ages,</if>
+			<if test="times != null">times,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateDate != null">update_date,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+			<if test="names != null">#{names},</if>
+			<if test="ages != null">#{ages},</if>
+			<if test="times != null">#{times},</if>
+            <if test="createUser != null">#{createUser,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">#{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateUser != null">#{updateUser,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">#{updateDate,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+    
+    <update id="updateExp">
+        update JY_EXP_TAB
+        <set>
+			<if test="names != null and '' != names">
+				names = #{names},
+			</if>
+			<if test="ages != null and '' != ages">
+				ages = #{ages},
+			</if>
+			<if test="times != null and '' != times">
+				times = #{times},
+			</if>
+            <if test="createUser != null and ''!=createUser">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null and ''!=createDate">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null and ''!=updateUser">
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null  and ''!=updateDate">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <select id="getExpById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_EXP_TAB`
+        WHERE id = #{id}
+    </select>
+    
+    <select id="queryExpsFilter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_EXP_TAB`
+        WHERE 1 = 1
+			<if test="names != null and '' != names">
+				AND names = #{names}
+			</if>
+			<if test="ages != null and '' != ages">
+				AND ages = #{ages}
+			</if>
+			<if test="times != null and '' != times">
+				AND times = #{times}
+			</if>
+    </select>
+    
+    <delete id="deleteExpById" parameterType="java.lang.String">
+        delete from `JY_EXP_TAB`
+        where id = #{id}
+    </delete>
+    
+    <delete id="deleteExps" parameterType="java.lang.String">
+        delete from `JY_EXP_TAB`
+        where id IN 
+        <foreach collection="list" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

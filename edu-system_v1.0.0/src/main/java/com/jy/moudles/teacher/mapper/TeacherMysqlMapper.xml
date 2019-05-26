@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.teacher.dao.TeacherDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.teacher.entity.Teacher">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+		<result column="teacher_name" property="teacherName" jdbcType="VARCHAR"/>
+		<result column="teacher_sex" property="teacherSex" jdbcType="TINYINT"/>
+		<result column="teacher_age" property="teacherAge" jdbcType="TINYINT"/>
+		<result column="teacher_mobile" property="teacherMobile" jdbcType="VARCHAR"/>
+		<result column="teacher_duty" property="teacherDuty" jdbcType="VARCHAR"/>
+		<result column="teacher_job_title" property="teacherJobTitle" jdbcType="VARCHAR"/>
+		<result column="school_id" property="schoolId" jdbcType="VARCHAR"/>
+		<result column="org_id" property="orgId" jdbcType="VARCHAR"/>
+		<result column="remark" property="remark" jdbcType="VARCHAR"/>
+		<result column="classroom" property="classroom" jdbcType="VARCHAR"/>
+		<result column="subject" property="subject" jdbcType="VARCHAR"/>
+		<result column="user_name" property="userName" jdbcType="VARCHAR"></result>
+		<result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        id, teacher_name, teacher_sex, teacher_age, teacher_mobile, teacher_duty, teacher_job_title, school_id, org_id, remark, classroom, subject, create_user, create_date, update_user, update_date
+    </sql>
+    
+    <insert id="insertTeacher">
+        INSERT INTO JY_TEACHER
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+				<if test="teacherName != null">teacher_name,</if>
+				<if test="teacherSex != null">teacher_sex,</if>
+				<if test="teacherAge != null">teacher_age,</if>
+				<if test="teacherMobile != null">teacher_mobile,</if>
+				<if test="teacherDuty != null">teacher_duty,</if>
+				<if test="teacherJobTitle != null">teacher_job_title,</if>
+				<if test="schoolId != null">school_id,</if>
+				<if test="orgId != null">org_id,</if>
+				<if test="remark != null">remark,</if>
+				<if test="classroom != null">classroom,</if>
+				<if test="subject != null">subject,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateDate != null">update_date,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+				<if test="teacherName != null">#{teacherName},</if>
+				<if test="teacherSex != null">#{teacherSex},</if>
+				<if test="teacherAge != null">#{teacherAge},</if>
+				<if test="teacherMobile != null">#{teacherMobile},</if>
+				<if test="teacherDuty != null">#{teacherDuty},</if>
+				<if test="teacherJobTitle != null">#{teacherJobTitle},</if>
+				<if test="schoolId != null">#{schoolId},</if>
+				<if test="orgId != null">#{orgId},</if>
+				<if test="remark != null">#{remark},</if>
+				<if test="classroom != null">#{classroom},</if>
+				<if test="subject != null">#{subject},</if>
+            <if test="createUser != null">#{createUser,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">#{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateUser != null">#{updateUser,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">#{updateDate,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+    
+    <update id="updateTeacher">
+        update JY_TEACHER
+        <set>
+				<if test="teacherName != null and '' != teacherName">
+				teacher_name = #{teacherName},
+				</if>
+				<if test="teacherSex != null and '' != teacherSex">
+				teacher_sex = #{teacherSex},
+				</if>
+				<if test="teacherAge != null and '' != teacherAge">
+				teacher_age = #{teacherAge},
+				</if>
+				<if test="teacherMobile != null and '' != teacherMobile">
+				teacher_mobile = #{teacherMobile},
+				</if>
+				<if test="teacherDuty != null and '' != teacherDuty">
+				teacher_duty = #{teacherDuty},
+				</if>
+				<if test="teacherJobTitle != null and '' != teacherJobTitle">
+				teacher_job_title = #{teacherJobTitle},
+				</if>
+				<if test="schoolId != null and '' != schoolId">
+				school_id = #{schoolId},
+				</if>
+				<if test="orgId != null and '' != orgId">
+				org_id = #{orgId},
+				</if>
+				<if test="remark != null and '' != remark">
+				remark = #{remark},
+				</if>
+				<if test="classroom != null and '' != classroom">
+				classroom = #{classroom},
+				</if>
+				<if test="subject != null and '' != subject">
+				subject = #{subject},
+				</if>
+            <if test="createUser != null and ''!=createUser">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null and ''!=createDate">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null and ''!=updateUser">
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null  and ''!=updateDate">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <select id="getTeacherById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_TEACHER`
+        WHERE id = #{id}
+    </select>
+    
+    <select id="queryTeachersFilter" resultMap="BaseResultMap">
+        SELECT
+        T1.id, T1.teacher_name, T1.teacher_sex, T1.teacher_age, T1.teacher_mobile, T1.teacher_duty, T1.teacher_job_title, T1.school_id, T1.org_id, T1.remark, T1.classroom, T1.subject, T1.create_user, T1.create_date, T1.update_user, T1.update_date,
+		T2.school_name AS schoolName , T3.user_name
+        from `JY_TEACHER` T1
+        INNER JOIN `jy_school` T2 ON (T2.id = T1.school_id AND T2.org_id = #{currentUserOrgId})
+        LEFT JOIN `jy_user` T3 ON T3.source_id = T1.id 
+        WHERE 1 = 1
+			<if test="teacherName != null and '' != teacherName">
+				AND T1.teacher_name LIKE CONCAT('%','${teacherName}','%')
+			</if>
+			<if test="teacherSex != null and '' != teacherSex">
+				AND T1.teacher_sex = #{teacherSex}
+			</if>
+			<if test="teacherAge != null and '' != teacherAge">
+				AND T1.teacher_age = #{teacherAge}
+			</if>
+			<if test="teacherMobile != null and '' != teacherMobile">
+				AND T1.teacher_mobile = #{teacherMobile}
+			</if>
+			<if test="teacherDuty != null and '' != teacherDuty">
+				AND T1.teacher_duty LIKE CONCAT('%','${teacherDuty}','%')
+			</if>
+			<if test="teacherJobTitle != null and '' != teacherJobTitle">
+				AND T1.teacher_job_title = #{teacherJobTitle}
+			</if>
+			<if test="schoolId != null and '' != schoolId">
+				AND T1.school_id = #{schoolId}
+			</if>
+			<if test="orgId != null and '' != orgId">
+				AND T1.org_id = #{orgId}
+			</if>
+			<if test="remark != null and '' != remark">
+				AND T1.remark = #{remark}
+			</if>
+			<if test="classroom != null and '' != classroom">
+                AND T1.classroom = #{classroom}
+			</if>
+			<if test="subject != null and '' != subject">
+				AND T1.subject = #{subject}
+			</if>
+		ORDER BY T1.update_date
+    </select>
+    
+    <delete id="deleteTeacherById" parameterType="java.lang.String">
+        delete from `JY_TEACHER`
+        where id = #{id}
+    </delete>
+    
+    <delete id="deleteTeachers" parameterType="java.lang.String">
+        delete from `JY_TEACHER`
+        where id IN 
+        <foreach collection="ids" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+    </delete>
+
+	<insert id="insertTeacherListBatch">
+		INSERT INTO JY_TEACHER
+		(
+		id,teacher_name,teacher_sex,teacher_age,teacher_mobile, teacher_duty, school_id, org_id, classroom, subject,
+		create_user, create_date, update_user, update_date
+		)
+		VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+			(
+			#{item.id},#{item.teacherName},#{item.teacherSex},#{item.teacherAge},#{item.teacherMobile},#{item.teacherDuty},
+			#{item.schoolId},#{item.orgId},#{item.classroom},#{item.subject},#{item.createUser},#{item.createDate},#{item.updateUser},#{item.updateDate}
+			)
+		</foreach>
+	</insert>
+    
+</mapper>

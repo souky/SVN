@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.organization.dao.OrganizationDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.organization.entity.Organization">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+		<result column="JGDM" property="jgdm" jdbcType="VARCHAR"/>
+		<result column="JGMC" property="jgmc" jdbcType="VARCHAR"/>
+		<result column="JGSZDM" property="jgszdm" jdbcType="VARCHAR"/>
+		<result column="JGDZ" property="jgdz" jdbcType="VARCHAR"/>
+		<result column="JGCJM" property="jgcjm" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        id, JGDM, JGMC, JGSZDM, JGDZ, JGCJM
+    </sql>
+    
+    <insert id="insertOrganization">
+        INSERT INTO SYNC_ORGANIZATION
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+			<if test="jgdm != null">JGDM,</if>
+			<if test="jgmc != null">JGMC,</if>
+			<if test="jgszdm != null">JGSZDM,</if>
+			<if test="jgdz != null">JGDZ,</if>
+			<if test="jgcjm != null">JGCJM,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+			<if test="jgdm != null">#{jgdm},</if>
+			<if test="jgmc != null">#{jgmc},</if>
+			<if test="jgszdm != null">#{jgszdm},</if>
+			<if test="jgdz != null">#{jgdz},</if>
+			<if test="jgcjm != null">#{jgcjm},</if>
+        </trim>
+    </insert>
+    
+    <insert id="insertOrganizations" parameterType="java.util.List">
+    	INSERT INTO SYNC_ORGANIZATION
+    	(id, JGDM, JGMC, JGSZDM, JGDZ, JGCJM)
+    	values
+    	<foreach collection="list" item="item" index="index" separator=",">  
+            ('${item.id}','${item.jgdm}','${item.jgmc}','${item.jgszdm}','${item.jgdz}','${item.jgcjm}')
+        </foreach>
+    </insert>
+    
+    <update id="updateOrganization">
+        update SYNC_ORGANIZATION
+        <set>
+			<if test="jgdm != null and '' != jgdm">
+				JGDM = #{jgdm},
+			</if>
+			<if test="jgmc != null and '' != jgmc">
+				JGMC = #{jgmc},
+			</if>
+			<if test="jgszdm != null and '' != jgszdm">
+				JGSZDM = #{jgszdm},
+			</if>
+			<if test="jgdz != null and '' != jgdz">
+				JGDZ = #{jgdz},
+			</if>
+			<if test="jgcjm != null and '' != jgcjm">
+				JGCJM = #{jgcjm},
+			</if>
+        </set>
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+            </choose>
+            <choose>
+                <when test="jgszdm != null">
+                    jgszdm = #{jgszdm}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <select id="getOrganizationById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `SYNC_ORGANIZATION`
+        WHERE id = #{id}
+    </select>
+    
+    <select id="queryOrganizationsFilter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `SYNC_ORGANIZATION`
+        WHERE 1 = 1
+			<if test="jgdm != null and '' != jgdm">
+				AND JGDM = #{jgdm}
+			</if>
+			<if test="jgmc != null and '' != jgmc">
+				AND JGMC = #{jgmc}
+			</if>
+			<if test="jgszdm != null and '' != jgszdm">
+				AND JGSZDM = #{jgszdm}
+			</if>
+			<if test="jgdz != null and '' != jgdz">
+				AND JGDZ = #{jgdz}
+			</if>
+			<if test="jgcjm != null and '' != jgcjm">
+				AND JGCJM = #{jgcjm}
+			</if>
+    </select>
+    
+    <delete id="deleteOrganizationById" parameterType="java.lang.String">
+        delete from `SYNC_ORGANIZATION`
+        where id = #{id}
+    </delete>
+    
+    <delete id="deleteOrganizations" >
+        delete from `SYNC_ORGANIZATION`
+    </delete>
+    
+</mapper>

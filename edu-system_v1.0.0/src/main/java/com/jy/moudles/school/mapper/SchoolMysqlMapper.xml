@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.school.dao.SchoolDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.school.entity.School">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+			<result column="school_name" property="schoolName" jdbcType="VARCHAR"/>
+			<result column="school_period" property="schoolPeriod" jdbcType="VARCHAR"/>
+			<result column="school_addr" property="schoolAddr" jdbcType="VARCHAR"/>
+			<result column="school_mobile" property="schoolMobile" jdbcType="VARCHAR"/>
+			<result column="school_tel" property="schoolTel" jdbcType="VARCHAR"/>
+			<result column="school_only_code" property="schoolOnlyCode" jdbcType="VARCHAR"/>
+			<result column="school_contact" property="schoolContact" jdbcType="VARCHAR"/>
+			<result column="school_contact_mobile" property="schoolContactMobile" jdbcType="VARCHAR"/>
+			<result column="school_contact_tel" property="schoolContactTel" jdbcType="VARCHAR"/>
+			<result column="subject" property="subject" jdbcType="VARCHAR"/>
+			<result column="org_id" property="orgId" jdbcType="VARCHAR"/>
+			<result column="remark" property="remark" jdbcType="VARCHAR"/>
+		<result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        id, school_name, school_period, school_addr,subject, school_mobile, school_tel, school_only_code, school_contact, school_contact_mobile, school_contact_tel, org_id, remark, create_user, create_date, update_user, update_date
+    </sql>
+    
+    <insert id="insertSchool">
+        INSERT INTO JY_SCHOOL
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+				<if test="schoolName != null">school_name,</if>
+				<if test="schoolPeriod != null">school_period,</if>
+				<if test="schoolAddr != null">school_addr,</if>
+				<if test="schoolMobile != null">school_mobile,</if>
+				<if test="schoolTel != null">school_tel,</if>
+				<if test="schoolOnlyCode != null">school_only_code,</if>
+				<if test="schoolContact != null">school_contact,</if>
+				<if test="schoolContactMobile != null">school_contact_mobile,</if>
+				<if test="schoolContactTel != null">school_contact_tel,</if>
+				<if test="orgId != null">org_id,</if>
+				<if test="remark != null">remark,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateDate != null">update_date,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+				<if test="schoolName != null">#{schoolName},</if>
+				<if test="schoolPeriod != null">#{schoolPeriod},</if>
+				<if test="schoolAddr != null">#{schoolAddr},</if>
+				<if test="schoolMobile != null">#{schoolMobile},</if>
+				<if test="schoolTel != null">#{schoolTel},</if>
+				<if test="schoolOnlyCode != null">#{schoolOnlyCode},</if>
+				<if test="schoolContact != null">#{schoolContact},</if>
+				<if test="schoolContactMobile != null">#{schoolContactMobile},</if>
+				<if test="schoolContactTel != null">#{schoolContactTel},</if>
+				<if test="orgId != null">#{orgId},</if>
+				<if test="remark != null">#{remark},</if>
+            <if test="createUser != null">#{createUser,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">#{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateUser != null">#{updateUser,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">#{updateDate,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+    
+    <update id="updateSchool">
+        update JY_SCHOOL
+        <set>
+				<if test="schoolName != null and '' != schoolName">
+				school_name = #{schoolName},
+				</if>
+				<if test="schoolPeriod != null and '' != schoolPeriod">
+				school_period = #{schoolPeriod},
+				</if>
+				<if test="schoolAddr != null and '' != schoolAddr">
+				school_addr = #{schoolAddr},
+				</if>
+				<if test="schoolMobile != null and '' != schoolMobile">
+				school_mobile = #{schoolMobile},
+				</if>
+				<if test="schoolTel != null and '' != schoolTel">
+				school_tel = #{schoolTel},
+				</if>
+				<if test="schoolOnlyCode != null and '' != schoolOnlyCode">
+				school_only_code = #{schoolOnlyCode},
+				</if>
+				<if test="schoolContact != null and '' != schoolContact">
+				school_contact = #{schoolContact},
+				</if>
+				<if test="schoolContactMobile != null and '' != schoolContactMobile">
+				school_contact_mobile = #{schoolContactMobile},
+				</if>
+				<if test="schoolContactTel != null and '' != schoolContactTel">
+				school_contact_tel = #{schoolContactTel},
+				</if>
+				<if test="orgId != null and '' != orgId">
+				org_id = #{orgId},
+				</if>
+				<if test="remark != null and '' != remark">
+				remark = #{remark},
+				</if>
+				<if test="subject != null and '' != subject">
+				subject = #{subject},
+				</if>
+            <if test="createUser != null and ''!=createUser">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null and ''!=createDate">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null and ''!=updateUser">
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null  and ''!=updateDate">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <select id="getSchoolById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_SCHOOL`
+        WHERE id = #{id}
+    </select>
+    
+    <select id="getSchoolByOrgId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_SCHOOL`
+        WHERE org_id = #{orgId}
+    </select>
+    
+    <select id="querySchoolsFilter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_SCHOOL`
+        WHERE 1 = 1
+			<if test="schoolName != null and '' != schoolName">
+				AND school_name = #{schoolName}
+			</if>
+			<if test="schoolPeriod != null and '' != schoolPeriod">
+				AND school_period = #{schoolPeriod}
+			</if>
+			<if test="schoolAddr != null and '' != schoolAddr">
+				AND school_addr = #{schoolAddr}
+			</if>
+			<if test="schoolMobile != null and '' != schoolMobile">
+				AND school_mobile = #{schoolMobile}
+			</if>
+			<if test="schoolTel != null and '' != schoolTel">
+				AND school_tel = #{schoolTel}
+			</if>
+			<if test="schoolOnlyCode != null and '' != schoolOnlyCode">
+				AND school_only_code = #{schoolOnlyCode}
+			</if>
+			<if test="schoolContact != null and '' != schoolContact">
+				AND school_contact = #{schoolContact}
+			</if>
+			<if test="schoolContactMobile != null and '' != schoolContactMobile">
+				AND school_contact_mobile = #{schoolContactMobile}
+			</if>
+			<if test="schoolContactTel != null and '' != schoolContactTel">
+				AND school_contact_tel = #{schoolContactTel}
+			</if>
+			<if test="subject != null and '' != subject">
+				AND subject = #{subject}
+			</if>
+			<if test="orgId != null and '' != orgId">
+				AND org_id = #{orgId}
+			</if>
+			<if test="remark != null and '' != remark">
+				AND remark = #{remark}
+			</if>
+    </select>
+  
+      <select id="getSubjectById" parameterType="java.lang.String" resultType="String">
+        SELECT
+        subject_code
+        from `JY_SUBJECT`
+        WHERE school_id = #{id}
+    </select>
+      
+    <delete id="deleteSchoolById" parameterType="java.lang.String">
+        delete from `JY_SCHOOL`
+        where id = #{id}
+    </delete>
+    
+    <delete id="deleteSchools" parameterType="java.lang.String">
+        delete from `JY_SCHOOL`
+        where id IN 
+        <foreach collection="ids" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

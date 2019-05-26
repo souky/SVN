@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.spDetailKnowledgeRelation.dao.SpDetailKnowledgeRelationDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.spDetailKnowledgeRelation.entity.SpDetailKnowledgeRelation">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+			<result column="sp_detail_id" property="spDetailId" jdbcType="VARCHAR"/>
+			<result column="knowledge_point_id" property="knowledgePointId" jdbcType="VARCHAR"/>
+			<result column="knowledge_content" property="knowledgeContent" jdbcType="VARCHAR"/>
+			<result column="remark" property="remark" jdbcType="VARCHAR"/>
+		<result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        id, sp_detail_id, knowledge_point_id, remark, create_user, create_date, update_user, update_date
+    </sql>
+
+    <sql id="Get_Column_List">
+        sdk.id, sdk.sp_detail_id, sdk.knowledge_point_id, k.knowledge_content, sdk.remark, sdk.create_user, sdk.create_date, sdk.update_user, sdk.update_date
+    </sql>
+
+    <insert id="insertSpDetailKnowledgeRelation">
+        INSERT INTO JY_SP_DETAIL_KNOWLEDGE_RELATION
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+				<if test="spDetailId != null">sp_detail_id,</if>
+				<if test="knowledgePointId != null">knowledge_point_id,</if>
+				<if test="remark != null">remark,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateDate != null">update_date,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+				<if test="spDetailId != null">#{spDetailId},</if>
+				<if test="knowledgePointId != null">#{knowledgePointId},</if>
+				<if test="remark != null">#{remark},</if>
+            <if test="createUser != null">#{createUser,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">#{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateUser != null">#{updateUser,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">#{updateDate,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+    
+    <update id="updateSpDetailKnowledgeRelation">
+        update JY_SP_DETAIL_KNOWLEDGE_RELATION
+        <set>
+				<if test="spDetailId != null and '' != spDetailId">
+				sp_detail_id = #{spDetailId},
+				</if>
+				<if test="knowledgePointId != null and '' != knowledgePointId">
+				knowledge_point_id = #{knowledgePointId},
+				</if>
+				<if test="remark != null and '' != remark">
+				remark = #{remark},
+				</if>
+            <if test="createUser != null and ''!=createUser">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null and ''!=createDate">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null and ''!=updateUser">
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null  and ''!=updateDate">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <select id="getSpDetailKnowledgeRelationById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_SP_DETAIL_KNOWLEDGE_RELATION`
+        WHERE id = #{id}
+    </select>
+    
+    <select id="querySpDetailKnowledgeRelationsFilter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Get_Column_List"/>
+        from `JY_SP_DETAIL_KNOWLEDGE_RELATION` sdk
+        LEFT JOIN JY_KNOWLEDGE_POINT k on sdk.knowledge_point_id = k.id
+        WHERE 1 = 1
+			<if test="spDetailId != null and '' != spDetailId">
+				AND sp_detail_id = #{spDetailId}
+			</if>
+			<if test="knowledgePointId != null and '' != knowledgePointId">
+				AND knowledge_point_id = #{knowledgePointId}
+			</if>
+			<if test="remark != null and '' != remark">
+				AND remark = #{remark}
+			</if>
+    </select>
+    
+    <delete id="deleteSDKRelationBySpDetailId" parameterType="java.lang.String">
+        delete from `JY_SP_DETAIL_KNOWLEDGE_RELATION`
+        where sp_detail_id = #{spDetailId}
+    </delete>
+    
+    <delete id="deleteSpDetailKnowledgeRelations" parameterType="java.lang.String">
+        delete from `JY_SP_DETAIL_KNOWLEDGE_RELATION`
+        where id IN 
+        <foreach collection="ids" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

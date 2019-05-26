@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.examSeason.dao.ExamSeasonDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.examSeason.entity.ExamSeason">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+		<result column="exam_id" property="examId" jdbcType="VARCHAR"/>
+		<result column="exam_no" property="examNo" jdbcType="VARCHAR"/>
+		<result column="CCBH" property="ccbh" jdbcType="VARCHAR"/>
+		<result column="CCKSSJ" property="cckssj" jdbcType="VARCHAR"/>
+		<result column="CCJSSJ" property="ccjssj" jdbcType="VARCHAR"/>
+		<result column="CCMC" property="ccmc" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        id, exam_id, exam_no, CCBH, CCKSSJ, CCJSSJ, CCMC
+    </sql>
+    
+    <insert id="insertExamSeason">
+        INSERT INTO SYNC_EXAM_SEASON
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+			<if test="examId != null">exam_id,</if>
+			<if test="examNo != null">exam_no,</if>
+			<if test="ccbh != null">CCBH,</if>
+			<if test="cckssj != null">CCKSSJ,</if>
+			<if test="ccjssj != null">CCJSSJ,</if>
+			<if test="ccmc != null">CCMC,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+			<if test="examId != null">#{examId},</if>
+			<if test="examNo != null">#{examNo},</if>
+			<if test="ccbh != null">#{ccbh},</if>
+			<if test="cckssj != null">#{cckssj},</if>
+			<if test="ccjssj != null">#{ccjssj},</if>
+			<if test="ccmc != null">#{ccmc},</if>
+        </trim>
+    </insert>
+    
+    <insert id="insertExamSeasons" parameterType="java.util.List">
+    	INSERT INTO SYNC_EXAM_SEASON (id, exam_id, exam_no, CCBH, CCKSSJ, CCJSSJ, CCMC)
+    	values
+    	<foreach collection="list" item="exams" separator=",">  
+            ('${exams.id}','${exams.examId}','${exams.examNo}','${exams.ccbh}','${exams.cckssj}','${exams.ccjssj}','${exams.ccmc}')  
+        </foreach>
+    </insert>
+    
+    <update id="updateExamSeason">
+        update SYNC_EXAM_SEASON
+        <set>
+			<if test="examId != null and '' != examId">
+				exam_id = #{examId},
+			</if>
+			<if test="examNo != null and '' != examNo">
+				exam_no = #{examNo},
+			</if>
+			<if test="ccbh != null and '' != ccbh">
+				CCBH = #{ccbh},
+			</if>
+			<if test="cckssj != null and '' != cckssj">
+				CCKSSJ = #{cckssj},
+			</if>
+			<if test="ccjssj != null and '' != ccjssj">
+				CCJSSJ = #{ccjssj},
+			</if>
+			<if test="ccmc != null and '' != ccmc">
+				CCMC = #{ccmc},
+			</if>
+        </set>
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <select id="getExamSeasonById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `SYNC_EXAM_SEASON`
+        WHERE id = #{id}
+    </select>
+    
+    <select id="queryExamSeasonsFilter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `SYNC_EXAM_SEASON`
+        WHERE 1 = 1
+			<if test="examId != null and '' != examId">
+				AND exam_id = #{examId}
+			</if>
+			<if test="examNo != null and '' != examNo">
+				AND exam_no = #{examNo}
+			</if>
+			<if test="ccbh != null and '' != ccbh">
+				AND CCBH = #{ccbh}
+			</if>
+			<if test="cckssj != null and '' != cckssj">
+				AND CCKSSJ = #{cckssj}
+			</if>
+			<if test="ccjssj != null and '' != ccjssj">
+				AND CCJSSJ = #{ccjssj}
+			</if>
+			<if test="ccmc != null and '' != ccmc">
+				AND CCMC = #{ccmc}
+			</if>
+    </select>
+    
+    <delete id="deleteExamSeasonByExamNo" parameterType="java.lang.String">
+        delete from `SYNC_EXAM_SEASON`
+        where exam_no = #{examNo}
+    </delete>
+    
+    <delete id="deleteExamSeasons" parameterType="java.lang.String">
+        delete from `SYNC_EXAM_SEASON`
+        where id IN 
+        <foreach collection="list" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

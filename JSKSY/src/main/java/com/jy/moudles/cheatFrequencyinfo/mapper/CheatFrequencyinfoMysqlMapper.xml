@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.cheatFrequencyinfo.dao.CheatFrequencyinfoDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.cheatFrequencyinfo.entity.CheatFrequencyinfo">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+		<result column="exam_no" property="examNo" jdbcType="VARCHAR"/>
+		<result column="exam_season_no" property="examSeasonNo" jdbcType="VARCHAR"/>
+		<result column="pl" property="pl" jdbcType="VARCHAR"/>
+		<result column="qd" property="qd" jdbcType="VARCHAR"/>
+		<result column="xxlx" property="xxlx" jdbcType="VARCHAR"/>
+		<result column="xhlx" property="xhlx" jdbcType="VARCHAR"/>
+		<result column="qrbj" property="qrbj" jdbcType="VARCHAR"/>
+		<result column="sbbh" property="sbbh" jdbcType="VARCHAR"/>
+		<result column="wjm" property="wjm" jdbcType="VARCHAR"/>
+		<result column="wj" property="wj" jdbcType="LONGVARCHAR"/>
+		<result column="sbcsdm" property="sbcsdm" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        id, exam_no, exam_season_no, pl, qd, xxlx, xhlx, qrbj, sbbh, wjm, wj, sbcsdm
+    </sql>
+    
+    <insert id="insertCheatFrequencyinfo">
+        INSERT INTO SYNC_CHEAT_FREQUENCYINFO
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+			<if test="examNo != null">exam_no,</if>
+			<if test="examSeasonNo != null">exam_season_no,</if>
+			<if test="pl != null">pl,</if>
+			<if test="qd != null">qd,</if>
+			<if test="xxlx != null">xxlx,</if>
+			<if test="xhlx != null">xhlx,</if>
+			<if test="qrbj != null">qrbj,</if>
+			<if test="sbbh != null">sbbh,</if>
+			<if test="wjm != null">wjm,</if>
+			<if test="wj != null">wj,</if>
+			<if test="sbcsdm != null">sbcsdm,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+			<if test="examNo != null">#{examNo},</if>
+			<if test="examSeasonNo != null">#{examSeasonNo},</if>
+			<if test="pl != null">#{pl},</if>
+			<if test="qd != null">#{qd},</if>
+			<if test="xxlx != null">#{xxlx},</if>
+			<if test="xhlx != null">#{xhlx},</if>
+			<if test="qrbj != null">#{qrbj},</if>
+			<if test="sbbh != null">#{sbbh},</if>
+			<if test="wjm != null">#{wjm},</if>
+			<if test="wj != null">#{wj},</if>
+			<if test="sbcsdm != null">#{sbcsdm},</if>
+        </trim>
+    </insert>
+    
+    <update id="updateCheatFrequencyinfo">
+        update SYNC_CHEAT_FREQUENCYINFO
+        <set>
+			<if test="examNo != null and '' != examNo">
+				exam_no = #{examNo},
+			</if>
+			<if test="examSeasonNo != null and '' != examSeasonNo">
+				exam_season_no = #{examSeasonNo},
+			</if>
+			<if test="pl != null and '' != pl">
+				pl = #{pl},
+			</if>
+			<if test="qd != null and '' != qd">
+				qd = #{qd},
+			</if>
+			<if test="xxlx != null and '' != xxlx">
+				xxlx = #{xxlx},
+			</if>
+			<if test="xhlx != null and '' != xhlx">
+				xhlx = #{xhlx},
+			</if>
+			<if test="qrbj != null and '' != qrbj">
+				qrbj = #{qrbj},
+			</if>
+			<if test="sbbh != null and '' != sbbh">
+				sbbh = #{sbbh},
+			</if>
+			<if test="wjm != null and '' != wjm">
+				wjm = #{wjm},
+			</if>
+			<if test="wj != null and '' != wj">
+				wj = #{wj},
+			</if>
+			<if test="sbcsdm != null and '' != sbcsdm">
+				sbcsdm = #{sbcsdm},
+			</if>
+        </set>
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <select id="getCheatFrequencyinfoById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `SYNC_CHEAT_FREQUENCYINFO`
+        WHERE id = #{id}
+    </select>
+    
+    <select id="queryCheatFrequencyinfosFilter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `SYNC_CHEAT_FREQUENCYINFO`
+        WHERE 1 = 1
+			<if test="examNo != null and '' != examNo">
+				AND exam_no = #{examNo}
+			</if>
+			<if test="examSeasonNo != null and '' != examSeasonNo">
+				AND exam_season_no = #{examSeasonNo}
+			</if>
+			<if test="pl != null and '' != pl">
+				AND pl = #{pl}
+			</if>
+			<if test="qd != null and '' != qd">
+				AND qd = #{qd}
+			</if>
+			<if test="xxlx != null and '' != xxlx">
+				AND xxlx = #{xxlx}
+			</if>
+			<if test="xhlx != null and '' != xhlx">
+				AND xhlx = #{xhlx}
+			</if>
+			<if test="qrbj != null and '' != qrbj">
+				AND qrbj = #{qrbj}
+			</if>
+			<if test="sbbh != null and '' != sbbh">
+				AND sbbh = #{sbbh}
+			</if>
+			<if test="wjm != null and '' != wjm">
+				AND wjm = #{wjm}
+			</if>
+			<if test="wj != null and '' != wj">
+				AND wj = #{wj}
+			</if>
+			<if test="sbcsdm != null and '' != sbcsdm">
+				AND sbcsdm = #{sbcsdm}
+			</if>
+    </select>
+    
+    <delete id="deleteCheatFrequencyinfoById" parameterType="java.lang.String">
+        delete from `SYNC_CHEAT_FREQUENCYINFO`
+        where id = #{id}
+    </delete>
+    
+    <delete id="deleteCheatFrequencyinfos" parameterType="java.lang.String">
+        delete from `SYNC_CHEAT_FREQUENCYINFO`
+        where id IN 
+        <foreach collection="list" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

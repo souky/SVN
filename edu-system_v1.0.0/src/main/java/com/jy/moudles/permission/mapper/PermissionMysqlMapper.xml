@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.permission.dao.PermissionDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.permission.entity.Permission">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="bsid" property="bsid" jdbcType="VARCHAR" />
+		<result column="permission_name" property="permissionName"
+			jdbcType="VARCHAR" />
+		<result column="permission_level" property="permissionLevel"
+			jdbcType="INTEGER" />
+		<result column="permission_order" property="permissionOrder"
+			jdbcType="INTEGER" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+		<result column="create_user" property="createUser" jdbcType="VARCHAR" />
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, bsid, permission_name, permission_level, permission_order, remark,
+		is_delete, create_user, create_date, update_user, update_date
+	</sql>
+
+	<select id="getPermissionsByRoleId" resultMap="BaseResultMap">
+		SELECT
+		T1.id, T1.bsid, T1.permission_name, T1.permission_level,
+		T1.permission_order, T1.remark, T1.is_delete,
+		T1.create_user, T1.create_date, T1.update_user, T1.update_date
+		FROM `jy_permission_tab` T1
+		INNER JOIN `jy_role_permission_relation` T2 ON (T2.permission_id = T1.id
+		AND T2.role_id = #{roleId} AND T2.is_delete = 0)
+		WHERE T1.is_delete = 0
+		ORDER BY T1.permission_level, T1.permission_order
+	</select>
+
+	<select id="getAllPermissions" resultMap="BaseResultMap">
+		SELECT
+		T1.id, T1.bsid, T1.permission_name, T1.permission_level,
+		T1.permission_order, T1.remark, T1.is_delete,
+		T1.create_user, T1.create_date, T1.update_user, T1.update_date
+		FROM `jy_permission_tab` T1
+		WHERE T1.is_delete = 0
+		ORDER BY T1.permission_level, T1.permission_order
+	</select>
+
+	<delete id="deletePermissionsByRoleId" parameterType="java.lang.String">
+		DELETE FROM `jy_role_permission_relation`
+		where role_id = #{roleId}
+	</delete>
+
+	<select id="getHasPermissionIdsByroleId" resultType="java.lang.String">
+		SELECT
+		T1.permission_id
+		FROM `jy_role_permission_relation` T1
+		WHERE T1.is_delete = 0
+		AND T1.role_id = #{roleId}
+	</select>
+
+	<insert id="grantPermissionsForRole">
+		INSERT INTO `jy_role_permission_relation`
+		(id, permission_id, role_id, remark, is_delete, create_date, create_user, update_date, update_user)
+		VALUES
+		<foreach collection="relations" item="item" index="index" separator="," >
+			(
+			#{item.id},
+			#{item.permissionId},
+			#{item.roleId},
+			#{item.remark},
+			#{item.isDelete},
+			#{item.createDate},
+			#{item.createUser},
+			#{item.updateDate},
+			#{item.updateUser}
+			)
+		</foreach>
+	</insert>
+</mapper>

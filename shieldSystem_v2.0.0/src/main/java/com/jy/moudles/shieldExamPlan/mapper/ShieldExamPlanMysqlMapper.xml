@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.shieldExamPlan.dao.ShieldExamPlanDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.shieldExamPlan.entity.ShieldExamPlan">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+		<result column="exam_name" property="examName" jdbcType="VARCHAR"/>
+		<result column="exam_no" property="examNo" jdbcType="VARCHAR"/>
+		<result column="exam_type_id" property="examTypeId" jdbcType="VARCHAR"/>
+		<result column="exam_status" property="examStatus" jdbcType="INTEGER"/>
+		<result column="start_time" property="startTime" jdbcType="TIMESTAMP"/>
+		<result column="end_time" property="endTime" jdbcType="TIMESTAMP"/>
+		<result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        id, exam_name, exam_no, exam_type_id, exam_status, start_time, end_time, create_user, create_date, update_user, update_date
+    </sql>
+    
+    <insert id="insertShieldExamPlan">
+        INSERT INTO JY_SHIELD_EXAM_PLAN_TAB
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+			<if test="examName != null">exam_name,</if>
+			<if test="examNo != null">exam_no,</if>
+			<if test="examTypeId != null">exam_type_id,</if>
+			<if test="examStatus != null">exam_status,</if>
+			<if test="startTime != null">start_time,</if>
+			<if test="endTime != null">end_time,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateDate != null">update_date,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+			<if test="examName != null">#{examName},</if>
+			<if test="examNo != null">#{examNo},</if>
+			<if test="examTypeId != null">#{examTypeId},</if>
+			<if test="examStatus != null">#{examStatus},</if>
+			<if test="startTime != null">#{startTime},</if>
+			<if test="endTime != null">#{endTime},</if>
+            <if test="createUser != null">#{createUser,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">#{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateUser != null">#{updateUser,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">#{updateDate,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+    
+    <update id="updateShieldExamPlan">
+        update JY_SHIELD_EXAM_PLAN_TAB
+        <set>
+			<if test="examName != null and '' != examName">
+				exam_name = #{examName},
+			</if>
+			<if test="examNo != null and '' != examNo">
+				exam_no = #{examNo},
+			</if>
+			<if test="examTypeId != null and '' != examTypeId">
+				exam_type_id = #{examTypeId},
+			</if>
+			<if test="examStatus != null">
+				exam_status = #{examStatus},
+			</if>
+			<if test="startTime != null and '' != startTime">
+				start_time = #{startTime},
+			</if>
+			<if test="endTime != null and '' != endTime">
+				end_time = #{endTime},
+			</if>
+            <if test="createUser != null and ''!=createUser">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null and ''!=createDate">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null and ''!=updateUser">
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null  and ''!=updateDate">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <select id="getShieldExamPlanById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_SHIELD_EXAM_PLAN_TAB`
+        WHERE id = #{id}
+    </select>
+    
+    <select id="queryShieldExamPlansFilter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_SHIELD_EXAM_PLAN_TAB`
+        WHERE 1 = 1
+			<if test="examName != null and '' != examName">
+				AND exam_name like CONCAT('%',#{examName},'%')
+			</if>
+			<if test="examNo != null and '' != examNo">
+				AND exam_no like CONCAT('%',#{examNo},'%')
+			</if>
+			<if test="examTypeId != null and '' != examTypeId">
+				AND exam_type_id = #{examTypeId}
+			</if>
+			<if test="examStatus != null">
+				AND exam_status = #{examStatus}
+			</if>
+			<if test="startTime != null and '' != startTime">
+				AND start_time &gt;= #{startTime}
+			</if>
+			<if test="endTime != null and '' != endTime">
+				AND end_time &lt;= #{endTime}
+			</if>
+    </select>
+    
+    <delete id="deleteShieldExamPlanById" parameterType="java.lang.String">
+        delete from `JY_SHIELD_EXAM_PLAN_TAB`
+        where id = #{id}
+    </delete>
+    
+    <delete id="deleteShieldExamPlans" parameterType="java.lang.String">
+        delete from `JY_SHIELD_EXAM_PLAN_TAB`
+        where id IN 
+        <foreach collection="list" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

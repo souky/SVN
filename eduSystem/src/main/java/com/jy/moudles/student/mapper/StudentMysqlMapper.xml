@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.student.dao.StudentDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.student.entity.Student">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+		<result column="student_name" property="studentName" jdbcType="VARCHAR"/>
+		<result column="student_no" property="studentNo" jdbcType="VARCHAR"/>
+		<result column="student_sex" property="studentSex" jdbcType="TINYINT"/>
+		<result column="student_age" property="studentAge" jdbcType="TINYINT"/>
+		<result column="school_year" property="schoolYear" jdbcType="TINYINT"/>
+		<result column="student_contact" property="studentContact" jdbcType="VARCHAR"/>
+		<result column="student_contact_mobile" property="studentContactMobile" jdbcType="VARCHAR"/>
+		<result column="classroom_id" property="classroomId" jdbcType="VARCHAR"/>
+		<result column="school_id" property="schoolId" jdbcType="VARCHAR"/>
+		<result column="classroom_name" property="classroomName" jdbcType="VARCHAR"/>
+		<result column="school_name" property="schoolName" jdbcType="VARCHAR"/>
+		<result column="org_id" property="orgId" jdbcType="VARCHAR"/>
+		<result column="remark" property="remark" jdbcType="VARCHAR"/>
+		<result column="user_name" property="userName" jdbcType="VARCHAR"></result>
+		<result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        s.id, s.student_name, s.student_sex, s.student_no, s.student_age, s.school_year, s.student_contact, s.student_contact_mobile, s.classroom_id, s.school_id, c.classroom_name, sc.school_name, s.org_id, s.remark, s.create_user, s.create_date, s.update_user, s.update_date
+    </sql>
+    
+	 <sql id="Base_Column_ListNew">
+        s.id, s.student_name, s.student_sex, s.student_no, s.student_age, s.school_year, s.student_contact, s.student_contact_mobile, s.classroom_id, s.school_id, s.org_id, s.remark, s.create_user, s.create_date, s.update_user, s.update_date
+     </sql>
+    <insert id="insertStudent">
+        INSERT INTO JY_STUDENT
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+				<if test="studentName != null">student_name,</if>
+				<if test="studentNo != null">student_no,</if>
+				<if test="studentSex != null">student_sex,</if>
+				<if test="studentAge != null">student_age,</if>
+				<if test="schoolYear != null">school_year,</if>
+				<if test="studentContact != null">student_contact,</if>
+				<if test="studentContactMobile != null">student_contact_mobile,</if>
+				<if test="classroomId != null">classroom_id,</if>
+				<if test="schoolId != null">school_id,</if>
+				<if test="orgId != null">org_id,</if>
+				<if test="remark != null">remark,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateDate != null">update_date,</if>
+        </trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+				<if test="studentName != null">#{studentName},</if>
+				<if test="studentNo != null">#{studentNo},</if>
+				<if test="studentSex != null">#{studentSex},</if>
+				<if test="studentAge != null">#{studentAge},</if>
+				<if test="schoolYear != null">#{schoolYear},</if>
+				<if test="studentContact != null">#{studentContact},</if>
+				<if test="studentContactMobile != null">#{studentContactMobile},</if>
+				<if test="classroomId != null">#{classroomId},</if>
+				<if test="schoolId != null">#{schoolId},</if>
+				<if test="orgId != null">#{orgId},</if>
+				<if test="remark != null">#{remark},</if>
+            <if test="createUser != null">#{createUser,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">#{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateUser != null">#{updateUser,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">#{updateDate,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+    	
+    <insert id="insertStudents">
+    	INSERT INTO JY_STUDENT
+		(
+		id,student_name,student_sex,student_age,student_no,classroom_id,student_contact,org_id,school_id,
+		student_contact_mobile,create_user,create_date,update_user,update_date
+		)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+			(
+			#{item.id},#{item.studentName},#{item.studentSex},#{item.studentAge},#{item.studentNo},#{item.classroomId},#{item.studentContact},
+			#{item.orgId},#{item.schoolId},
+			#{item.studentContactMobile},#{item.createUser},#{item.createDate},#{item.updateUser},#{item.updateDate}
+			)
+        </foreach>
+    </insert>
+    
+    <insert id="insertStudentsNew">
+    	INSERT INTO JY_STUDENT
+    	<trim prefix="(" suffix=")" suffixOverrides=",">
+            id,
+				student_name,
+				student_sex,
+				student_age,
+				student_no,
+				student_contact,
+				student_contact_mobile,
+				classroom_id,
+				school_id,
+				org_id,
+            create_user,
+            create_date,
+            update_user,
+            update_date
+        </trim>
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{item.id,jdbcType=VARCHAR},
+				#{item.studentName},
+				#{item.studentSex},
+				#{item.studentAge},
+				#{item.studentNo},
+				#{item.studentContact},
+				#{item.studentContactMobile},
+				#{item.classroomId},
+				#{item.schoolId},
+				#{item.orgId,},
+           #{item.createUser,jdbcType=VARCHAR},
+            #{item.createDate,jdbcType=TIMESTAMP},
+            #{item.updateUser,jdbcType=VARCHAR},
+            #{item.updateDate,jdbcType=TIMESTAMP}
+        </trim>
+        </foreach>
+    </insert>
+    
+    <insert id="insertScores">
+    	INSERT INTO jy_score
+    	<trim prefix="(" suffix=")" suffixOverrides=",">
+            id,
+			exam_id,
+			student_id,
+			org_id,
+			classroom_id,
+			school_id,
+			total_score,
+			detail_score,
+            chinese_score,
+            math_score,
+            english_score,
+            physical_score,
+            chemical_score,
+           create_user,
+            create_date,
+            update_user,
+           update_date
+        </trim>
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{item.id,jdbcType=VARCHAR},
+				#{item.examId},
+				#{item.studentId},
+				#{item.orgId},
+				#{item.classroomId},
+				#{item.schoolId},
+				#{item.totalScore},
+				#{item.detailScore},
+				#{item.chineseScore},
+				#{item.mathScore},
+				#{item.englishScore},
+				#{item.physicalScore},
+				#{item.chemicalScore},
+            #{item.createUser,jdbcType=VARCHAR},
+            #{item.createDate,jdbcType=TIMESTAMP},
+            #{item.updateUser,jdbcType=VARCHAR},
+            #{item.updateDate,jdbcType=TIMESTAMP},
+        </trim>
+        </foreach>
+    </insert>
+    
+    
+    <update id="updateStudent">
+        update JY_STUDENT
+        <set>
+				<if test="studentName != null and '' != studentName">
+				student_name = #{studentName},
+				</if>
+				<if test="studentNo != null and '' != studentNo">
+				student_no = #{studentNo},
+				</if>
+				<if test="studentSex != null and '' != studentSex">
+				student_sex = #{studentSex},
+				</if>
+				<if test="studentAge != null and '' != studentAge">
+				student_age = #{studentAge},
+				</if>
+				<if test="schoolYear != null and '' != schoolYear">
+				school_year = #{schoolYear},
+				</if>
+				<if test="studentContact != null and '' != studentContact">
+				student_contact = #{studentContact},
+				</if>
+				<if test="studentContactMobile != null and '' != studentContactMobile">
+				student_contact_mobile = #{studentContactMobile},
+				</if>
+				<if test="classroomId != null and '' != classroomId">
+				classroom_id = #{classroomId},
+				</if>
+				<if test="schoolId != null and '' != schoolId">
+				school_id = #{schoolId},
+				</if>
+				<if test="orgId != null and '' != orgId">
+				org_id = #{orgId},
+				</if>
+				<if test="remark != null and '' != remark">
+				remark = #{remark},
+				</if>
+            <if test="createUser != null and ''!=createUser">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null and ''!=createDate">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null and ''!=updateUser">
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null  and ''!=updateDate">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <select id="getStudentById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_STUDENT` s
+        LEFT JOIN JY_CLASSROOM c ON s.classroom_id = c.id
+		LEFT JOIN jy_school sc ON s.school_id = sc.id
+        WHERE s.id = #{id}
+    </select>
+	
+	<select id="getStudentByIdNew" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_ListNew"/>
+        from `JY_STUDENT` s
+        WHERE s.id = #{id}
+    </select>
+	
+	<select id="getStudentByStuNo" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		from `JY_STUDENT` s
+		LEFT JOIN JY_CLASSROOM c ON s.classroom_id = c.id
+		LEFT JOIN jy_school sc ON s.school_id = sc.id
+		WHERE s.student_no = #{sno}
+		AND s.org_id = #{orgId}
+	</select>
+    
+    <select id="queryStudentsFilter" resultMap="BaseResultMap">
+        SELECT
+        s.id, s.student_name, s.student_sex, s.student_no, s.student_age, s.school_year, s.student_contact, s.student_contact_mobile, 
+        s.classroom_id, s.school_id,c.classroom_name, sc.school_name, s.org_id, s.remark, s.create_user, 
+        s.create_date, s.update_user, s.update_date,u.user_name
+        from `JY_STUDENT` s
+        LEFT JOIN JY_CLASSROOM c ON s.classroom_id = c.id
+		LEFT JOIN jy_school sc ON s.school_id = sc.id
+		 LEFT JOIN `jy_user` u ON u.source_id = s.id 
+        WHERE 1 = 1
+			<if test="studentName != null and '' != studentName">
+				AND s.student_name LIKE CONCAT('%','${studentName}','%')
+			</if>
+			<if test="studentSex != null and '' != studentSex">
+				AND s.student_sex = #{studentSex}
+			</if>
+			<if test="studentAge != null and '' != studentAge">
+				AND s.student_age = #{studentAge}
+			</if>
+			<if test="studentNo != null and '' != studentNo">
+				AND s.student_no = #{studentNo}
+			</if>
+			<if test="schoolYear != null and '' != schoolYear">
+				AND s.school_year = #{schoolYear}
+			</if>
+			<if test="classroomName != null and '' != classroomName">
+                AND c.classroom_name LIKE CONCAT('%','${classroomName}','%')
+			</if>
+			<if test="studentContact != null and '' != studentContact">
+				AND s.student_contact = #{studentContact}
+			</if>
+			<if test="studentContactMobile != null and '' != studentContactMobile">
+				AND s.student_contact_mobile = #{studentContactMobile}
+			</if>
+			<if test="classroomId != null and '' != classroomId">
+				AND s.classroom_id = #{classroomId}
+			</if>
+			<if test="schoolId != null and '' != schoolId">
+				AND s.school_id = #{schoolId}
+			</if>
+			<if test="orgId != null and '' != orgId">
+				AND s.org_id = #{orgId}
+			</if>
+			<if test="remark != null and '' != remark">
+				AND s.remark = #{remark}
+			</if>
+		ORDER BY s.student_no DESC
+    </select>
+    
+    <delete id="deleteStudentById" parameterType="java.lang.String">
+        delete from `JY_STUDENT`
+        where id = #{id}
+    </delete>
+    
+    <delete id="deleteStudents" parameterType="java.lang.String">
+        delete from `JY_STUDENT`
+        where id IN 
+        <foreach collection="list" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

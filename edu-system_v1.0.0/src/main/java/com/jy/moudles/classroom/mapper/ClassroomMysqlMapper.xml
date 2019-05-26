@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.classroom.dao.ClassroomDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.classroom.entity.Classroom">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+		<result column="classroom_name" property="classroomName" jdbcType="VARCHAR"/>
+		<result column="grade_code" property="gradeCode" jdbcType="INTEGER"/>
+		<result column="class_code" property="classCode" jdbcType="INTEGER"/>
+		<result column="class_teacher_id" property="classTeacherId" jdbcType="VARCHAR"/>
+		<result column="school_id" property="schoolId" jdbcType="VARCHAR"/>
+		<result column="org_id" property="orgId" jdbcType="VARCHAR"/>
+		<result column="remark" property="remark" jdbcType="VARCHAR"/>
+		<result column="position" property="position" jdbcType="VARCHAR"/>
+		<result column="teacher_name" property="teacherName" jdbcType="VARCHAR"/>
+		<result column="student_count" property="studentCount" jdbcType="INTEGER"/>
+		<result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        id, classroom_name,position, grade_code, class_teacher_id, school_id, org_id, remark, teacher_name, student_count, create_user, create_date, update_user, update_date
+    </sql>
+    <sql id="Base_Column_List_id">
+        id, classroom_name,position, grade_code, class_teacher_id, school_id, org_id, remark, create_user, create_date, update_user, update_date
+    </sql>
+    
+    <insert id="insertClassroom">
+        INSERT INTO JY_CLASSROOM
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+			<if test="classroomName != null">classroom_name,</if>
+			<if test="gradeCode != null">grade_code,</if>
+			<if test="classCode != null">class_code,</if>
+			<if test="schoolId != null">school_id,</if>
+			<if test="classTeacherId != null">class_teacher_id,</if>
+			<if test="orgId != null">org_id,</if>
+			<if test="remark != null">remark,</if>
+			<if test="position != null">position,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateDate != null">update_date,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+			<if test="classroomName != null">#{classroomName},</if>
+			<if test="gradeCode != null">#{gradeCode},</if>
+			<if test="classCode != null">#{classCode},</if>
+			<if test="schoolId != null">#{schoolId},</if>
+			<if test="classTeacherId != null">#{classTeacherId},</if>
+			<if test="orgId != null">#{orgId},</if>
+			<if test="remark != null">#{remark},</if>
+			<if test="position != null">#{position},</if>
+            <if test="createUser != null">#{createUser,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">#{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateUser != null">#{updateUser,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">#{updateDate,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+    
+    <update id="updateClassroom">
+        update JY_CLASSROOM
+        <set>
+			<if test="classroomName != null and '' != classroomName">
+				classroom_name = #{classroomName},
+			</if>
+			<if test="gradeCode != null and '' != gradeCode">
+				grade_code = #{gradeCode},
+			</if>
+			<if test="classTeacherId != null and '' != classTeacherId">
+               class_teacher_id = #{classTeacherId},
+			</if>
+			<if test="schoolId != null and '' != schoolId">
+				school_id = #{schoolId},
+			</if>
+			<if test="orgId != null and '' != orgId">
+				org_id = #{orgId},
+			</if>
+			<if test="remark != null and '' != remark">
+				remark = #{remark},
+			</if>
+			<if test="position != null and '' != position">
+				position = #{position},
+			</if>
+            <if test="createUser != null and ''!=createUser">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null and ''!=createDate">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null and ''!=updateUser">
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null  and ''!=updateDate">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <select id="getClassroomById" resultMap="BaseResultMap">
+        SELECT
+        t.teacher_name,
+        c.id, c.classroom_name,c.position, c.grade_code, c.class_teacher_id, c.school_id, c.org_id, c.remark, c.create_user, c.create_date, c.update_user, c.update_date
+        from `JY_CLASSROOM` c
+        LEFT JOIN jy_teacher t ON c.class_teacher_id = t.id
+        WHERE c.id = #{id}
+    </select>
+	
+	 <select id="getClassroomByIdNew" resultMap="BaseResultMap">
+        SELECT
+        c.id, c.classroom_name,c.position, c.grade_code, c.class_teacher_id, c.school_id, c.org_id, c.remark, c.create_user, c.create_date, c.update_user, c.update_date
+        from `JY_CLASSROOM` c
+        WHERE c.id = #{id}
+    </select>
+    
+    <select id="getClassroomByName" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List_id"/>
+        from `JY_CLASSROOM`
+        WHERE classroom_name = #{0} AND org_id = #{1}
+        ORDER BY grade_code, class_code
+    </select>
+    
+    <select id="getClassroomByNames" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List_id"/>
+        from `JY_CLASSROOM`
+        WHERE classroom_name IN 
+        <foreach collection="list" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+        AND org_id = #{orgId}
+        ORDER BY grade_code, class_code
+    </select>
+
+    <select id="queryClassroomsByGrade" resultMap="BaseResultMap">
+        SELECT
+        	c.id as id,
+			c.classroom_name
+        from `JY_CLASSROOM` c 
+        WHERE 1 = 1 
+		AND c.classroom_name like CONCAT(CONCAT('%',#{grade}),'%')
+		AND c.org_id = #{orgId} 
+		ORDER BY c.grade_code, c.class_code
+    </select>
+    
+    <select id="queryClassroomsFilter" resultMap="BaseResultMap">
+        SELECT
+        	c.id as id,
+			c.classroom_name,
+    	    t.teacher_name,
+    	    c.position,
+    	    c.remark,
+  			count(s.student_no) as student_count
+        from `JY_CLASSROOM` c
+        LEFT JOIN jy_student s ON  c.id = s.classroom_id
+		LEFT JOIN jy_teacher t ON  c.class_teacher_id = t.id
+        WHERE 1 = 1
+		<if test="classroomName != null and '' != classroomName">
+            AND c.classroom_name LIKE CONCAT('%','${classroomName}','%')
+		</if>
+		<if test="teacherName != null and '' != teacherName">
+            AND t.teacher_Name = #{teacherName}
+		</if>			
+		<if test="gradeCode != null and '' != gradeCode">
+			AND grade_code = #{gradeCode}
+		</if>
+		<if test="classTeacherId != null and '' != classTeacherId">
+			AND class_teacher_id = #{classTeacherId}
+		</if>
+		<if test="schoolId != null and '' != schoolId">
+			AND school_id = #{schoolId}
+		</if>
+		<if test="orgId != null and '' != orgId">
+			AND c.org_id = #{orgId}
+		</if>
+		<if test="remark != null and '' != remark">
+			AND remark = #{remark}
+		</if>
+		GROUP BY c.id
+		ORDER BY c.grade_code, c.class_code
+    </select>
+
+    <select id="queryClassroomsFilterNew" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List_id"/>
+        from `JY_CLASSROOM`
+        WHERE 1 = 1
+		<if test="classroomName != null and '' != classroomName">
+            AND c.classroom_name LIKE CONCAT('%','${classroomName}','%')
+		</if>
+		<if test="teacherName != null and '' != teacherName">
+            AND t.teacher_Name = #{teacherName}
+		</if>
+		<if test="gradeCode != null and '' != gradeCode">
+			AND grade_code = #{gradeCode}
+		</if>
+		<if test="classTeacherId != null and '' != classTeacherId">
+			AND class_teacher_id = #{classTeacherId}
+		</if>
+		<if test="schoolId != null and '' != schoolId">
+			AND school_id = #{schoolId}
+		</if>
+		<if test="orgId != null and '' != orgId">
+			AND c.org_id = #{orgId}
+		</if>
+		<if test="remark != null and '' != remark">
+			AND remark = #{remark}
+		</if>
+        <if test="sort != null and '' != sort">
+            ORDER BY  ${sort}
+            <if test="sortType != null and '' != sortType">
+                ${sortType}
+            </if>
+        </if>
+        <if test="recordNum!= null and '' != recordNum">
+            limit ${recordNum}
+        </if>
+    </select>
+
+    <delete id="deleteClassroomById" parameterType="java.lang.String">
+        delete from `JY_CLASSROOM`
+        where id = #{id}
+    </delete>
+    
+    <delete id="deleteClassrooms" parameterType="java.lang.String">
+        delete from `JY_CLASSROOM`
+        where id IN 
+        <foreach collection="ids" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

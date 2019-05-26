@@ -1,0 +1,58 @@
+/**
+ * @description 菜单数据 show-overflow-tooltip
+ */
+
+export default {
+    data:[
+		{
+			teacherName:'王一',
+			teacherSex:1,
+			teacherAge:22,
+			teacherMobile:'12312312541',
+			teacherDuty:'老师',
+			teacherJobTitle:'不知道',
+			schoolName:'啥学校呢',
+			id:'wdawdawd123123'
+		},
+		{
+			teacherName:'王二',
+			teacherSex:1,
+			teacherAge:40,
+			teacherMobile:'12312312541',
+			teacherDuty:'老师',
+			teacherJobTitle:'不知道',
+			schoolName:'啥学校呢',
+			id:'wdawdawd123123'
+		},
+		{
+			teacherName:'王三',
+			teacherSex:0,
+			teacherAge:21,
+			teacherMobile:'12312312541',
+			teacherDuty:'老师',
+			teacherJobTitle:'不知道',
+			schoolName:'啥学校呢',
+			id:'wdawdawd123123'
+		},
+		{
+			teacherName:'王四',
+			teacherSex:0,
+			teacherAge:24,
+			teacherMobile:'12312312541',
+			teacherDuty:'老师',
+			teacherJobTitle:'不知道',
+			schoolName:'啥学校呢',
+			id:'wdawdawd123123'
+		},
+		{
+			teacherName:'王五',
+			teacherSex:1,
+			teacherAge:29,
+			teacherMobile:'12312312541',
+			teacherDuty:'老师',
+			teacherJobTitle:'不知道',
+			schoolName:'啥学校呢',
+			id:'wdawdawd123123'
+		},
+    ]
+}

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.examSeasonSubject.dao.ExamSeasonSubjectDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.examSeasonSubject.entity.ExamSeasonSubject">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+		<result column="exam_season_id" property="examSeasonId" jdbcType="VARCHAR"/>
+		<result column="exam_season_no" property="examSeasonNo" jdbcType="VARCHAR"/>
+		<result column="KMBH" property="kmbh" jdbcType="VARCHAR"/>
+		<result column="KMKSSJ" property="kmkssj" jdbcType="VARCHAR"/>
+		<result column="KMJSSJ" property="kmjssj" jdbcType="VARCHAR"/>
+		<result column="KMMC" property="kmmc" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        id, exam_season_id, exam_season_no, KMBH, KMKSSJ, KMJSSJ, KMMC
+    </sql>
+    
+    <insert id="insertExamSeasonSubject">
+        INSERT INTO SYNC_EXAM_SEASON_SUBJECT
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+			<if test="examSeasonId != null">exam_season_id,</if>
+			<if test="examSeasonNo != null">exam_season_no,</if>
+			<if test="kmbh != null">KMBH,</if>
+			<if test="kmkssj != null">KMKSSJ,</if>
+			<if test="kmjssj != null">KMJSSJ,</if>
+			<if test="kmmc != null">KMMC,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+			<if test="examSeasonId != null">#{examSeasonId},</if>
+			<if test="examSeasonNo != null">#{examSeasonNo},</if>
+			<if test="kmbh != null">#{kmbh},</if>
+			<if test="kmkssj != null">#{kmkssj},</if>
+			<if test="kmjssj != null">#{kmjssj},</if>
+			<if test="kmmc != null">#{kmmc},</if>
+        </trim>
+    </insert>
+    
+    <insert id="insertExamSeasonSubjects" parameterType="java.util.List">
+    	INSERT INTO SYNC_EXAM_SEASON_SUBJECT
+    	(id, exam_season_id, exam_season_no, kmbh, kmkssj, kmjssj, kmmc)
+    	
+    	values
+    	<foreach collection="list" item="exams" separator=",">  
+            ('${exams.id}','${exams.examSeasonId}','${exams.examSeasonNo}','${exams.kmbh}','${exams.kmkssj}','${exams.kmjssj}','${exams.kmmc}')  
+        </foreach>
+    </insert>
+    
+    <update id="updateExamSeasonSubject">
+        update SYNC_EXAM_SEASON_SUBJECT
+        <set>
+			<if test="examSeasonId != null and '' != examSeasonId">
+				exam_season_id = #{examSeasonId},
+			</if>
+			<if test="examSeasonNo != null and '' != examSeasonNo">
+				exam_season_no = #{examSeasonNo},
+			</if>
+			<if test="kmbh != null and '' != kmbh">
+				KMBH = #{kmbh},
+			</if>
+			<if test="kmkssj != null and '' != kmkssj">
+				KMKSSJ = #{kmkssj},
+			</if>
+			<if test="kmjssj != null and '' != kmjssj">
+				KMJSSJ = #{kmjssj},
+			</if>
+			<if test="kmmc != null and '' != kmmc">
+				KMMC = #{kmmc},
+			</if>
+        </set>
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <select id="getExamSeasonSubjectById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `SYNC_EXAM_SEASON_SUBJECT`
+        WHERE id = #{id}
+    </select>
+    
+    <select id="queryExamSeasonSubjectsFilter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `SYNC_EXAM_SEASON_SUBJECT`
+        WHERE 1 = 1
+			<if test="examSeasonId != null and '' != examSeasonId">
+				AND exam_season_id = #{examSeasonId}
+			</if>
+			<if test="examSeasonNo != null and '' != examSeasonNo">
+				AND exam_season_no = #{examSeasonNo}
+			</if>
+			<if test="kmbh != null and '' != kmbh">
+				AND KMBH = #{kmbh}
+			</if>
+			<if test="kmkssj != null and '' != kmkssj">
+				AND KMKSSJ = #{kmkssj}
+			</if>
+			<if test="kmjssj != null and '' != kmjssj">
+				AND KMJSSJ = #{kmjssj}
+			</if>
+			<if test="kmmc != null and '' != kmmc">
+				AND KMMC = #{kmmc}
+			</if>
+    </select>
+    
+    <delete id="deleteExamSeasonSubjectBySeasonNo" parameterType="java.lang.String">
+        delete from `SYNC_EXAM_SEASON_SUBJECT`
+        where exam_season_no = #{examSeasonNo}
+    </delete>
+    
+    <delete id="deleteExamSeasonSubjects" parameterType="java.lang.String">
+        delete from `SYNC_EXAM_SEASON_SUBJECT`
+        where id IN 
+        <foreach collection="list" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

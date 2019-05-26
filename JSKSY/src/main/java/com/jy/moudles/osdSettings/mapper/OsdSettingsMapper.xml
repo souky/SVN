@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.osdSettings.dao.OsdSettingsDao">
+  <resultMap id="BaseResultMap" type="com.jy.moudles.osdSettings.entity.OsdSettings">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="SBYM" jdbcType="VARCHAR" property="sbym" />
+    <result column="OSD" jdbcType="VARCHAR" property="osd" />
+    <result column="SIPDLM" jdbcType="VARCHAR" property="sipdlm" />
+    <result column="SIPDLMM" jdbcType="VARCHAR" property="sipdlmm" />
+    <result column="SIPDZ" jdbcType="VARCHAR" property="sipdz" />
+    <result column="ExamPlan" jdbcType="VARCHAR" property="examplan" />
+    <result column="ExamSession" jdbcType="VARCHAR" property="examsession" />
+    <result column="OrgCode" jdbcType="VARCHAR" property="orgcode" />
+    <result column="OrgIdenCode" jdbcType="VARCHAR" property="orgidencode" />
+    <result column="setStatus" jdbcType="VARCHAR" property="setstatus" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sync_osdsettings
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jy.moudles.osdSettings.entity.OsdSettings">
+    insert into sync_osdsettings (id,SBYM, OSD, SIPDLM, 
+      SIPDLMM, SIPDZ, ExamPlan, 
+      ExamSession, OrgCode, OrgIdenCode, 
+      setStatus)
+    values (#{id,jdbcType=VARCHAR},#{sbym,jdbcType=VARCHAR}, #{osd,jdbcType=VARCHAR}, #{sipdlm,jdbcType=VARCHAR}, 
+      #{sipdlmm,jdbcType=VARCHAR}, #{sipdz,jdbcType=VARCHAR}, #{examplan,jdbcType=VARCHAR}, 
+      #{examsession,jdbcType=VARCHAR}, #{orgcode,jdbcType=VARCHAR}, #{orgidencode,jdbcType=VARCHAR}, 
+      #{setstatus,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.jy.moudles.osdSettings.entity.OsdSettings">
+    update sync_osdsettings
+    set SBYM = #{sbym,jdbcType=VARCHAR},
+      OSD = #{osd,jdbcType=VARCHAR},
+      SIPDLM = #{sipdlm,jdbcType=VARCHAR},
+      SIPDLMM = #{sipdlmm,jdbcType=VARCHAR},
+      SIPDZ = #{sipdz,jdbcType=VARCHAR},
+      ExamPlan = #{examplan,jdbcType=VARCHAR},
+      ExamSession = #{examsession,jdbcType=VARCHAR},
+      OrgCode = #{orgcode,jdbcType=VARCHAR},
+      OrgIdenCode = #{orgidencode,jdbcType=VARCHAR},
+      setStatus = #{setstatus,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select id, SBYM, OSD, SIPDLM, SIPDLMM, SIPDZ, ExamPlan, ExamSession, OrgCode, OrgIdenCode, 
+    setStatus
+    from sync_osdsettings
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, SBYM, OSD, SIPDLM, SIPDLMM, SIPDZ, ExamPlan, ExamSession, OrgCode, OrgIdenCode, 
+    setStatus
+    from sync_osdsettings
+  </select>
+  
+  <select id="queryOsdSettingsFilter" resultMap="BaseResultMap">
+    select id, SBYM, OSD, SIPDLM, SIPDLMM, SIPDZ, ExamPlan, ExamSession, OrgCode, OrgIdenCode, 
+    setStatus
+    from sync_osdsettings
+        WHERE 1=1
+			<if test="OrgCode != null and '' != OrgCode">
+				AND OrgCode = #{OrgCode}
+			</if>
+			<if test="OrgIdenCode != null and '' != OrgIdenCode">
+				AND OrgIdenCode = #{OrgIdenCode}
+			</if>
+			<if test="ExamPlan != null and '' != ExamPlan">
+				AND ExamPlan = #{ExamPlan}
+			</if>
+			<if test="ExamSession != null and '' != ExamSession">
+				AND ExamSession = #{ExamSession}
+			</if>
+    </select>
+</mapper>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.nvrStatus.dao.NvrStatusDao">
+  <resultMap id="BaseResultMap" type="com.jy.moudles.nvrStatus.entity.NvrStatus">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="SBBH" jdbcType="VARCHAR" property="sbbh" />
+    <result column="SBCSDM" jdbcType="VARCHAR" property="sbcsdm" />
+    <result column="GZZT" jdbcType="VARCHAR" property="gzzt" />
+    <result column="CCKGZT" jdbcType="VARCHAR" property="cckgzt" />
+    <result column="CPYJ" jdbcType="VARCHAR" property="cpyj" />
+    <result column="SJPYMS" jdbcType="VARCHAR" property="sjpyms" />
+    <result column="KJZDX" jdbcType="VARCHAR" property="kjzdx" />
+    <result column="KXKJDX" jdbcType="VARCHAR" property="kxkjdx" />
+    <result column="OrgCode" jdbcType="VARCHAR" property="orgcode" />
+    <result column="OrgIdenCode" jdbcType="VARCHAR" property="orgidencode" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sync_nvr_status
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jy.moudles.nvrStatus.entity.NvrStatus">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sync_nvr_status (SBBH, SBCSDM, GZZT, 
+      CCKGZT, CPYJ, SJPYMS, 
+      KJZDX, KXKJDX, OrgCode, 
+      OrgIdenCode)
+    values (#{sbbh,jdbcType=VARCHAR}, #{sbcsdm,jdbcType=VARCHAR}, #{gzzt,jdbcType=VARCHAR}, 
+      #{cckgzt,jdbcType=VARCHAR}, #{cpyj,jdbcType=VARCHAR}, #{sjpyms,jdbcType=VARCHAR}, 
+      #{kjzdx,jdbcType=VARCHAR}, #{kxkjdx,jdbcType=VARCHAR}, #{orgcode,jdbcType=VARCHAR}, 
+      #{orgidencode,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.jy.moudles.nvrStatus.entity.NvrStatus">
+    update sync_nvr_status
+    set SBBH = #{sbbh,jdbcType=VARCHAR},
+      SBCSDM = #{sbcsdm,jdbcType=VARCHAR},
+      GZZT = #{gzzt,jdbcType=VARCHAR},
+      CCKGZT = #{cckgzt,jdbcType=VARCHAR},
+      CPYJ = #{cpyj,jdbcType=VARCHAR},
+      SJPYMS = #{sjpyms,jdbcType=VARCHAR},
+      KJZDX = #{kjzdx,jdbcType=VARCHAR},
+      KXKJDX = #{kxkjdx,jdbcType=VARCHAR},
+      OrgCode = #{orgcode,jdbcType=VARCHAR},
+      OrgIdenCode = #{orgidencode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select id, SBBH, SBCSDM, GZZT, CCKGZT, CPYJ, SJPYMS, KJZDX, KXKJDX, OrgCode, OrgIdenCode
+    from sync_nvr_status
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, SBBH, SBCSDM, GZZT, CCKGZT, CPYJ, SJPYMS, KJZDX, KXKJDX, OrgCode, OrgIdenCode
+    from sync_nvr_status
+  </select>
+  
+  <select id="queryNvrStatusFilter" resultMap="BaseResultMap">
+    select id, SBBH, SBCSDM, GZZT, CCKGZT, CPYJ, SJPYMS, KJZDX, KXKJDX, OrgCode, OrgIdenCode
+    from sync_nvr_status
+        WHERE 1 = 1
+			<if test="OrgCode != null and '' != OrgCode">
+				AND OrgCode = #{OrgCode}
+			</if>
+			<if test="OrgIdenCode != null and '' != OrgIdenCode">
+				AND OrgIdenCode = #{OrgIdenCode}
+			</if>
+    </select>
+</mapper>

@@ -1,0 +1,19 @@
+/**
+ * @description this files description.
+ * @author qianwen
+ * @data 2017/7/12
+ * @email pkeros@vip.qq.com
+ */
+
+
+@import "../../index";
+
+.home-container {
+  .title {
+    height: $global-title-height;
+    line-height: $global-title-height;
+    font-size: 16px;
+    color: $global-title-color;
+    background: #fff;
+  }
+}

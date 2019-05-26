@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.clockConfig.dao.ClockConfigDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.clockConfig.entity.ClockConfig">
+		<result column="sys_key" property="sysKey" jdbcType="VARCHAR"/>
+		<result column="sys_val" property="sysVal" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        sys_key, sys_val
+    </sql>
+    
+    <insert id="insertClockConfig">
+        INSERT INTO JY_CLOCK_CONFIG_TAB
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="sysKey != null">sys_key,</if>
+			<if test="sysVal != null">sys_val,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="sysKey != null">#{sysKey},</if>
+			<if test="sysVal != null">#{sysVal},</if>
+        </trim>
+    </insert>
+    
+    <update id="updateClockConfig">
+        update JY_CLOCK_CONFIG_TAB
+        <set>
+			<if test="sysVal != null and '' != sysVal">
+				sys_val = #{sysVal},
+			</if>
+        </set>
+        <where>
+            <choose>
+                <when test="sysKey != null">
+                    sys_key = #{sysKey}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <select id="getClockConfigByKey" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_CLOCK_CONFIG_TAB`
+        WHERE sys_key = #{sysKey}
+    </select>
+    
+    <select id="queryClockConfigsFilter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_CLOCK_CONFIG_TAB`
+        WHERE 1 = 1
+			<if test="sysKey != null and '' != sysKey">
+				AND sys_key = #{sysKey}
+			</if>
+			<if test="sysVal != null and '' != sysVal">
+				AND sys_val = #{sysVal}
+			</if>
+    </select>
+    
+    <delete id="deleteClockConfigByKey" parameterType="java.lang.String">
+        delete from `JY_CLOCK_CONFIG_TAB`
+        where sys_key = #{sysKey}
+    </delete>
+    
+    <delete id="deleteClockConfigs" parameterType="java.lang.String">
+        delete from `JY_CLOCK_CONFIG_TAB`
+        where id IN 
+        <foreach collection="list" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

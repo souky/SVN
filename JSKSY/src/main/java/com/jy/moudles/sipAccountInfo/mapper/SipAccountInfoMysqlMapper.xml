@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.sipAccountInfo.dao.SipAccountInfoDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.sipAccountInfo.entity.SipAccountInfo">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+		<result column="DLMC" property="dlmc" jdbcType="VARCHAR"/>
+		<result column="DLMM" property="dlmm" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        id, DLMC, DLMM, create_user, create_date, update_user, update_date
+    </sql>
+    
+    <insert id="insertSipAccountInfo">
+        INSERT INTO SYNC_SIP_ACCOUNT_INFO
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+			<if test="dlmc != null">DLMC,</if>
+			<if test="dlmm != null">DLMM,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+			<if test="dlmc != null">#{dlmc},</if>
+			<if test="dlmm != null">#{dlmm},</if>
+        </trim>
+    </insert>
+    
+    <insert id="insertSipAccountInfos" parameterType="java.util.List">
+        INSERT INTO SYNC_SIP_ACCOUNT_INFO (id, DLMC, DLMM) values 
+        <foreach collection="list" item="sip" separator=",">  
+            ('${sip.id}','${sip.dlmc}','${sip.dlmm}')  
+        </foreach>
+    </insert>
+    
+    <update id="updateSipAccountInfo">
+        update SYNC_SIP_ACCOUNT_INFO
+        <set>
+			<if test="dlmc != null and '' != dlmc">
+				DLMC = #{dlmc},
+			</if>
+			<if test="dlmm != null and '' != dlmm">
+				DLMM = #{dlmm},
+			</if>
+        </set>
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <select id="getSipAccountInfoById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `SYNC_SIP_ACCOUNT_INFO`
+        WHERE id = #{id}
+    </select>
+    
+    <select id="querySipAccountInfosFilter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `SYNC_SIP_ACCOUNT_INFO`
+        WHERE 1 = 1
+			<if test="dlmc != null and '' != dlmc">
+				AND DLMC = #{dlmc}
+			</if>
+			<if test="dlmm != null and '' != dlmm">
+				AND DLMM = #{dlmm}
+			</if>
+    </select>
+    
+    <delete id="deleteSipAccountInfoById" parameterType="java.lang.String">
+        delete from `SYNC_SIP_ACCOUNT_INFO`
+        where id = #{id}
+    </delete>
+    
+    <delete id="deleteSipAccountInfos" parameterType="java.lang.String">
+        delete from `SYNC_SIP_ACCOUNT_INFO`
+    </delete>
+    
+</mapper>

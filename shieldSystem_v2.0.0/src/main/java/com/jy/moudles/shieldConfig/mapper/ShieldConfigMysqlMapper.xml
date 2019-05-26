@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.shieldConfig.dao.ShieldConfigDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.shieldConfig.entity.ShieldConfig">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+		<result column="sys_key" property="sysKey" jdbcType="VARCHAR"/>
+		<result column="sys_val" property="sysVal" jdbcType="VARCHAR"/>
+		<result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        id, sys_key, sys_val, create_user, create_date, update_user, update_date
+    </sql>
+    
+    <insert id="insertShieldConfig">
+        INSERT INTO JY_SHIELD_CONFIG_TAB
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+			<if test="sysKey != null">sys_key,</if>
+			<if test="sysVal != null">sys_val,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateDate != null">update_date,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+			<if test="sysKey != null">#{sysKey},</if>
+			<if test="sysVal != null">#{sysVal},</if>
+            <if test="createUser != null">#{createUser,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">#{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateUser != null">#{updateUser,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">#{updateDate,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+    
+    <update id="updateShieldConfig">
+        update JY_SHIELD_CONFIG_TAB
+        <set>
+			<if test="sysKey != null and '' != sysKey">
+				sys_key = #{sysKey},
+			</if>
+			<if test="sysVal != null and '' != sysVal">
+				sys_val = #{sysVal},
+			</if>
+            <if test="createUser != null and ''!=createUser">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null and ''!=createDate">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null and ''!=updateUser">
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null  and ''!=updateDate">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <select id="getShieldConfigById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_SHIELD_CONFIG_TAB`
+        WHERE id = #{id}
+    </select>
+    
+    <select id="queryShieldConfigsFilter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_SHIELD_CONFIG_TAB`
+        WHERE 1 = 1
+			<if test="sysKey != null and '' != sysKey">
+				AND sys_key = #{sysKey}
+			</if>
+			<if test="sysVal != null and '' != sysVal">
+				AND sys_val = #{sysVal}
+			</if>
+    </select>
+    
+    <delete id="deleteShieldConfigById" parameterType="java.lang.String">
+        delete from `JY_SHIELD_CONFIG_TAB`
+        where id = #{id}
+    </delete>
+    
+    <delete id="deleteShieldConfigs" parameterType="java.lang.String">
+        delete from `JY_SHIELD_CONFIG_TAB`
+        where id IN 
+        <foreach collection="list" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

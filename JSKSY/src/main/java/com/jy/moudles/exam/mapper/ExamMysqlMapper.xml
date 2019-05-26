@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.exam.dao.ExamDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.exam.entity.Exam">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+		<result column="KSBH" property="ksbh" jdbcType="VARCHAR"/>
+		<result column="KSMC" property="ksmc" jdbcType="VARCHAR"/>
+		<result column="KSLXDM" property="kslxdm" jdbcType="VARCHAR"/>
+		<result column="KSKSRQ" property="ksksrq" jdbcType="VARCHAR"/>
+		<result column="KSJSRQ" property="ksjsrq" jdbcType="VARCHAR"/>
+		<result column="ZGJGDM" property="zgjgdm" jdbcType="VARCHAR"/>
+        
+        <collection property="cc" ofType="com.jy.moudles.examSeason.entity.ExamSeason"  javaType="list">
+			<result column="exam_no" property="examNo" />
+			<result column="ccbh" property="ccbh" />
+		</collection>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        id, KSBH, KSMC, KSLXDM, KSKSRQ, KSJSRQ, ZGJGDM
+    </sql>
+    
+    <sql id="Base_Column_List_With_Season">
+        e.id, e.KSBH, e.KSMC, e.KSLXDM, e.KSKSRQ, e.KSJSRQ, e.ZGJGDM, ec.exam_no,ec.ccbh
+    </sql>
+    
+    <select id="queryAllExamWithSeason" resultMap="BaseResultMap">
+    	SELECT
+        <include refid="Base_Column_List_With_Season"/>
+        from `SYNC_EXAM` e left join SYNC_EXAM_season ec on e.KSBH = ec.exam_no
+    </select>
+    
+    <insert id="insertExam">
+        INSERT INTO SYNC_EXAM
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+			<if test="ksbh != null">KSBH,</if>
+			<if test="ksmc != null">KSMC,</if>
+			<if test="kslxdm != null">KSLXDM,</if>
+			<if test="ksksrq != null">KSKSRQ,</if>
+			<if test="ksjsrq != null">KSJSRQ,</if>
+			<if test="zgjgdm != null">ZGJGDM,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+			<if test="ksbh != null">#{ksbh},</if>
+			<if test="ksmc != null">#{ksmc},</if>
+			<if test="kslxdm != null">#{kslxdm},</if>
+			<if test="ksksrq != null">#{ksksrq},</if>
+			<if test="ksjsrq != null">#{ksjsrq},</if>
+			<if test="zgjgdm != null">#{zgjgdm},</if>
+        </trim>
+    </insert>
+    
+    <update id="updateExam">
+        update SYNC_EXAM
+        <set>
+			<if test="ksbh != null and '' != ksbh">
+				KSBH = #{ksbh},
+			</if>
+			<if test="ksmc != null and '' != ksmc">
+				KSMC = #{ksmc},
+			</if>
+			<if test="kslxdm != null and '' != kslxdm">
+				KSLXDM = #{kslxdm},
+			</if>
+			<if test="ksksrq != null and '' != ksksrq">
+				KSKSRQ = #{ksksrq},
+			</if>
+			<if test="ksjsrq != null and '' != ksjsrq">
+				KSJSRQ = #{ksjsrq},
+			</if>
+			<if test="zgjgdm != null and '' != zgjgdm">
+				ZGJGDM = #{zgjgdm},
+			</if>
+        </set>
+        <where>
+            <choose>
+                <when test="ksbh != null">
+                    ksbh = #{ksbh}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <select id="getExamByNo" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `SYNC_EXAM`
+        WHERE ksbh = #{ksbh}
+    </select>
+    
+    <select id="queryExamsFilter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `SYNC_EXAM`
+        WHERE 1 = 1
+			<if test="ksbh != null and '' != ksbh">
+				AND KSBH = #{ksbh}
+			</if>
+			<if test="ksmc != null and '' != ksmc">
+				AND KSMC = #{ksmc}
+			</if>
+			<if test="kslxdm != null and '' != kslxdm">
+				AND KSLXDM = #{kslxdm}
+			</if>
+			<if test="ksksrq != null and '' != ksksrq">
+				AND KSKSRQ = #{ksksrq}
+			</if>
+			<if test="ksjsrq != null and '' != ksjsrq">
+				AND KSJSRQ = #{ksjsrq}
+			</if>
+			<if test="zgjgdm != null and '' != zgjgdm">
+				AND ZGJGDM = #{zgjgdm}
+			</if>
+    </select>
+    
+    <delete id="deleteExamByNo" parameterType="java.lang.String">
+        delete from `SYNC_EXAM`
+        where ksbh = #{ksbh}
+    </delete>
+    
+    <delete id="deleteExams" parameterType="java.lang.String">
+        delete from `SYNC_EXAM`
+        where ksbh IN 
+        <foreach collection="list" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

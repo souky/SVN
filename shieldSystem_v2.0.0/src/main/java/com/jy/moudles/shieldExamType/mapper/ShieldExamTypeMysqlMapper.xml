@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.shieldExamType.dao.ShieldExamTypeDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.shieldExamType.entity.ShieldExamType">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+		<result column="exam_type_name" property="examTypeName" jdbcType="VARCHAR"/>
+		<result column="exam_type_no" property="examTypeNo" jdbcType="VARCHAR"/>
+		<result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        id, exam_type_name, exam_type_no, create_user, create_date, update_user, update_date
+    </sql>
+    
+    <insert id="insertShieldExamType">
+        INSERT INTO JY_SHIELD_EAXM_TYPE_TAB
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+			<if test="examTypeName != null">exam_type_name,</if>
+			<if test="examTypeNo != null">exam_type_no,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateDate != null">update_date,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+			<if test="examTypeName != null">#{examTypeName},</if>
+			<if test="examTypeNo != null">#{examTypeNo},</if>
+            <if test="createUser != null">#{createUser,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">#{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateUser != null">#{updateUser,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">#{updateDate,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+    
+    <update id="updateShieldExamType">
+        update JY_SHIELD_EAXM_TYPE_TAB
+        <set>
+			<if test="examTypeName != null and '' != examTypeName">
+				exam_type_name = #{examTypeName},
+			</if>
+			<if test="examTypeNo != null and '' != examTypeNo">
+				exam_type_no = #{examTypeNo},
+			</if>
+            <if test="createUser != null and ''!=createUser">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null and ''!=createDate">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null and ''!=updateUser">
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null  and ''!=updateDate">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <select id="getShieldExamTypeById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_SHIELD_EAXM_TYPE_TAB`
+        WHERE id = #{id}
+    </select>
+    
+    <select id="queryShieldExamTypesFilter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_SHIELD_EAXM_TYPE_TAB`
+        WHERE 1 = 1
+			<if test="examTypeName != null and '' != examTypeName">
+				AND exam_type_name = #{examTypeName}
+			</if>
+			<if test="examTypeNo != null and '' != examTypeNo">
+				AND exam_type_no = #{examTypeNo}
+			</if>
+    </select>
+    
+    <delete id="deleteShieldExamTypeById" parameterType="java.lang.String">
+        delete from `JY_SHIELD_EAXM_TYPE_TAB`
+        where id = #{id}
+    </delete>
+    
+    <delete id="deleteShieldExamTypes" parameterType="java.lang.String">
+        delete from `JY_SHIELD_EAXM_TYPE_TAB`
+        where id IN 
+        <foreach collection="list" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

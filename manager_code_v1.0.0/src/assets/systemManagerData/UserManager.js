@@ -1,0 +1,40 @@
+/**
+ * @description 菜单数据
+ */
+
+export default {
+    data:[
+          {
+        	  name:'测试学校',
+        	  userName:'测试姓名',
+        	  roleId:'0',
+        	  roleName:'教师',
+        	  id:"2131231232",
+        	  orgId:'asdasdasd'
+		   },
+		   {
+        	  name:'测试学校',
+        	  userName:'测试姓名2',
+        	  roleId:'0',
+        	  roleName:'教师',
+        	  id:"2131231232",
+        	  orgId:'asdasdasd'
+		   },
+		   {
+        	  name:'测试学校',
+        	  userName:'测试姓名3',
+        	  roleId:'1',
+        	  roleName:'学生',
+        	  id:"2131231232",
+        	  orgId:'asdasdasd'
+		   },
+		   {
+        	  name:'测试学校',
+        	  userName:'测试姓名4',
+        	  roleId:'2',
+        	  roleName:'管理员',
+        	  id:"2131231232",
+        	  orgId:'asdasdasd'
+		   }
+     ]
+}

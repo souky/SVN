@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.examSpecificationRelation.dao.ExamSpecificationRelationDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.examSpecificationRelation.entity.ExamSpecificationRelation">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+			<result column="exam_id" property="examId" jdbcType="VARCHAR"/>
+			<result column="sp_id" property="spId" jdbcType="VARCHAR"/>
+            <result column="specification_name" property="spName" jdbcType="VARCHAR"/>
+            <result column="subject_code" property="subjectCode" jdbcType="INTEGER"/>
+            <result column="grade_code" property="gradeCode" jdbcType="INTEGER"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+		<result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        id, exam_id, sp_id, remark, create_user, create_date, update_user, update_date
+    </sql>
+    
+    <sql id="Get_Column_List">
+        es.id, es.exam_id, es.sp_id, s.specification_name, s.subject_code, s.grade_code, es.remark, es.create_user, es.create_date, es.update_user, es.update_date
+    </sql>
+
+    <insert id="insertExamSpecificationRelation">
+        INSERT INTO JY_EXAM_SPECIFICATION_RELATION
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+				<if test="examId != null">exam_id,</if>
+				<if test="spId != null">sp_id,</if>
+				<if test="remark != null">remark,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateDate != null">update_date,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+				<if test="examId != null">#{examId},</if>
+				<if test="spId != null">#{spId},</if>
+				<if test="remark != null">#{remark},</if>
+            <if test="createUser != null">#{createUser,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">#{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateUser != null">#{updateUser,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">#{updateDate,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+
+    <insert id="batchInsertExamSpecificationRelation">
+        INSERT INTO JY_EXAM_SPECIFICATION_RELATION
+        (
+        <include refid="Base_Column_List"/>
+        )
+        VALUES
+        <foreach collection="examSpecificationRelations" item="examSp" index="index" separator="," >
+        (
+            #{examSp.id,jdbcType=VARCHAR},
+            #{examSp.examId},
+            #{examSp.spId},
+            #{examSp.remark},
+            #{examSp.createUser,jdbcType=VARCHAR},
+            SYSDATE(),
+            #{examSp.updateUser,jdbcType=VARCHAR},
+            SYSDATE()
+        )
+        </foreach>
+    </insert>
+
+    <update id="updateExamSpecificationRelation">
+        update JY_EXAM_SPECIFICATION_RELATION
+        <set>
+				<if test="examId != null and '' != examId">
+				exam_id = #{examId},
+				</if>
+				<if test="spId != null and '' != spId">
+				sp_id = #{spId},
+				</if>
+				<if test="remark != null and '' != remark">
+				remark = #{remark},
+				</if>
+            <if test="createUser != null and ''!=createUser">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null and ''!=createDate">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null and ''!=updateUser">
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null  and ''!=updateDate">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <select id="getExamSpecificationRelationById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_EXAM_SPECIFICATION_RELATION`
+        WHERE id = #{id}
+    </select>
+    
+    <select id="queryExamSpecificationRelationsFilter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Get_Column_List"/>
+        from `JY_EXAM_SPECIFICATION_RELATION` es
+        left join JY_TWO_WAY_SPECIFICATION s on es.sp_id = s.id
+        WHERE 1 = 1
+			<if test="examId != null and '' != examId">
+				AND exam_id = #{examId}
+			</if>
+			<if test="spId != null and '' != spId">
+				AND sp_id = #{spId}
+			</if>
+			<if test="remark != null and '' != remark">
+				AND remark = #{remark}
+			</if>
+    </select>
+    
+    <delete id="deleteExamSpecificationRelationByExamId" parameterType="java.lang.String">
+        delete from `JY_EXAM_SPECIFICATION_RELATION`
+        where exam_id = #{examId}
+    </delete>
+    
+    <delete id="deleteExamSpecificationRelations" parameterType="java.lang.String">
+        delete from `JY_EXAM_SPECIFICATION_RELATION`
+        where id IN 
+        <foreach collection="ids" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

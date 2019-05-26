@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.spDetailStep.dao.SpDetailStepDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.spDetailStep.entity.SpDetailStep">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+		<result column="sp_detail_id" property="spDetailId" jdbcType="VARCHAR"/>
+		<result column="sp_id" property="spId" jdbcType="VARCHAR"/>
+		<result column="step_score" property="stepScore" jdbcType="TINYINT"/>
+		<result column="step_answer" property="stepAnswer" jdbcType="VARCHAR"/>
+		<result column="knowledge_point_id" property="knowledgePointId" jdbcType="VARCHAR"/>
+		<result column="remark" property="remark" jdbcType="VARCHAR"/>
+		<result column="sort" property="remark" jdbcType="VARCHAR"/>
+		<result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        id, sp_detail_id,sp_id, step_score, step_answer, knowledge_point_id, remark,sort, create_user, create_date, update_user, update_date
+    </sql>
+    
+    <insert id="insertSpDetailStep">
+        INSERT INTO JY_TWO_WAY_SPECIFICATION_DETAIL_STEP
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+			<if test="spDetailId != null">sp_detail_id,</if>
+			<if test="stepScore != null">step_score,</if>
+			<if test="stepAnswer != null">step_answer,</if>
+			<if test="knowledgePointId != null">knowledge_point_id,</if>
+			<if test="remark != null">remark,</if>
+			<if test="sort != null">sort,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateDate != null">update_date,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+			<if test="spDetailId != null">#{spDetailId},</if>
+			<if test="stepScore != null">#{stepScore},</if>
+			<if test="stepAnswer != null">#{stepAnswer},</if>
+			<if test="knowledgePointId != null">#{knowledgePointId},</if>
+			<if test="remark != null">#{remark},</if>
+			<if test="sort != null">#{sort},</if>
+            <if test="createUser != null">#{createUser,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">#{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateUser != null">#{updateUser,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">#{updateDate,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+    
+    <insert id="insertSpDetailStepList">
+        INSERT INTO JY_TWO_WAY_SPECIFICATION_DETAIL_STEP
+        (
+        	<include refid="Base_Column_List"/>
+        )
+        VALUES 
+        <foreach collection="list" item="item" index="index" separator=",">
+        (
+	            #{item.id,jdbcType=VARCHAR},
+				#{item.spDetailId},
+				#{item.spId},
+				#{item.stepScore},
+				#{item.stepAnswer},
+				#{item.knowledgePointId},
+				#{item.remark},
+				#{item.sort},
+	            #{item.createUser,jdbcType=VARCHAR},
+	            #{item.createDate,jdbcType=TIMESTAMP},
+	            #{item.updateUser,jdbcType=VARCHAR},
+	            #{item.updateDate,jdbcType=TIMESTAMP}
+	    )
+	    </foreach>
+    </insert>
+    
+    <update id="updateSpDetailStep">
+        update JY_TWO_WAY_SPECIFICATION_DETAIL_STEP
+        <set>
+				<if test="spDetailId != null and '' != spDetailId">
+				sp_detail_id = #{spDetailId},
+				</if>
+				<if test="stepScore != null and '' != stepScore">
+				step_score = #{stepScore},
+				</if>
+				<if test="stepAnswer != null and '' != stepAnswer">
+				step_answer = #{stepAnswer},
+				</if>
+				<if test="knowledgePointId != null and '' != knowledgePointId">
+				knowledge_point_id = #{knowledgePointId},
+				</if>
+				<if test="remark != null and '' != remark">
+				remark = #{remark},
+				</if>
+            <if test="createUser != null and ''!=createUser">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null and ''!=createDate">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null and ''!=updateUser">
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null  and ''!=updateDate">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <select id="getSpDetailStepById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_TWO_WAY_SPECIFICATION_DETAIL_STEP`
+        WHERE id = #{id}
+    </select>
+    
+    <select id="querySpDetailStepsFilter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_TWO_WAY_SPECIFICATION_DETAIL_STEP`
+        WHERE 1 = 1
+			<if test="spDetailId != null and '' != spDetailId">
+				AND sp_detail_id = #{spDetailId}
+			</if>
+			<if test="stepScore != null and '' != stepScore">
+				AND step_score = #{stepScore}
+			</if>
+			<if test="stepAnswer != null and '' != stepAnswer">
+				AND step_answer = #{stepAnswer}
+			</if>
+			<if test="knowledgePointId != null and '' != knowledgePointId">
+				AND knowledge_point_id = #{knowledgePointId}
+			</if>
+			<if test="remark != null and '' != remark">
+				AND remark = #{remark}
+			</if>
+    </select>
+    
+    <delete id="deleteSpDetailStepById" parameterType="java.lang.String">
+        delete from `JY_TWO_WAY_SPECIFICATION_DETAIL_STEP`
+        where sp_id = #{id}
+    </delete>
+    
+    <delete id="deleteSpDetailSteps" parameterType="java.lang.String">
+        delete from `JY_TWO_WAY_SPECIFICATION_DETAIL_STEP`
+        where id IN 
+        <foreach collection="ids" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

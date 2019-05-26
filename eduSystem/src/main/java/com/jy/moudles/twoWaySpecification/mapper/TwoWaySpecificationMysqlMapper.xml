@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.twoWaySpecification.dao.TwoWaySpecificationDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.twoWaySpecification.entity.TwoWaySpecification">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+			<result column="specification_name" property="specificationName" jdbcType="VARCHAR"/>
+			<result column="subject_code" property="subjectCode" jdbcType="VARCHAR"/>
+			<result column="grade_code" property="gradeCode" jdbcType="VARCHAR"/>
+			<result column="org_id" property="orgId" jdbcType="VARCHAR"/>
+            <result column="score" property="score" jdbcType="INTEGER"/>
+            <result column="total_question_num" property="totalQuestionNum" jdbcType="INTEGER"/>
+            <result column="objective_ques_num" property="objectiveQuesNum" jdbcType="INTEGER"/>
+            <result column="subjective_ques_num" property="subjectiveQuesNum" jdbcType="INTEGER"/>
+			<result column="remark" property="remark" jdbcType="VARCHAR"/>
+		<result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        s.id, s.specification_name, s.subject_code, s.grade_code, s.org_id, s.remark, s.create_user, s.create_date, s.update_user, s.update_date
+    </sql>
+
+    <sql id="Total_Column_List">
+        s.id, s.specification_name, s.subject_code, s.grade_code, s.org_id, sum(item_score) as score, count(1) as total_question_num, sum(case when item_type=0 then 1 else 0 end ) as objective_ques_num,sum(case when item_type=1 then 1 else 0 end ) as subjective_ques_num, s.remark, s.create_user, s.create_date, s.update_user, s.update_date
+    </sql>
+
+    <insert id="insertTwoWaySpecification">
+        INSERT INTO JY_TWO_WAY_SPECIFICATION
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+			<if test="specificationName != null">specification_name,</if>
+			<if test="subjectCode != null">subject_code,</if>
+			<if test="gradeCode != null">grade_code,</if>
+			<if test="orgId != null">org_id,</if>
+			<if test="remark != null">remark,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateDate != null">update_date,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+			<if test="specificationName != null">#{specificationName},</if>
+			<if test="subjectCode != null">#{subjectCode},</if>
+			<if test="gradeCode != null">#{gradeCode},</if>
+			<if test="orgId != null">#{orgId},</if>
+			<if test="remark != null">#{remark},</if>
+            <if test="createUser != null">#{createUser,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">#{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateUser != null">#{updateUser,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">#{updateDate,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+    
+    <update id="updateTwoWaySpecification">
+        update JY_TWO_WAY_SPECIFICATION
+        <set>
+				<if test="specificationName != null and '' != specificationName">
+				specification_name = #{specificationName},
+				</if>
+				<if test="subjectCode != null and '' != subjectCode">
+				subject_code = #{subjectCode},
+				</if>
+				<if test="gradeCode != null and '' != gradeCode">
+				grade_code = #{gradeCode},
+				</if>
+				<if test="orgId != null and '' != orgId">
+				org_id = #{orgId},
+				</if>
+				<if test="remark != null and '' != remark">
+				remark = #{remark},
+				</if>
+            <if test="createUser != null and ''!=createUser">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null and ''!=createDate">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null and ''!=updateUser">
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null  and ''!=updateDate">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <select id="getTwoWaySpecificationById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_TWO_WAY_SPECIFICATION` s
+        WHERE s.id = #{id}
+    </select>
+    
+    <select id="queryTwoWaySpecificationsByExamIdAndSubject" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_TWO_WAY_SPECIFICATION` s
+        INNER JOIN `jy_exam_specification_relation` es on s.id = es.sp_id
+        WHERE 1 = 1
+			<if test="specificationName != null and '' != specificationName">
+				AND s.specification_name LIKE CONCAT(CONCAT('%',#{specificationName}),'%')
+			</if>
+			<if test="examId != null and '' != examId">
+				AND es.exam_id = #{examId}
+			</if>
+			<if test="subjectCode != null and '' != subjectCode">
+				AND s.subject_code = #{subjectCode}
+			</if>
+			<if test="gradeCode != null and '' != gradeCode">
+				AND s.grade_code = #{gradeCode}
+			</if>
+			<if test="orgId != null and '' != orgId">
+				AND s.org_id = #{orgId}
+			</if>
+			<if test="remark != null and '' != remark">
+				AND s.remark = #{remark}
+			</if>
+    </select>
+    
+    <select id="queryTwoWaySpecificationsFilter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_TWO_WAY_SPECIFICATION` s
+        WHERE 1 = 1
+			<if test="specificationName != null and '' != specificationName">
+				AND s.specification_name LIKE CONCAT(CONCAT('%',#{specificationName}),'%')
+			</if>
+			<if test="subjectCode != null and '' != subjectCode">
+				AND s.subject_code = #{subjectCode}
+			</if>
+			<if test="gradeCode != null and '' != gradeCode">
+				AND s.grade_code = #{gradeCode}
+			</if>
+			<if test="orgId != null and '' != orgId">
+				AND s.org_id = #{orgId}
+			</if>
+			<if test="remark != null and '' != remark">
+				AND s.remark = #{remark}
+			</if>
+		ORDER BY s.grade_code , s.create_date
+    </select>
+    
+    <select id="queryTwoWaySpecificationsFilterByCode" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_TWO_WAY_SPECIFICATION` s
+        WHERE 1 = 1
+			<if test="subjectCode != null and '' != subjectCode">
+				AND s.subject_code IN #{subjectCode}
+			</if>
+			<if test="gradeCode != null and '' != gradeCode">
+				AND s.grade_code = #{gradeCode}
+			</if>
+			<if test="orgId != null and '' != orgId">
+				AND s.org_id = #{orgId}
+			</if>
+		ORDER BY s.grade_code , s.create_date
+    </select>
+
+    <select id="queryTotalTwoWaySpecificationsFilter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Total_Column_List"/>
+        from `JY_TWO_WAY_SPECIFICATION` s
+        LEFT JOIN `jy_exam_specification_relation` es on s.id = es.sp_id
+        LEFT JOIN `jy_two_way_specification_detail` sd on s.id = sd.parent_id
+        LEFT JOIN `jy_subject` su on su.subject_name = s.subject_code
+        WHERE 1 = 1
+			<if test="examId != null and '' != examId">
+				AND es.exam_id = #{examId}
+			</if>
+			<if test="specificationName != null and '' != specificationName">
+				AND s.specification_name LIKE CONCAT(CONCAT('%',#{specificationName}),'%')
+			</if>
+			<if test="subjectCode != null and '' != subjectCode">
+				AND s.subject_code = #{subjectCode}
+			</if>
+			<if test="gradeCode != null and '' != gradeCode">
+				AND s.grade_code = #{gradeCode}
+			</if>
+			<if test="orgId != null and '' != orgId">
+				AND s.org_id = #{orgId}
+			</if>
+			<if test="remark != null and '' != remark">
+				AND s.remark = #{remark}
+			</if>
+        	group by s.id order by su.subject_code
+    </select>
+    
+    <delete id="deleteTwoWaySpecificationById" parameterType="java.lang.String">
+        delete from `JY_TWO_WAY_SPECIFICATION`
+        where id = #{id}
+    </delete>
+    
+    <delete id="deleteTwoWaySpecifications" parameterType="java.lang.String">
+        delete from `JY_TWO_WAY_SPECIFICATION`
+        where id IN 
+        <foreach collection="ids" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.cameraStatus.dao.CameraStatusDao">
+  <resultMap id="BaseResultMap" type="com.jy.moudles.cameraStatus.entity.CameraStatus">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="SBBH" jdbcType="VARCHAR" property="sbbh" />
+    <result column="SBCSDM" jdbcType="VARCHAR" property="sbcsdm" />
+    <result column="GZZT" jdbcType="VARCHAR" property="gzzt" />
+    <result column="SJPYMS" jdbcType="VARCHAR" property="sjpyms" />
+    <result column="SPZLZD" jdbcType="VARCHAR" property="spzlzd" />
+    <result column="ZFBL" jdbcType="VARCHAR" property="zfbl" />
+    <result column="FFBL" jdbcType="VARCHAR" property="ffbl" />
+    <result column="ZML" jdbcType="VARCHAR" property="zml" />
+    <result column="FML" jdbcType="VARCHAR" property="fml" />
+    <result column="OrgCode" jdbcType="VARCHAR" property="orgcode" />
+    <result column="OrgIdenCode" jdbcType="VARCHAR" property="orgidencode" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sync_camera_status
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jy.moudles.cameraStatus.entity.CameraStatus">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sync_camera_status (SBBH, SBCSDM, GZZT, 
+      SJPYMS, SPZLZD, ZFBL, 
+      FFBL, ZML, FML, OrgCode, 
+      OrgIdenCode)
+    values (#{sbbh,jdbcType=VARCHAR}, #{sbcsdm,jdbcType=VARCHAR}, #{gzzt,jdbcType=VARCHAR}, 
+      #{sjpyms,jdbcType=VARCHAR}, #{spzlzd,jdbcType=VARCHAR}, #{zfbl,jdbcType=VARCHAR}, 
+      #{ffbl,jdbcType=VARCHAR}, #{zml,jdbcType=VARCHAR}, #{fml,jdbcType=VARCHAR}, #{orgcode,jdbcType=VARCHAR}, 
+      #{orgidencode,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.jy.moudles.cameraStatus.entity.CameraStatus">
+    update sync_camera_status
+    set SBBH = #{sbbh,jdbcType=VARCHAR},
+      SBCSDM = #{sbcsdm,jdbcType=VARCHAR},
+      GZZT = #{gzzt,jdbcType=VARCHAR},
+      SJPYMS = #{sjpyms,jdbcType=VARCHAR},
+      SPZLZD = #{spzlzd,jdbcType=VARCHAR},
+      ZFBL = #{zfbl,jdbcType=VARCHAR},
+      FFBL = #{ffbl,jdbcType=VARCHAR},
+      ZML = #{zml,jdbcType=VARCHAR},
+      FML = #{fml,jdbcType=VARCHAR},
+      OrgCode = #{orgcode,jdbcType=VARCHAR},
+      OrgIdenCode = #{orgidencode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select id, SBBH, SBCSDM, GZZT, SJPYMS, SPZLZD, ZFBL, FFBL, ZML, FML, OrgCode, OrgIdenCode
+    from sync_camera_status
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, SBBH, SBCSDM, GZZT, SJPYMS, SPZLZD, ZFBL, FFBL, ZML, FML, OrgCode, OrgIdenCode
+    from sync_camera_status
+  </select>
+  
+  <select id="queryCameraStatusFilter" resultMap="BaseResultMap">
+    select id, SBBH, SBCSDM, GZZT, SJPYMS, SPZLZD, ZFBL, FFBL, ZML, FML, OrgCode, OrgIdenCode
+    from sync_camera_status
+        WHERE 1 = 1
+			<if test="OrgCode != null and '' != OrgCode">
+				AND OrgCode = #{OrgCode}
+			</if>
+			<if test="OrgIdenCode != null and '' != OrgIdenCode">
+				AND OrgIdenCode = #{OrgIdenCode}
+			</if>
+    </select>
+</mapper>

@@ -1,0 +1,63 @@
+/**
+ * @description 菜单数据 show-overflow-tooltip
+ */
+
+export default {
+    data:[
+		{
+			studentName:'王一',
+			studentSex:1,
+			studentAge:22,
+			schoolYear:'2017',
+			studentContactMobile:'12312312541',
+			studentContact:'老师',
+			classroomName:'不知道',
+			schoolName:'啥学校呢',
+			id:'wdawdawd123123'
+		},
+		{
+			studentName:'王二',
+			studentSex:1,
+			studentAge:22,
+			schoolYear:'2017',
+			studentContactMobile:'12312312541',
+			studentContact:'老师',
+			classroomName:'不知道',
+			schoolName:'啥学校呢',
+			id:'wdawdawd123123'
+		},
+		{
+			studentName:'王三',
+			studentSex:0,
+			studentAge:22,
+			schoolYear:'2017',
+			studentContactMobile:'12312312541',
+			studentContact:'老师',
+			classroomName:'不知道',
+			schoolName:'啥学校呢',
+			id:'wdawdawd123123'
+		},
+		{
+			studentName:'王四',
+			studentSex:1,
+			studentAge:22,
+			schoolYear:'2017',
+			studentContactMobile:'12312312541',
+			studentContact:'老师',
+			classroomName:'不知道',
+			schoolName:'啥学校呢',
+			id:'wdawdawd123123'
+		},
+		{
+			studentName:'王五',
+			studentSex:0,
+			studentAge:22,
+			schoolYear:'2017',
+			studentContactMobile:'12312312541',
+			studentContact:'老师',
+			classroomName:'不知道',
+			schoolName:'啥学校呢',
+			id:'wdawdawd123123'
+		},
+    ]
+}

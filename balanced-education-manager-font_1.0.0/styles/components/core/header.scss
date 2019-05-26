@@ -1,0 +1,56 @@
+/**
+ * @description header black style file.
+
+ */
+
+@import "../../index";
+
+.z-header {
+  position: relative;
+  z-index: 100;
+  height: $global-header-height;
+  color: $global-header-mcolor;
+  box-shadow: 0 0 3px $global-main-normal;
+  background: $global-main-normal;
+  overflow: hidden;
+  display: flex;
+  .header-logo{
+    flex: 2;
+  }
+  .header-nav{
+    line-height: $global-header-height;
+    flex: 8;
+  }
+  .header-right{
+    flex: 2;
+    line-height: $global-header-height;
+    display: flex;
+    .header-serch{
+      flex: 2;
+      .el-button--text{
+        color:#fff;
+      }
+    }
+    .header-user{
+      flex: 3;
+      color:#fff;
+    }
+  }
+  .el-tabs--card>.el-tabs__header{
+    border: none;
+    .el-tabs__item{
+      transition: none;
+    }
+    .el-tabs__item.is-active{
+      border: none;
+    }
+  }
+  .el-tabs__item{
+    height: 100%;
+  }
+  .el-tabs--card {
+    .el-tabs__content{
+      display: none !important;
+    }
+  }
+}

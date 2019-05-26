@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.clockSat.dao.ClockSatDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.clockSat.entity.ClockSat">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+		<result column="sat_no" property="satNo" jdbcType="INTEGER"/>
+		<result column="sat_type" property="satType" jdbcType="INTEGER"/>
+		<result column="sat_elevation" property="satElevation" jdbcType="INTEGER"/>
+		<result column="sat_azimuth" property="satAzimuth" jdbcType="INTEGER"/>
+		<result column="sat_snr" property="satSnr" jdbcType="INTEGER"/>
+		<result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        id, sat_no, sat_type, sat_elevation, sat_azimuth, sat_snr, create_user, create_date, update_user, update_date
+    </sql>
+    
+    <insert id="insertClockSat">
+        INSERT INTO JY_CLOCK_SAT_TAB
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+			<if test="satNo != null">sat_no,</if>
+			<if test="satType != null">sat_type,</if>
+			<if test="satElevation != null">sat_elevation,</if>
+			<if test="satAzimuth != null">sat_azimuth,</if>
+			<if test="satSnr != null">sat_snr,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateDate != null">update_date,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+			<if test="satNo != null">#{satNo},</if>
+			<if test="satType != null">#{satType},</if>
+			<if test="satElevation != null">#{satElevation},</if>
+			<if test="satAzimuth != null">#{satAzimuth},</if>
+			<if test="satSnr != null">#{satSnr},</if>
+            <if test="createUser != null">#{createUser,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">#{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateUser != null">#{updateUser,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">#{updateDate,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+    
+    <update id="updateClockSat">
+        update JY_CLOCK_SAT_TAB
+        <set>
+			<if test="satNo != null and '' != satNo">
+				sat_no = #{satNo},
+			</if>
+			<if test="satType != null and '' != satType">
+				sat_type = #{satType},
+			</if>
+			<if test="satElevation != null and '' != satElevation">
+				sat_elevation = #{satElevation},
+			</if>
+			<if test="satAzimuth != null and '' != satAzimuth">
+				sat_azimuth = #{satAzimuth},
+			</if>
+			<if test="satSnr != null and '' != satSnr">
+				sat_snr = #{satSnr},
+			</if>
+            <if test="createUser != null and ''!=createUser">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null and ''!=createDate">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null and ''!=updateUser">
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null  and ''!=updateDate">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <select id="getClockSatById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_CLOCK_SAT_TAB`
+        WHERE id = #{id}
+    </select>
+    
+    <select id="queryClockSatsFilter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_CLOCK_SAT_TAB`
+        WHERE 1 = 1
+			<if test="satNo != null and '' != satNo">
+				AND sat_no = #{satNo}
+			</if>
+			<if test="satType != null and '' != satType">
+				AND sat_type = #{satType}
+			</if>
+			<if test="satElevation != null and '' != satElevation">
+				AND sat_elevation = #{satElevation}
+			</if>
+			<if test="satAzimuth != null and '' != satAzimuth">
+				AND sat_azimuth = #{satAzimuth}
+			</if>
+			<if test="satSnr != null and '' != satSnr">
+				AND sat_snr = #{satSnr}
+			</if>
+    </select>
+    
+    <delete id="deleteClockSatById" parameterType="java.lang.String">
+        delete from `JY_CLOCK_SAT_TAB`
+        where id = #{id}
+    </delete>
+    
+    <delete id="deleteClockSats" parameterType="java.lang.String">
+        delete from `JY_CLOCK_SAT_TAB`
+        where id IN 
+        <foreach collection="list" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

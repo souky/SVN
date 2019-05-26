@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.systemCurrency.dao.SystemCurrencyDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.systemCurrency.entity.SystemCurrency">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+		<result column="XBDM" property="xbdm" jdbcType="VARCHAR"/>
+		<result column="CSLXDM" property="cslxdm" jdbcType="VARCHAR"/>
+		<result column="JGCJDM" property="jgcjdm" jdbcType="VARCHAR"/>
+		<result column="KSLBDM" property="kslbdm" jdbcType="VARCHAR"/>
+		<result column="SBLXDM" property="sblxdm" jdbcType="VARCHAR"/>
+		<result column="XZQHDM" property="xzqhdm" jdbcType="VARCHAR"/>
+		<result column="YZFSDM" property="yzfsdm" jdbcType="VARCHAR"/>
+		<result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        id, XBDM, CSLXDM, JGCJDM, KSLBDM, SBLXDM, XZQHDM, YZFSDM, create_user, create_date, update_user, update_date
+    </sql>
+    
+    <insert id="insertSystemCurrency">
+        INSERT INTO SYNC_SYSTEM_CURRENCY
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+			<if test="xbdm != null">XBDM,</if>
+			<if test="cslxdm != null">CSLXDM,</if>
+			<if test="jgcjdm != null">JGCJDM,</if>
+			<if test="kslbdm != null">KSLBDM,</if>
+			<if test="sblxdm != null">SBLXDM,</if>
+			<if test="xzqhdm != null">XZQHDM,</if>
+			<if test="yzfsdm != null">YZFSDM,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateDate != null">update_date,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+			<if test="xbdm != null">#{xbdm},</if>
+			<if test="cslxdm != null">#{cslxdm},</if>
+			<if test="jgcjdm != null">#{jgcjdm},</if>
+			<if test="kslbdm != null">#{kslbdm},</if>
+			<if test="sblxdm != null">#{sblxdm},</if>
+			<if test="xzqhdm != null">#{xzqhdm},</if>
+			<if test="yzfsdm != null">#{yzfsdm},</if>
+            <if test="createUser != null">#{createUser,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">#{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateUser != null">#{updateUser,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">#{updateDate,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+    
+    <update id="updateSystemCurrency">
+        update SYNC_SYSTEM_CURRENCY
+        <set>
+			<if test="xbdm != null and '' != xbdm">
+				XBDM = #{xbdm},
+			</if>
+			<if test="cslxdm != null and '' != cslxdm">
+				CSLXDM = #{cslxdm},
+			</if>
+			<if test="jgcjdm != null and '' != jgcjdm">
+				JGCJDM = #{jgcjdm},
+			</if>
+			<if test="kslbdm != null and '' != kslbdm">
+				KSLBDM = #{kslbdm},
+			</if>
+			<if test="sblxdm != null and '' != sblxdm">
+				SBLXDM = #{sblxdm},
+			</if>
+			<if test="xzqhdm != null and '' != xzqhdm">
+				XZQHDM = #{xzqhdm},
+			</if>
+			<if test="yzfsdm != null and '' != yzfsdm">
+				YZFSDM = #{yzfsdm},
+			</if>
+            <if test="createUser != null and ''!=createUser">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null and ''!=createDate">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null and ''!=updateUser">
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null  and ''!=updateDate">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <select id="getSystemCurrencyById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `SYNC_SYSTEM_CURRENCY`
+        WHERE id = #{id}
+    </select>
+    
+    <select id="querySystemCurrencysFilter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `SYNC_SYSTEM_CURRENCY`
+        WHERE 1 = 1
+			<if test="xbdm != null and '' != xbdm">
+				AND XBDM = #{xbdm}
+			</if>
+			<if test="cslxdm != null and '' != cslxdm">
+				AND CSLXDM = #{cslxdm}
+			</if>
+			<if test="jgcjdm != null and '' != jgcjdm">
+				AND JGCJDM = #{jgcjdm}
+			</if>
+			<if test="kslbdm != null and '' != kslbdm">
+				AND KSLBDM = #{kslbdm}
+			</if>
+			<if test="sblxdm != null and '' != sblxdm">
+				AND SBLXDM = #{sblxdm}
+			</if>
+			<if test="xzqhdm != null and '' != xzqhdm">
+				AND XZQHDM = #{xzqhdm}
+			</if>
+			<if test="yzfsdm != null and '' != yzfsdm">
+				AND YZFSDM = #{yzfsdm}
+			</if>
+    </select>
+    
+    <delete id="deleteSystemCurrencyById" parameterType="java.lang.String">
+        delete from `SYNC_SYSTEM_CURRENCY`
+    </delete>
+    
+    <delete id="deleteSystemCurrencys" parameterType="java.lang.String">
+        delete from `SYNC_SYSTEM_CURRENCY`
+        where id IN 
+        <foreach collection="list" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

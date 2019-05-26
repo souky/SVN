@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.role.dao.RoleDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.role.entity.Role">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+			<result column="role_name" property="roleName" jdbcType="VARCHAR"/>
+			<result column="org_id" property="orgId" jdbcType="VARCHAR"/>
+			<result column="is_shown" property="isShown" jdbcType="INTEGER"/>
+			<result column="remark" property="remark" jdbcType="VARCHAR"/>
+		<result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        id, role_name, org_id, remark, create_user, create_date, update_user, update_date
+    </sql>
+    
+    <insert id="insertRole">
+        INSERT INTO JY_ROLE
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+				<if test="roleName != null">role_name,</if>
+				<if test="orgId != null">org_id,</if>
+				is_shown,
+				<if test="remark != null">remark,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateDate != null">update_date,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+				<if test="roleName != null">#{roleName},</if>
+				<if test="orgId != null">#{orgId},</if>
+                1,
+				<if test="remark != null">#{remark},</if>
+            <if test="createUser != null">#{createUser,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">#{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateUser != null">#{updateUser,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">#{updateDate,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+    
+    <update id="updateRole">
+        update JY_ROLE
+        <set>
+				<if test="roleName != null and '' != roleName">
+				role_name = #{roleName},
+				</if>
+				<if test="orgId != null and '' != orgId">
+				org_id = #{orgId},
+				</if>
+				<if test="remark != null and '' != remark">
+				remark = #{remark},
+				</if>
+            <if test="createUser != null and ''!=createUser">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null and ''!=createDate">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null and ''!=updateUser">
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null  and ''!=updateDate">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <select id="getRoleById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_ROLE`
+        WHERE id = #{id}
+    </select>
+    
+    <select id="queryRolesFilter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_ROLE`
+        WHERE 1 = 1
+		<if test="roleName != null and '' != roleName">
+            AND role_name like CONCAT('%','${roleName}','%')
+		</if>
+		<if test="orgId != null and '' != orgId">
+            AND org_id = #{orgId}
+		</if>
+        AND is_shown = 1
+        UNION
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_ROLE`
+        WHERE org_id = ''
+        <if test="roleName != null and '' != roleName">
+            AND role_name like CONCAT('%','${roleName}','%')
+		</if>
+		AND is_shown = 1
+		ORDER BY create_date ASC
+    </select>
+    
+    <delete id="deleteRoleById" parameterType="java.lang.String">
+        delete from `JY_ROLE`
+        where id = #{id}
+    </delete>
+    
+    <delete id="deleteRoles" parameterType="java.lang.String">
+        delete from `JY_ROLE`
+        where id IN 
+        <foreach collection="ids" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

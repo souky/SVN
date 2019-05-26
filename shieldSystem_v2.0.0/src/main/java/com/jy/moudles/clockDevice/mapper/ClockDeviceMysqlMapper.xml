@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.clockDevice.dao.ClockDeviceDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.clockDevice.entity.ClockDevice">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+		<result column="clock_ip_addr" property="clockIpAddr" jdbcType="VARCHAR"/>
+		<result column="clock_mac" property="clockMac" jdbcType="VARCHAR"/>
+		<result column="is_show_sec" property="isShowSec" jdbcType="INTEGER"/>
+		<result column="clock_status" property="clockStatus" jdbcType="INTEGER"/>
+		<result column="clock_on_off" property="clockOnOff" jdbcType="INTEGER"/>
+		<result column="self_check_info" property="selfCheckInfo" jdbcType="VARCHAR"/>
+		<result column="clock_resource" property="clockResource" jdbcType="INTEGER"/>
+		<result column="clock_manufacturer" property="clockManufacturer" jdbcType="INTEGER"/>
+		<result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+        
+        <result column="logical_exam_room" property="logicalExamRoom" jdbcType="VARCHAR"/>
+		<result column="physical_exam_room" property="physicalExamRoom" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <resultMap id="countMap" type="com.jy.moudles.clockDevice.VO.CountVO">
+        <result column="clock_status" property="clockStatus" jdbcType="VARCHAR"/>
+		<result column="counts" property="count" jdbcType="INTEGER"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        id, clock_ip_addr, clock_mac, is_show_sec, clock_status, clock_on_off, self_check_info, clock_resource,
+         clock_manufacturer, create_user, create_date, update_user, update_date
+    </sql>
+    
+    <sql id="Base_Column_List_with_position">
+        JY_CLOCK_DEVICE_TAB.id, clock_ip_addr, clock_mac, is_show_sec, clock_status, clock_on_off, self_check_info, clock_resource, 
+        clock_manufacturer, JY_CLOCK_DEVICE_TAB.create_user, JY_CLOCK_DEVICE_TAB.create_date, JY_CLOCK_DEVICE_TAB.update_user,
+         JY_CLOCK_DEVICE_TAB.update_date,logical_exam_room,physical_exam_room
+    </sql>
+    
+    <select id="getClockStatusCount" resultMap="countMap">
+    	SELECT clock_status,count(*) as counts from jy_clock_device_tab GROUP BY clock_status
+    </select>
+    
+    <insert id="insertClockDevice">
+        INSERT INTO JY_CLOCK_DEVICE_TAB
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+			<if test="clockIpAddr != null">clock_ip_addr,</if>
+			<if test="clockMac != null">clock_mac,</if>
+			<if test="isShowSec != null">is_show_sec,</if>
+			<if test="clockStatus != null">clock_status,</if>
+			<if test="clockOnOff != null">clock_on_off,</if>
+			<if test="selfCheckInfo != null">self_check_info,</if>
+			<if test="clockResource != null">clock_resource,</if>
+			<if test="clockManufacturer != null">clock_manufacturer,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateDate != null">update_date,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+			<if test="clockIpAddr != null">#{clockIpAddr},</if>
+			<if test="clockMac != null">#{clockMac},</if>
+			<if test="isShowSec != null">#{isShowSec},</if>
+			<if test="clockStatus != null">#{clockStatus},</if>
+			<if test="clockOnOff != null">#{clockOnOff},</if>
+			<if test="selfCheckInfo != null">#{selfCheckInfo},</if>
+			<if test="clockResource != null">#{clockResource},</if>
+			<if test="clockManufacturer != null">#{clockManufacturer},</if>
+            <if test="createUser != null">#{createUser,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">#{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateUser != null">#{updateUser,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">#{updateDate,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+    
+    <update id="updateClockDevice">
+        update JY_CLOCK_DEVICE_TAB
+        <set>
+			<if test="clockIpAddr != null and '' != clockIpAddr">
+				clock_ip_addr = #{clockIpAddr},
+			</if>
+			<if test="clockMac != null and '' != clockMac">
+				clock_mac = #{clockMac},
+			</if>
+			<if test="isShowSec != null and '' != isShowSec">
+				is_show_sec = #{isShowSec},
+			</if>
+			<if test="clockStatus != null and '' != clockStatus">
+				clock_status = #{clockStatus},
+			</if>
+			<if test="clockOnOff != null and '' != clockOnOff">
+				clock_on_off = #{clockOnOff},
+			</if>
+			<if test="selfCheckInfo != null and '' != selfCheckInfo">
+				self_check_info = #{selfCheckInfo},
+			</if>
+			<if test="clockResource != null and '' != clockResource">
+				clock_resource = #{clockResource},
+			</if>
+			<if test="clockManufacturer != null and '' != clockManufacturer">
+				clock_manufacturer = #{clockManufacturer},
+			</if>
+            <if test="createUser != null and ''!=createUser">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null and ''!=createDate">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null and ''!=updateUser">
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null  and ''!=updateDate">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <select id="getClockDeviceById" resultMap="BaseResultMap">
+        SELECT
+       <include refid="Base_Column_List_with_position"/>
+        from `JY_CLOCK_DEVICE_TAB` left join JY_CLOCK_DEVICE_POSITION_TAB on JY_CLOCK_DEVICE_TAB.id = JY_CLOCK_DEVICE_POSITION_TAB.clock_id
+        WHERE JY_CLOCK_DEVICE_TAB.id = #{id}
+    </select>
+    
+    <select id="getUnBindingClockDevice" resultMap="BaseResultMap">
+       SELECT
+			c.id,c.clock_ip_addr,c.clock_mac,c.clock_status
+		FROM
+			jy_clock_device_tab c
+		LEFT JOIN jy_clock_device_position_tab p ON c.id = p.clock_id
+		where (p.clock_position_builings = 0 or p.clock_position_room is null) 
+		<if test="clockResource != null and '' != clockResource">
+			clock_resource = #{clockResource},
+		</if>
+    </select>
+    
+    <select id="queryClockDevicesFilter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_CLOCK_DEVICE_TAB`
+        WHERE 1 = 1
+			<if test="clockIpAddr != null and '' != clockIpAddr">
+				AND clock_ip_addr = #{clockIpAddr}
+			</if>
+			<if test="clockMac != null and '' != clockMac">
+				AND clock_mac = #{clockMac}
+			</if>
+			<if test="isShowSec != null and '' != isShowSec">
+				AND is_show_sec = #{isShowSec}
+			</if>
+			<if test="clockStatus != null and '' != clockStatus">
+				AND clock_status = #{clockStatus}
+			</if>
+			<if test="clockOnOff != null and '' != clockOnOff">
+				AND clock_on_off = #{clockOnOff}
+			</if>
+			<if test="selfCheckInfo != null and '' != selfCheckInfo">
+				AND self_check_info = #{selfCheckInfo}
+			</if>
+			<if test="clockResource != null and '' != clockResource">
+				AND clock_resource = #{clockResource}
+			</if>
+			<if test="clockManufacturer != null and '' != clockManufacturer">
+				AND clock_manufacturer = #{clockManufacturer}
+			</if>
+		ORDER BY inet_aton(clock_ip_addr)
+    </select>
+    
+    <select id="queryClockDevicesFilterWithPosition" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List_with_position"/>
+        from `JY_CLOCK_DEVICE_TAB` left join JY_CLOCK_DEVICE_POSITION_TAB on JY_CLOCK_DEVICE_TAB.id = JY_CLOCK_DEVICE_POSITION_TAB.clock_id
+        WHERE 1 = 1
+			<if test="clockIpAddr != null and '' != clockIpAddr">
+				AND clock_ip_addr LIKE CONCAT('%',#{clockIpAddr},'%')
+			</if>
+			<if test="clockMac != null and '' != clockMac">
+				AND clock_mac  LIKE CONCAT('%',#{clockMac},'%')
+			</if>
+			<if test="clockStatus != null and '' != clockStatus">
+				AND clock_status = #{clockStatus}
+			</if>
+			<if test="clockStatus == 0">
+				AND clock_status = 0
+			</if>
+			<if test="logicalExamRoom != null and '' != logicalExamRoom">
+				AND logical_exam_room  LIKE CONCAT('%',#{logicalExamRoom},'%')
+			</if>
+			<if test="physicalExamRoom != null and '' != physicalExamRoom">
+				AND physical_exam_room  LIKE CONCAT('%',#{physicalExamRoom},'%')
+			</if>
+		ORDER BY inet_aton(clock_ip_addr)
+    </select>
+    
+    <delete id="deleteClockDeviceById" parameterType="java.lang.String">
+        delete from `JY_CLOCK_DEVICE_TAB`
+        where id = #{id}
+    </delete>
+    
+    <delete id="deleteClockDevices">
+        delete from `JY_CLOCK_DEVICE_TAB`
+        where id IN 
+        <foreach collection="list" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

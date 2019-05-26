@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.twoWaySpecificationDetail.dao.TwoWaySpecificationDetailDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.twoWaySpecificationDetail.entity.TwoWaySpecificationDetail">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+		<result column="item_no" property="itemNo" jdbcType="TINYINT"/>
+		<result column="item_type" property="itemType" jdbcType="TINYINT"/>
+		<result column="item_score" property="itemScore" jdbcType="TINYINT"/>
+		<result column="item_answer" property="itemAnswer" jdbcType="VARCHAR"/>
+		<result column="item_ability" property="itemAbility" jdbcType="VARCHAR"/>
+		<result column="knowledge_id" property="knowledgeId" jdbcType="VARCHAR"/>
+		<result column="knowledge_name" property="knowledgeName" jdbcType="VARCHAR"/>
+		<result column="parent_id" property="parentId" jdbcType="VARCHAR"/>
+		<result column="org_id" property="orgId" jdbcType="VARCHAR"/>
+		<result column="remark" property="remark" jdbcType="VARCHAR"/>
+		<result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+        <collection property="stepList" ofType="com.jy.moudles.spDetailStep.entity.SpDetailStep"  javaType="list">
+			<result column="sp_detail_id" property="spDetailId" />
+			<result column="sp_id" property="spId" />
+			<result column="step_score" property="stepScore" />
+			<result column="step_answer" property="stepAnswer" />
+			<result column="knowledge_point_id" property="knowledgePointId" />
+			<result column="sort" property="sort" />
+			<result column="knowledge_point_name" property="knowledgePointName" />
+		</collection>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        id, item_no, item_type, item_score, item_answer, item_ability, knowledge_id,parent_id, org_id, remark, create_user, create_date, update_user, update_date
+    </sql>
+    
+    <sql id="Base_Column_List_join">
+        w.id, item_no, item_type, item_score, item_answer,k.knowledge_content as knowledge_name, 
+        item_ability, knowledge_id,w.parent_id, w.org_id, w.remark, w.create_user, w.create_date,
+         w.update_user, w.update_date,s.sp_detail_id,s.sp_id,s.step_score,s.step_answer,s.knowledge_point_id,s.sort,
+         k.knowledge_content as knowledge_point_name
+    </sql>
+    
+    <insert id="insertTwoWaySpecificationDetail">
+        INSERT INTO JY_TWO_WAY_SPECIFICATION_DETAIL
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+				<if test="itemNo != null">item_no,</if>
+				<if test="itemType != null">item_type,</if>
+				<if test="itemScore != null">item_score,</if>
+				<if test="itemAnswer != null">item_answer,</if>
+				<if test="itemAbility != null">item_ability,</if>
+				<if test="knowledgeId != null">knowledge_id,</if>
+				<if test="parentId != null">parent_id,</if>
+				<if test="orgId != null">org_id,</if>
+				<if test="remark != null">remark,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateDate != null">update_date,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+				<if test="itemNo != null">#{itemNo},</if>
+				<if test="itemType != null">#{itemType},</if>
+				<if test="itemScore != null">#{itemScore},</if>
+				<if test="itemAnswer != null">#{itemAnswer},</if>
+				<if test="itemAbility != null">#{itemAbility},</if>
+				<if test="knowledgeId != null">#{knowledgeId},</if>
+				<if test="parentId != null">#{parentId},</if>
+				<if test="orgId != null">#{orgId},</if>
+				<if test="remark != null">#{remark},</if>
+            <if test="createUser != null">#{createUser,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">#{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateUser != null">#{updateUser,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">#{updateDate,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+
+    <insert id="batchInsertTwoWaySpecificationDetail">
+        INSERT INTO JY_TWO_WAY_SPECIFICATION_DETAIL
+		(
+		<include refid="Base_Column_List"/>
+		)
+		VALUES
+		<foreach collection="twoWaySpecificationDetails" item="twoWaySpDetails" index="index" separator=",">
+		(
+				#{twoWaySpDetails.id,jdbcType=VARCHAR},
+				#{twoWaySpDetails.itemNo},
+				#{twoWaySpDetails.itemType},
+				#{twoWaySpDetails.itemScore},
+				#{twoWaySpDetails.itemAnswer},
+				#{twoWaySpDetails.itemAbility},
+				#{twoWaySpDetails.knowledgeId},
+				#{twoWaySpDetails.parentId},
+				#{twoWaySpDetails.orgId},
+				#{twoWaySpDetails.remark},
+				#{twoWaySpDetails.createUser,jdbcType=VARCHAR},
+				SYSDATE(),
+				#{twoWaySpDetails.updateUser,jdbcType=VARCHAR},
+				SYSDATE()
+		)
+		</foreach>
+
+
+    </insert>
+
+    <update id="updateTwoWaySpecificationDetail">
+        update JY_TWO_WAY_SPECIFICATION_DETAIL
+        <set>
+				<if test="itemNo != null and '' != itemNo">
+				item_no = #{itemNo},
+				</if>
+				<if test="itemType != null and '' != itemType">
+				item_type = #{itemType},
+				</if>
+				<if test="itemScore != null and '' != itemScore">
+				item_score = #{itemScore},
+				</if>
+				<if test="itemAnswer != null and '' != itemAnswer">
+				item_answer = #{itemAnswer},
+				</if>
+				<if test="itemAbility != null and '' != itemAbility">
+				item_ability = #{itemAbility},
+				</if>
+				<if test="knowledgeId != null and '' != knowledgeId">
+				knowledge_id = #{knowledgeId},
+				</if>
+				<if test="parentId != null and '' != parentId">
+				parent_id = #{parentId},
+				</if>
+				<if test="orgId != null and '' != orgId">
+				org_id = #{orgId},
+				</if>
+				<if test="remark != null and '' != remark">
+				remark = #{remark},
+				</if>
+            <if test="createUser != null and ''!=createUser">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null and ''!=createDate">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null and ''!=updateUser">
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null  and ''!=updateDate">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <select id="getTwoWaySpecificationDetailById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_TWO_WAY_SPECIFICATION_DETAIL`
+        WHERE id = #{id}
+    </select>
+    
+    <select id="queryTwoWaySpecificationDetailsFilter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List_join"/> 
+        from `JY_TWO_WAY_SPECIFICATION_DETAIL` w
+        left join JY_TWO_WAY_SPECIFICATION_DETAIL_STEP s ON w.id = s.sp_detail_id
+        left join jy_knowledge_point k ON right(w.knowledge_id,32) = k.id OR right(s.knowledge_point_id,32) = k.id
+        WHERE 1 = 1
+			<if test="itemNo != null and '' != itemNo">
+				AND item_no = #{itemNo}
+			</if>
+			<if test="itemType != null and '' != itemType">
+				AND item_type = #{itemType}
+			</if>
+			<if test="itemScore != null and '' != itemScore">
+				AND item_score = #{itemScore}
+			</if>
+			<if test="itemAnswer != null and '' != itemAnswer">
+				AND item_answer = #{itemAnswer}
+			</if>
+			<if test="itemAbility != null and '' != itemAbility">
+				AND item_ability = #{itemAbility}
+			</if>
+			<if test="parentId != null and '' != parentId">
+				AND w.parent_id = #{parentId}
+			</if>
+			<if test="orgId != null and '' != orgId">
+				AND w.org_id = #{orgId}
+			</if>
+			<if test="remark != null and '' != remark">
+				AND w.remark = #{remark}
+			</if>
+		ORDER BY item_no,s.sort
+    </select>
+    
+    <delete id="deleteTwoWaySpecificationDetailById" parameterType="java.lang.String">
+        delete from `JY_TWO_WAY_SPECIFICATION_DETAIL`
+        where id = #{id}
+    </delete>
+
+	<delete id="deleteTwoWaySpDetailsByPid" parameterType="java.lang.String">
+		delete from `JY_TWO_WAY_SPECIFICATION_DETAIL`
+		where parent_id = #{parentId}
+	</delete>
+    
+    <delete id="deleteTwoWaySpecificationDetails" parameterType="java.lang.String">
+        delete from `JY_TWO_WAY_SPECIFICATION_DETAIL`
+        where id IN 
+        <foreach collection="ids" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

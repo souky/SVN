@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.satellite.dao.SatelliteDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.satellite.entity.Satellite">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+		<result column="id" property="id" jdbcType="VARCHAR"/>
+		<result column="sa_no" property="saNo" jdbcType="VARCHAR"/>
+		<result column="sa_type" property="saType" jdbcType="TINYINT"/>
+		<result column="noise_signal" property="noiseSignal" jdbcType="VARCHAR"/>
+		<result column="elevation" property="elevation" jdbcType="VARCHAR"/>
+		<result column="azimuth" property="azimuth" jdbcType="VARCHAR"/>
+		<result column="is_calculation" property="isCalculation" jdbcType="TINYINT"/>
+		<result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        id, id, sa_no, sa_type, noise_signal, elevation, azimuth, is_calculation, create_user, create_date, update_user, update_date
+    </sql>
+    
+    <insert id="insertSatellite">
+        INSERT INTO JY_SATELLITE_TAB
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+			<if test="saNo != null">sa_no,</if>
+			<if test="saType != null">sa_type,</if>
+			<if test="noiseSignal != null">noise_signal,</if>
+			<if test="elevation != null">elevation,</if>
+			<if test="azimuth != null">azimuth,</if>
+			<if test="isCalculation != null">is_calculation,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateDate != null">update_date,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">#{id},</if>
+			<if test="saNo != null">#{saNo},</if>
+			<if test="saType != null">#{saType},</if>
+			<if test="noiseSignal != null">#{noiseSignal},</if>
+			<if test="elevation != null">#{elevation},</if>
+			<if test="azimuth != null">#{azimuth},</if>
+			<if test="isCalculation != null">#{isCalculation},</if>
+            <if test="createUser != null">#{createUser,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">#{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateUser != null">#{updateUser,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">#{updateDate,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+    
+    <update id="updateSatellite">
+        update JY_SATELLITE_TAB
+        <set>
+			<if test="id != null and '' != id">
+				id = #{id},
+			</if>
+			<if test="saNo != null and '' != saNo">
+				sa_no = #{saNo},
+			</if>
+			<if test="saType != null and '' != saType">
+				sa_type = #{saType},
+			</if>
+			<if test="1==1">
+				noise_signal = #{noiseSignal},
+			</if>
+			<if test="elevation != null and '' != elevation">
+				elevation = #{elevation},
+			</if>
+			<if test="azimuth != null and '' != azimuth">
+				azimuth = #{azimuth},
+			</if>
+			<if test="1==1">
+				is_calculation = #{isCalculation},
+			</if>
+            <if test="createUser != null and ''!=createUser">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null and ''!=createDate">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null and ''!=updateUser">
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null  and ''!=updateDate">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            <choose>
+                <when test="saNo != null">
+                    sa_no = #{saNo}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <select id="getSatelliteById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_SATELLITE_TAB`
+        WHERE sa_no = #{id}
+    </select>
+    
+    <select id="getSatelliteBySaNo" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_SATELLITE_TAB`
+        WHERE sa_no = #{saNo}
+    </select>
+    
+    <select id="querySatellitesFilter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_SATELLITE_TAB`
+        WHERE 1 = 1
+			<if test="id != null and '' != id">
+				AND id = #{id}
+			</if>
+			<if test="saNo != null and '' != saNo">
+				AND sa_no = #{saNo}
+			</if>
+			<if test="saType != null and '' != saType">
+				AND sa_type = #{saType}
+			</if>
+			<if test="noiseSignal != null and '' != noiseSignal">
+				AND noise_signal = #{noiseSignal}
+			</if>
+			<if test="elevation != null and '' != elevation">
+				AND elevation = #{elevation}
+			</if>
+			<if test="azimuth != null and '' != azimuth">
+				AND azimuth = #{azimuth}
+			</if>
+			<if test="isCalculation != null and '' != isCalculation">
+				AND is_calculation = #{isCalculation}
+			</if>
+    </select>
+    
+    <delete id="deleteSatelliteById" parameterType="java.lang.String">
+        delete from `JY_SATELLITE_TAB`
+        where id = #{id}
+    </delete>
+    
+    <delete id="deleteSatelliteAll" parameterType="java.lang.String">
+        delete from `JY_SATELLITE_TAB` where now() > date_add(update_date, interval 5 minute);
+    </delete>
+    
+    <delete id="deleteSatellites" parameterType="java.lang.String">
+        delete from `JY_SATELLITE_TAB`
+        where id IN 
+        <foreach collection="list" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

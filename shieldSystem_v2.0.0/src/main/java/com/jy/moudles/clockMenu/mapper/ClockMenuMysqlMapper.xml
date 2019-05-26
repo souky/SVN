@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.clockMenu.dao.ClockMenuDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.clockMenu.entity.ClockMenu">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+		<result column="menu_name_zh" property="menuNameZh" jdbcType="VARCHAR"/>
+		<result column="menu_level" property="menuLevel" jdbcType="INTEGER"/>
+		<result column="menu_order" property="menuOrder" jdbcType="INTEGER"/>
+		<result column="menu_url" property="menuUrl" jdbcType="VARCHAR"/>
+		<result column="menu_img" property="menuImg" jdbcType="VARCHAR"/>
+		<result column="p_id" property="pId" jdbcType="VARCHAR"/>
+		<result column="is_delete" property="isDelete" jdbcType="INTEGER"/>
+		<result column="is_open" property="isOpen" jdbcType="INTEGER"/>
+		<result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        id, menu_name_zh, menu_level, menu_order, menu_url, menu_img,p_id, is_delete, is_open, create_user, create_date, update_user, update_date
+    </sql>
+    
+    <insert id="insertClockMenu">
+        INSERT INTO JY_CLOCK_MENU_TAB
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+			<if test="menuNameZh != null">menu_name_zh,</if>
+			<if test="menuLevel != null">menu_level,</if>
+			<if test="menuOrder != null">menu_order,</if>
+			<if test="menuUrl != null">menu_url,</if>
+			<if test="menuImg != null">menu_img,</if>
+			<if test="isDelete != null">is_delete,</if>
+			<if test="isOpen != null">is_open,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateDate != null">update_date,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+			<if test="menuNameZh != null">#{menuNameZh},</if>
+			<if test="menuLevel != null">#{menuLevel},</if>
+			<if test="menuOrder != null">#{menuOrder},</if>
+			<if test="menuUrl != null">#{menuUrl},</if>
+			<if test="menuImg != null">#{menuImg},</if>
+			<if test="isDelete != null">#{isDelete},</if>
+			<if test="isOpen != null">#{isOpen},</if>
+            <if test="createUser != null">#{createUser,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">#{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateUser != null">#{updateUser,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">#{updateDate,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+    
+    <update id="updateClockMenu">
+        update JY_CLOCK_MENU_TAB
+        <set>
+			<if test="menuNameZh != null and '' != menuNameZh">
+				menu_name_zh = #{menuNameZh},
+			</if>
+			<if test="menuLevel != null and '' != menuLevel">
+				menu_level = #{menuLevel},
+			</if>
+			<if test="menuOrder != null and '' != menuOrder">
+				menu_order = #{menuOrder},
+			</if>
+			<if test="menuUrl != null and '' != menuUrl">
+				menu_url = #{menuUrl},
+			</if>
+			<if test="menuImg != null and '' != menuImg">
+				menu_img = #{menuImg},
+			</if>
+			<if test="isDelete != null and '' != isDelete">
+				is_delete = #{isDelete},
+			</if>
+			<if test="isOpen != null and '' != isOpen">
+				is_open = #{isOpen},
+			</if>
+            <if test="createUser != null and ''!=createUser">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null and ''!=createDate">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null and ''!=updateUser">
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null  and ''!=updateDate">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <select id="getClockMenuById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_CLOCK_MENU_TAB`
+        WHERE id = #{id}
+    </select>
+    
+    <select id="queryClockMenusFilter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_CLOCK_MENU_TAB`
+        WHERE 1 = 1 and is_delete = 0 
+			<if test="menuNameZh != null and '' != menuNameZh">
+				AND menu_name_zh = #{menuNameZh}
+			</if>
+			<if test="menuLevel != null and '' != menuLevel">
+				AND menu_level = #{menuLevel}
+			</if>
+			<if test="menuOrder != null and '' != menuOrder">
+				AND menu_order = #{menuOrder}
+			</if>
+			<if test="menuUrl != null and '' != menuUrl">
+				AND menu_url = #{menuUrl}
+			</if>
+			<if test="menuImg != null and '' != menuImg">
+				AND menu_img = #{menuImg}
+			</if>
+			<if test="isOpen != null and '' != isOpen">
+				AND is_open = #{isOpen}
+			</if>
+		order by menu_level,menu_order
+    </select>
+    
+    <delete id="deleteClockMenuById" parameterType="java.lang.String">
+        delete from `JY_CLOCK_MENU_TAB`
+        where id = #{id}
+    </delete>
+    
+    <delete id="deleteClockMenus" parameterType="java.lang.String">
+        delete from `JY_CLOCK_MENU_TAB`
+        where id IN 
+        <foreach collection="list" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

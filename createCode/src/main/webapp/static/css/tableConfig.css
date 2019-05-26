@@ -1,0 +1,74 @@
+.margin50 .row{
+	margin-top: 20px;
+}
+
+/*搜索表单*/
+.form-inline .input-sm{
+	border-radius: 0;
+	margin-right: 15px;
+}
+.form-inline .input-sm:focus{
+	border-color: #18a689;
+}
+/*搜索表单*/
+
+/*工具栏提示信息*/
+.tooltip-inner{
+	background-color: #fff;
+	color:#676a6c;
+	border:1px solid #ccc;
+}
+.tooltip.top .tooltip-arrow {
+  border-top-color: #ccc;
+}
+/*工具栏提示信息*/
+
+/*工具栏提示按钮*/
+button.btn-default{
+	font-size: 13px;
+	color: #676a6c;
+}
+button.btn-primary {
+	color: #1ab394;
+	background-color: #fff;
+	border-color: #1ab394;
+}
+button.btn-primary:hover ,button.btn-primary:active:hover,button.btn-primary:focus{
+	color: #fff;
+	background-color: #1ab394;
+	border-color: #1ab394;
+}
+
+button.btn-rounded {
+	border-radius: 50px;
+}
+/*工具栏提示信息*/
+
+/*表格*/
+.table{
+	margin-top:10px;
+}
+.table thead tr th{
+	height: 32px;
+	line-height: 32px;
+}
+
+.table tbody tr td{
+	height: 30px;
+	line-height: 30px;
+}
+.sort-column {
+	color: #0663A2;
+	cursor: pointer;
+}
+/*表格*/
+
+/*增加页面*/
+div[type=iframe]{
+	z-index: 19891018;
+	width: 80%;
+	height: 80%;
+	top: 33px;
+	left: 192px;
+}
+/*增加页面*/

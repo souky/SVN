@@ -1,0 +1,1249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.score.dao.ScoreDao">
+
+		<resultMap id="BaseResultMap" type="com.jy.moudles.score.entity.Score">
+        	<id column="id" property="id" jdbcType="VARCHAR"/>
+        	<result column="student_name" property="studentName" jdbcType="VARCHAR"/>
+        	<result column="classroom_name" property="classroomName" jdbcType="VARCHAR"/>
+			<result column="exam_id" property="examId" jdbcType="VARCHAR"/>
+			<result column="student_id" property="studentId" jdbcType="VARCHAR"/>
+			<result column="student_no" property="studentNo" jdbcType="VARCHAR"/>
+			<result column="student_name" property="studentName" jdbcType="VARCHAR"/>
+			<result column="classroom_id" property="classroomId" jdbcType="VARCHAR"/>
+			<result column="org_id" property="orgId" jdbcType="VARCHAR"/>
+			<result column="region_code" property="regionCode" jdbcType="VARCHAR"/>
+			<result column="school_id" property="schoolId" jdbcType="VARCHAR"/>
+			<result column="total_score" property="totalScore" jdbcType="DECIMAL"/>
+			<result column="detail_score" property="detailScore" jdbcType="VARCHAR"/>
+			<result column="chinese_score" property="chineseScore" jdbcType="DECIMAL"/>
+			<result column="math_score" property="mathScore" jdbcType="DECIMAL"/>
+			<result column="english_score" property="englishScore" jdbcType="DECIMAL"/>
+			<result column="physical_score" property="physicalScore" jdbcType="DECIMAL"/>
+			<result column="chemical_score" property="chemicalScore" jdbcType="DECIMAL"/>
+			<result column="biology_score" property="biologyScore" jdbcType="DECIMAL"/>
+			<result column="geography_score" property="geographyScore" jdbcType="DECIMAL"/>
+			<result column="science_score" property="scienceScore" jdbcType="DECIMAL"/>
+			<result column="politics_score" property="politicsScore" jdbcType="DECIMAL"/>
+			<result column="history_score" property="historyScore" jdbcType="DECIMAL"/>
+			<result column="moral_score" property="moralScore" jdbcType="DECIMAL"/>
+			<result column="history_society_score" property="historySocietyScore" jdbcType="DECIMAL"/>
+			<result column="quality_society_score" property="qualitySocietyScore" jdbcType="DECIMAL"/>
+			<result column="quality_life_score" property="qualityLifeScore" jdbcType="DECIMAL"/>
+			<result column="painting_score" property="paintingScore" jdbcType="DECIMAL"/>
+			<result column="art_score" property="artScore" jdbcType="DECIMAL"/>
+			<result column="music_score" property="musicScore" jdbcType="DECIMAL"/>
+			<result column="sports_score" property="sportsScore" jdbcType="DECIMAL"/>
+			<result column="subject1_score" property="subject1Score" jdbcType="DECIMAL"/>
+			<result column="subject2_score" property="subject2Score" jdbcType="DECIMAL"/>
+			<result column="subject3_score" property="subject3Score" jdbcType="DECIMAL"/>
+			<result column="subject4_score" property="subject4Score" jdbcType="DECIMAL"/>
+			<result column="subject5_score" property="subject5Score" jdbcType="DECIMAL"/>
+		<result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+	<resultMap id="GetResultMap" type="com.jy.moudles.score.entity.ProcessedScores">
+		<result column="classroom_id" property="classroomId" jdbcType="VARCHAR"/>
+		<result column="classroom_name" property="classroomName" jdbcType="VARCHAR"/>
+		<result column="class_teacher_name" property="classTeacherName" jdbcType="VARCHAR"/>
+		<result column="top_total_score"           property="topTotalScore" jdbcType="DECIMAL"/>
+		<result column="top_chinese_score"         property="topChineseScore" jdbcType="DECIMAL"/>
+		<result column="top_math_score"            property="topMathScore" jdbcType="DECIMAL"/>
+		<result column="top_english_score"         property="topEnglishScore" jdbcType="DECIMAL"/>
+		<result column="top_physical_score"        property="topPhysicalScore" jdbcType="DECIMAL"/>
+		<result column="top_chemical_score"        property="topChemicalScore" jdbcType="DECIMAL"/>
+		<result column="top_biology_score"         property="topBiologyScore" jdbcType="DECIMAL"/>
+		<result column="top_geography_score"       property="topGeographyScore" jdbcType="DECIMAL"/>
+		<result column="top_science_score"         property="topScienceScore" jdbcType="DECIMAL"/>
+		<result column="top_politics_score"        property="topPoliticsScore" jdbcType="DECIMAL"/>
+		<result column="top_history_score"         property="topHistoryScore" jdbcType="DECIMAL"/>
+		<result column="top_moral_score"           property="topMoralScore" jdbcType="DECIMAL"/>
+		<result column="top_history_society_score" property="topHistorySocietyScore" jdbcType="DECIMAL"/>
+		<result column="top_quality_society_score" property="topQualitySocietyScore" jdbcType="DECIMAL"/>
+		<result column="top_quality_life_score"    property="topQualityLifeScore" jdbcType="DECIMAL"/>
+		<result column="top_painting_score"        property="topPaintingScore" jdbcType="DECIMAL"/>
+		<result column="top_art_score"             property="topArtScore" jdbcType="DECIMAL"/>
+		<result column="top_music_score"           property="topMusicScore" jdbcType="DECIMAL"/>
+		<result column="top_sports_score"          property="topSportsScore" jdbcType="DECIMAL"/>
+		<result column="avg_total_score"           property="avgTotalScore" jdbcType="DECIMAL"/>
+		<result column="avg_chinese_score"         property="avgChineseScore" jdbcType="DECIMAL"/>
+		<result column="avg_math_score"            property="avgMathScore" jdbcType="DECIMAL"/>
+		<result column="avg_english_score"         property="avgEnglishScore" jdbcType="DECIMAL"/>
+		<result column="avg_physical_score"        property="avgPhysicalScore" jdbcType="DECIMAL"/>
+		<result column="avg_chemical_score"        property="avgChemicalScore" jdbcType="DECIMAL"/>
+		<result column="avg_biology_score"         property="avgBiologyScore" jdbcType="DECIMAL"/>
+		<result column="avg_geography_score"       property="avgGeographyScore" jdbcType="DECIMAL"/>
+		<result column="avg_science_score"         property="avgScienceScore" jdbcType="DECIMAL"/>
+		<result column="avg_politics_score"        property="avgPoliticsScore" jdbcType="DECIMAL"/>
+		<result column="avg_history_score"         property="avgHistoryScore" jdbcType="DECIMAL"/>
+		<result column="avg_moral_score"           property="avgMoralScore" jdbcType="DECIMAL"/>
+		<result column="avg_history_society_score" property="avgHistorySocietyScore" jdbcType="DECIMAL"/>
+		<result column="avg_quality_society_score" property="avgQualitySocietyScore" jdbcType="DECIMAL"/>
+		<result column="avg_quality_life_score"    property="avgQualityLifeScore" jdbcType="DECIMAL"/>
+		<result column="avg_painting_score"        property="avgPaintingScore" jdbcType="DECIMAL"/>
+		<result column="avg_art_score"             property="avgArtScore" jdbcType="DECIMAL"/>
+		<result column="avg_music_score"           property="avgMusicScore" jdbcType="DECIMAL"/>
+		<result column="avg_sports_score"          property="avgSportsScore" jdbcType="DECIMAL"/>
+		<result column="min_total_score"           property="minTotalScore" jdbcType="DECIMAL"/>
+		<result column="min_chinese_score"         property="minChineseScore" jdbcType="DECIMAL"/>
+		<result column="min_math_score"            property="minMathScore" jdbcType="DECIMAL"/>
+		<result column="min_english_score"         property="minEnglishScore" jdbcType="DECIMAL"/>
+		<result column="min_physical_score"        property="minPhysicalScore" jdbcType="DECIMAL"/>
+		<result column="min_chemical_score"        property="minChemicalScore" jdbcType="DECIMAL"/>
+		<result column="min_biology_score"         property="minBiologyScore" jdbcType="DECIMAL"/>
+		<result column="min_geography_score"       property="minGeographyScore" jdbcType="DECIMAL"/>
+		<result column="min_science_score"         property="minScienceScore" jdbcType="DECIMAL"/>
+		<result column="min_politics_score"        property="minPoliticsScore" jdbcType="DECIMAL"/>
+		<result column="min_history_score"         property="minHistoryScore" jdbcType="DECIMAL"/>
+		<result column="min_moral_score"           property="minMoralScore" jdbcType="DECIMAL"/>
+		<result column="min_history_society_score" property="minHistorySocietyScore" jdbcType="DECIMAL"/>
+		<result column="min_quality_society_score" property="minQualitySocietyScore" jdbcType="DECIMAL"/>
+		<result column="min_quality_life_score"    property="minQualityLifeScore" jdbcType="DECIMAL"/>
+		<result column="min_painting_score"        property="minPaintingScore" jdbcType="DECIMAL"/>
+		<result column="min_art_score"             property="minArtScore" jdbcType="DECIMAL"/>
+		<result column="min_music_score"           property="minMusicScore" jdbcType="DECIMAL"/>
+		<result column="min_sports_score"          property="minSportsScore" jdbcType="DECIMAL"/>
+	</resultMap>
+	
+	<resultMap id="ReaultMapVO" type="com.jy.moudles.score.entity.ScoreVO">
+		<result column="subject" property="subject" jdbcType="VARCHAR"/>
+		<result column="fullMarks" property="full_marks" jdbcType="TINYINT"/>
+	</resultMap>
+    
+    <sql id="Base_Column_List">
+        s.id, s.exam_id, s.student_id, stu.student_no, stu.student_name, s.classroom_id, s.org_id, s.school_id, s.total_score, s.detail_score, s.chinese_score, s.math_score, s.english_score, s.physical_score, s.chemical_score, s.biology_score, s.geography_score, s.science_score, s.politics_score, s.history_score, s.moral_score, s.history_society_score, s.quality_society_score, s.quality_life_score, s.painting_score, s.art_score, s.music_score, s.sports_score, s.subject1_score, s.subject2_score, s.subject3_score, s.subject4_score, s.subject5_score, s.create_user, s.create_date, s.update_user, s.update_date
+    </sql>
+    
+	<sql id="Base_Column_ListNew">
+        s.id, s.exam_id, s.student_id, s.classroom_id, s.org_id, s.school_id, s.total_score, s.detail_score, s.chinese_score, s.math_score, s.english_score, s.physical_score, s.chemical_score, s.biology_score, s.geography_score, s.science_score, s.politics_score, s.history_score, s.moral_score, s.history_society_score, s.quality_society_score, s.quality_life_score, s.painting_score, s.art_score, s.music_score, s.sports_score, s.subject1_score, s.subject2_score, s.subject3_score, s.subject4_score, s.subject5_score, s.create_user, s.create_date, s.update_user, s.update_date
+    </sql>
+	<sql id="Get_Column_List">
+        s.id, s.exam_id, s.student_id, stu.student_name, s.classroom_id, s.org_id, s.school_id, s.total_score, s.detail_score, s.chinese_score, s.math_score, s.english_score, s.physical_score, s.chemical_score, s.biology_score, s.geography_score, s.science_score, s.politics_score, s.history_score, s.moral_score, s.history_society_score, s.quality_society_score, s.quality_life_score, s.painting_score, s.art_score, s.music_score, s.sports_score, s.subject1_score, s.subject2_score, s.subject3_score, s.subject4_score, s.subject5_score, s.create_user, s.create_date, s.update_user, s.update_date
+	</sql>
+
+    <insert id="insertScore">
+        INSERT INTO JY_SCORE
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+				<if test="examId != null">exam_id,</if>
+				<if test="studentId != null">student_id,</if>
+				<if test="classroomId != null">classroom_id,</if>
+				<if test="orgId != null">org_id,</if>
+				<if test="schoolId != null">school_id,</if>
+				<if test="totalScore != null">total_score,</if>
+				<if test="detailScore != null">detail_score,</if>
+				<if test="chineseScore != null">chinese_score,</if>
+				<if test="mathScore != null">math_score,</if>
+				<if test="englishScore != null">english_score,</if>
+				<if test="physicalScore != null">physical_score,</if>
+				<if test="chemicalScore != null">chemical_score,</if>
+				<if test="biologyScore != null">biology_score,</if>
+				<if test="geographyScore != null">geography_score,</if>
+				<if test="scienceScore != null">science_score,</if>
+				<if test="politicsScore != null">politics_score,</if>
+				<if test="historyScore != null">history_score,</if>
+				<if test="moralScore != null">moral_score,</if>
+				<if test="historySocietyScore != null">history_society_score,</if>
+				<if test="qualitySocietyScore != null">quality_society_score,</if>
+				<if test="qualityLifeScore != null">quality_life_score,</if>
+				<if test="paintingScore != null">painting_score,</if>
+				<if test="artScore != null">art_score,</if>
+				<if test="musicScore != null">music_score,</if>
+				<if test="sportsScore != null">sports_score,</if>
+				<if test="subject1Score != null">subject1_score,</if>
+				<if test="subject2Score != null">subject2_score,</if>
+				<if test="subject3Score != null">subject3_score,</if>
+				<if test="subject4Score != null">subject4_score,</if>
+				<if test="subject5Score != null">subject5_score,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateDate != null">update_date,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+				<if test="examId != null">#{examId},</if>
+				<if test="studentId != null">#{studentId},</if>
+				<if test="classroomId != null">#{classroomId},</if>
+				<if test="orgId != null">#{orgId},</if>
+				<if test="schoolId != null">#{schoolId},</if>
+				<if test="totalScore != null">#{totalScore},</if>
+				<if test="detailScore != null">#{detailScore},</if>
+				<if test="chineseScore != null">#{chineseScore},</if>
+				<if test="mathScore != null">#{mathScore},</if>
+				<if test="englishScore != null">#{englishScore},</if>
+				<if test="physicalScore != null">#{physicalScore},</if>
+				<if test="chemicalScore != null">#{chemicalScore},</if>
+				<if test="biologyScore != null">#{biologyScore},</if>
+				<if test="geographyScore != null">#{geographyScore},</if>
+				<if test="scienceScore != null">#{scienceScore},</if>
+				<if test="politicsScore != null">#{politicsScore},</if>
+				<if test="historyScore != null">#{historyScore},</if>
+				<if test="moralScore != null">#{moralScore},</if>
+				<if test="historySocietyScore != null">#{historySocietyScore},</if>
+				<if test="qualitySocietyScore != null">#{qualitySocietyScore},</if>
+				<if test="qualityLifeScore != null">#{qualityLifeScore},</if>
+				<if test="paintingScore != null">#{paintingScore},</if>
+				<if test="artScore != null">#{artScore},</if>
+				<if test="musicScore != null">#{musicScore},</if>
+				<if test="sportsScore != null">#{sportsScore},</if>
+				<if test="subject1Score != null">#{subject1Score},</if>
+				<if test="subject2Score != null">#{subject2Score},</if>
+				<if test="subject3Score != null">#{subject3Score},</if>
+				<if test="subject4Score != null">#{subject4Score},</if>
+				<if test="subject5Score != null">#{subject5Score},</if>
+            <if test="createUser != null">#{createUser,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">#{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateUser != null">#{updateUser,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">#{updateDate,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+    
+    <update id="updateScore">
+        update JY_SCORE
+        <set>
+				<if test="examId != null and '' != examId">
+				exam_id = #{examId},
+				</if>
+				<if test="studentId != null and '' != studentId">
+				student_id = #{studentId},
+				</if>
+				<if test="classroomId != null and '' != classroomId">
+				classroom_id = #{classroomId},
+				</if>
+				<if test="orgId != null and '' != orgId">
+				org_id = #{orgId},
+				</if>
+				<if test="schoolId != null and '' != schoolId">
+				school_id = #{schoolId},
+				</if>
+				<if test="totalScore != null and '' != totalScore">
+				total_score = #{totalScore},
+				</if>
+				<if test="detailScore != null and '' != detailScore">
+				detail_score = #{detailScore},
+				</if>
+				<if test="chineseScore != null and '' != chineseScore">
+				chinese_score = #{chineseScore},
+				</if>
+				<if test="mathScore != null and '' != mathScore">
+				math_score = #{mathScore},
+				</if>
+				<if test="englishScore != null and '' != englishScore">
+				english_score = #{englishScore},
+				</if>
+				<if test="physicalScore != null and '' != physicalScore">
+				physical_score = #{physicalScore},
+				</if>
+				<if test="chemicalScore != null and '' != chemicalScore">
+				chemical_score = #{chemicalScore},
+				</if>
+				<if test="biologyScore != null and '' != biologyScore">
+				biology_score = #{biologyScore},
+				</if>
+				<if test="geographyScore != null and '' != geographyScore">
+				geography_score = #{geographyScore},
+				</if>
+				<if test="scienceScore != null and '' != scienceScore">
+				science_score = #{scienceScore},
+				</if>
+				<if test="politicsScore != null and '' != politicsScore">
+				politics_score = #{politicsScore},
+				</if>
+				<if test="historyScore != null and '' != historyScore">
+				history_score = #{historyScore},
+				</if>
+				<if test="moralScore != null and '' != moralScore">
+				moral_score = #{moralScore},
+				</if>
+				<if test="historySocietyScore != null and '' != historySocietyScore">
+				history_society_score = #{historySocietyScore},
+				</if>
+				<if test="qualitySocietyScore != null and '' != qualitySocietyScore">
+				quality_society_score = #{qualitySocietyScore},
+				</if>
+				<if test="qualityLifeScore != null and '' != qualityLifeScore">
+				quality_life_score = #{qualityLifeScore},
+				</if>
+				<if test="paintingScore != null and '' != paintingScore">
+				painting_score = #{paintingScore},
+				</if>
+				<if test="artScore != null and '' != artScore">
+				art_score = #{artScore},
+				</if>
+				<if test="musicScore != null and '' != musicScore">
+				music_score = #{musicScore},
+				</if>
+				<if test="sportsScore != null and '' != sportsScore">
+				sports_score = #{sportsScore},
+				</if>
+				<if test="subject1Score != null and '' != subject1Score">
+				subject1_score = #{subject1Score},
+				</if>
+				<if test="subject2Score != null and '' != subject2Score">
+				subject2_score = #{subject2Score},
+				</if>
+				<if test="subject3Score != null and '' != subject3Score">
+				subject3_score = #{subject3Score},
+				</if>
+				<if test="subject4Score != null and '' != subject4Score">
+				subject4_score = #{subject4Score},
+				</if>
+				<if test="subject5Score != null and '' != subject5Score">
+				subject5_score = #{subject5Score},
+				</if>
+            <if test="createUser != null and ''!=createUser">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null and ''!=createDate">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null and ''!=updateUser">
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null  and ''!=updateDate">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <select id="getScoreById" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		from `JY_SCORE` s
+		LEFT JOIN jy_student stu
+		ON s.student_id = stu.id
+		WHERE s.id = #{id}
+    </select>
+    
+    <select id="getExamFullMarks" resultMap="ReaultMapVO">
+		SELECT subject_code as subject,SUM(item_score) as full_marks
+		FROM `jy_exam_specification_relation` es
+		LEFT JOIN `jy_two_way_specification` s ON es.sp_id = s.id
+		LEFT JOIN `jy_two_way_specification_detail` sd ON es.sp_id = sd.parent_id
+		where es.exam_id = #{examId}
+		group by es.sp_id
+    </select>
+
+    <select id="getExactScore" resultType="BigDecimal">
+		SELECT
+		${columnName}
+		from `JY_SCORE` s
+		WHERE 1=1
+		<if test="orgId != null and '' != orgId">
+			AND s.org_id = #{orgId}
+		</if>
+		<if test="examId != null and '' != examId">
+			AND s.exam_id = #{examId}
+		</if>
+		<if test="studentId != null and '' != studentId">
+			AND s.student_id = #{studentId}
+		</if>
+		<if test="classroomId != null and '' != classroomId">
+			AND s.classroom_id = #{classroomId}
+		</if>
+		<if test="schoolId != null and '' != schoolId">
+			AND s.school_id = #{schoolId}
+		</if>
+		<if test="sort != null and '' != sort">
+			ORDER BY  ${sort}
+			<if test="sortType != null and '' != sortType">
+				${sortType}
+			</if>
+		</if>
+		<if test="recordNum!= null and '' != recordNum">
+			limit ${recordNum}
+		</if>
+    </select>
+
+    <select id="getScoresByInterval" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Get_Column_List"/>
+		from `JY_SCORE` s
+		LEFT JOIN jy_student stu
+		ON s.student_id = stu.id
+		WHERE s.exam_id = #{examId}
+		AND s.classroom_id = #{classroomId}
+		AND ${subjectDbScoreType} &gt;= #{startScore}
+		<if test="flag==false">
+			AND ${subjectDbScoreType} &lt; #{endScore}
+		</if>
+		<if test="flag==true">
+			AND ${subjectDbScoreType} &lt;= #{endScore}
+		</if>
+		ORDER BY ${subjectDbScoreType} DESC
+    </select>
+
+    <select id="getScoreByExamIdAndStuId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_SCORE` s
+		LEFT JOIN jy_student stu
+		ON s.student_id = stu.id
+        WHERE s.exam_id = #{examId} and s.student_id = #{studentId}
+    </select>
+    
+    <select id="getScoreByExamIdAndStuIdNew" resultMap="BaseResultMap">
+        SELECT
+        	<if test="examId1 != null">
+        		s.exam_id,
+        	</if>
+        	id
+        from `JY_SCORE` s
+        WHERE s.exam_id = #{examId} and s.student_id = #{studentId}
+    </select>
+
+   <select id="getScoresByClassroom" resultMap="BaseResultMap">
+        SELECT distinct s.*
+		FROM jy_score s
+		left join jy_student stu on s.org_id = stu.org_id
+		where
+		s.org_id = #{orgId}
+		and s.exam_id = #{examId}
+		and stu.classroom_id = #{classroomId}
+		ORDER BY total_score desc
+    </select>
+
+	<select id="getProcessedScores" resultMap="GetResultMap">
+        select
+		max(total_score) as top_total_score,
+        max(chinese_score) as top_chinese_score,
+        max(math_score) as top_math_score,
+        max(english_score) as top_english_score,
+        max(physical_score) as top_physical_score,
+        max(chemical_score) as top_chemical_score,
+        max(biology_score) as top_biology_score,
+        max(geography_score) as top_geography_score,
+        max(science_score) as top_science_score,
+        max(politics_score) as top_politics_score,
+        max(history_score) as top_history_score,
+        max(history_society_score) as top_history_society_score,
+        max(quality_society_score) as top_quality_society_score,
+        max(quality_life_score) as top_quality_life_score,
+        max(painting_score) as top_painting_score,
+        max(art_score) as top_art_score,
+        max(music_score) as top_music_score,
+        max(sports_score) as top_sports_score,
+        cast(avg(total_score) as decimal(10,2)) as avg_total_score,
+		cast(avg(chinese_score) as decimal(10,2)) as avg_chinese_score,
+		cast(avg(math_score) as decimal(10,2)) as avg_math_score,
+		cast(avg(english_score) as decimal(10,2)) as avg_english_score,
+		cast(avg(physical_score) as decimal(10,2)) as avg_physical_score,
+		cast(avg(chemical_score) as decimal(10,2)) as avg_chemical_score,
+		cast(avg(biology_score) as decimal(10,2)) as avg_biology_score,
+		cast(avg(geography_score) as decimal(10,2)) as avg_geography_score,
+		cast(avg(science_score) as decimal(10,2)) as avg_science_score,
+		cast(avg(politics_score) as decimal(10,2)) as avg_politics_score,
+		cast(avg(history_score) as decimal(10,2)) as avg_history_score,
+		cast(avg(history_society_score) as decimal(10,2)) as avg_history_society_score,
+		cast(avg(quality_society_score) as decimal(10,2)) as avg_quality_society_score,
+		cast(avg(quality_life_score) as decimal(10,2)) as avg_quality_life_score,
+		cast(avg(painting_score) as decimal(10,2)) as avg_painting_score,
+		cast(avg(art_score) as decimal(10,2)) as avg_art_score,
+		cast(avg(music_score) as decimal(10,2)) as avg_music_score,
+		cast(avg(sports_score) as decimal(10,2)) as avg_sports_score,
+		cast(min(total_score) as decimal(10,2)) as min_total_score,
+		cast(min(chinese_score) as decimal(10,2)) as min_chinese_score,
+		cast(min(math_score) as decimal(10,2)) as min_math_score,
+		cast(min(english_score) as decimal(10,2)) as min_english_score,
+		cast(min(physical_score) as decimal(10,2)) as min_physical_score,
+		cast(min(chemical_score) as decimal(10,2)) as min_chemical_score,
+		cast(min(biology_score) as decimal(10,2)) as min_biology_score,
+		cast(min(geography_score) as decimal(10,2)) as min_geography_score,
+		cast(min(science_score) as decimal(10,2)) as min_science_score,
+		cast(min(politics_score) as decimal(10,2)) as min_politics_score,
+		cast(min(history_score) as decimal(10,2)) as min_history_score,
+		cast(min(history_society_score) as decimal(10,2)) as min_history_society_score,
+		cast(min(quality_society_score) as decimal(10,2)) as min_quality_society_score,
+		cast(min(quality_life_score) as decimal(10,2)) as min_quality_life_score,
+		cast(min(painting_score) as decimal(10,2)) as min_painting_score,
+		cast(min(art_score) as decimal(10,2)) as min_art_score,
+		cast(min(music_score) as decimal(10,2)) as min_music_score,
+		cast(min(sports_score) as decimal(10,2)) as min_sports_score
+		from jy_score s
+		left join `JY_ORGANIZATION` o ON s.org_id = o.id
+		where 1=1
+		<if test="regionCode !=null and ''!= regionCode">
+			and o.region_code = #{regionCode}
+		</if>
+		<if test="orgId !=null and ''!= orgId">
+			and s.org_id = #{orgId}
+		</if>
+		<if test="examId !=null and ''!= examId">
+			and s.exam_id = #{examId}
+		</if>
+		<if test="classroomId !=null and ''!= classroomId">
+			and classroom_id = #{classroomId}
+		</if>
+		ORDER BY total_score desc
+    </select>
+
+	<select id="getProcessedScoresForClasses" resultMap="GetResultMap">
+        select
+		s.classroom_id,
+		c.classroom_name,
+		t.teacher_name as class_teacher_name,
+		max(total_score) as top_total_score,
+        max(chinese_score) as top_chinese_score,
+        max(math_score) as top_math_score,
+        max(english_score) as top_english_score,
+        max(physical_score) as top_physical_score,
+        max(chemical_score) as top_chemical_score,
+        max(biology_score) as top_biology_score,
+        max(geography_score) as top_geography_score,
+        max(science_score) as top_science_score,
+        max(politics_score) as top_politics_score,
+        max(history_score) as top_history_score,
+        max(history_society_score) as top_history_society_score,
+        max(quality_society_score) as top_quality_society_score,
+        max(quality_life_score) as top_quality_life_score,
+        max(painting_score) as top_painting_score,
+        max(art_score) as top_art_score,
+        max(music_score) as top_music_score,
+        max(sports_score) as top_sports_score,
+        cast(avg(total_score) as decimal(10,2)) as avg_total_score,
+		cast(avg(chinese_score) as decimal(10,2)) as avg_chinese_score,
+		cast(avg(math_score) as decimal(10,2)) as avg_math_score,
+		cast(avg(english_score) as decimal(10,2)) as avg_english_score,
+		cast(avg(physical_score) as decimal(10,2)) as avg_physical_score,
+		cast(avg(chemical_score) as decimal(10,2)) as avg_chemical_score,
+		cast(avg(biology_score) as decimal(10,2)) as avg_biology_score,
+		cast(avg(geography_score) as decimal(10,2)) as avg_geography_score,
+		cast(avg(science_score) as decimal(10,2)) as avg_science_score,
+		cast(avg(politics_score) as decimal(10,2)) as avg_politics_score,
+		cast(avg(history_score) as decimal(10,2)) as avg_history_score,
+		cast(avg(history_society_score) as decimal(10,2)) as avg_history_society_score,
+		cast(avg(quality_society_score) as decimal(10,2)) as avg_quality_society_score,
+		cast(avg(quality_life_score) as decimal(10,2)) as avg_quality_life_score,
+		cast(avg(painting_score) as decimal(10,2)) as avg_painting_score,
+		cast(avg(art_score) as decimal(10,2)) as avg_art_score,
+		cast(avg(music_score) as decimal(10,2)) as avg_music_score,
+		cast(avg(sports_score) as decimal(10,2)) as avg_sports_score,
+		cast(min(total_score) as decimal(10,2)) as min_total_score,
+		cast(min(chinese_score) as decimal(10,2)) as min_chinese_score,
+		cast(min(math_score) as decimal(10,2)) as min_math_score,
+		cast(min(english_score) as decimal(10,2)) as min_english_score,
+		cast(min(physical_score) as decimal(10,2)) as min_physical_score,
+		cast(min(chemical_score) as decimal(10,2)) as min_chemical_score,
+		cast(min(biology_score) as decimal(10,2)) as min_biology_score,
+		cast(min(geography_score) as decimal(10,2)) as min_geography_score,
+		cast(min(science_score) as decimal(10,2)) as min_science_score,
+		cast(min(politics_score) as decimal(10,2)) as min_politics_score,
+		cast(min(history_score) as decimal(10,2)) as min_history_score,
+		cast(min(history_society_score) as decimal(10,2)) as min_history_society_score,
+		cast(min(quality_society_score) as decimal(10,2)) as min_quality_society_score,
+		cast(min(quality_life_score) as decimal(10,2)) as min_quality_life_score,
+		cast(min(painting_score) as decimal(10,2)) as min_painting_score,
+		cast(min(art_score) as decimal(10,2)) as min_art_score,
+		cast(min(music_score) as decimal(10,2)) as min_music_score,
+		cast(min(sports_score) as decimal(10,2)) as min_sports_score
+		from jy_score s
+		left join `JY_ORGANIZATION` o ON s.org_id = o.id
+		LEFT JOIN `JY_CLASSROOM` c ON s.classroom_id = c.id
+		LEFT JOIN `JY_TEACHER` t ON c.class_teacher_id = t.id
+		where 1=1
+		<if test="regionCode !=null and ''!= regionCode">
+			and o.region_code = #{regionCode}
+		</if>
+		<if test="orgId !=null and ''!= orgId">
+			and s.org_id = #{orgId}
+		</if>
+		<if test="examId !=null and ''!= examId">
+			and s.exam_id = #{examId}
+		</if>
+		<if test="classroomId !=null and ''!= classroomId">
+			and classroom_id = #{classroomId}
+		</if>
+		group by classroom_id
+		<if test="subjectDbScoreType !=null and ''!= subjectDbScoreType">
+			ORDER BY ${subjectDbScoreType} DESC
+		</if>
+    </select>
+	
+	<select id="queryScoresFilterNew" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_ListNew"/>
+        from `JY_SCORE` s
+        WHERE 1 = 1
+			<if test="orgId != null and '' != orgId">
+				AND s.org_id = #{orgId}
+			</if>
+			<if test="examId != null and '' != examId">
+				AND s.exam_id = #{examId}
+			</if>
+			<if test="studentId != null and '' != studentId">
+				AND s.student_id = #{studentId}
+			</if>
+			<if test="classroomId != null and '' != classroomId">
+				AND s.classroom_id = #{classroomId}
+			</if>
+			<if test="schoolId != null and '' != schoolId">
+				AND s.school_id = #{schoolId}
+			</if>
+			<if test="totalScore != null and '' != totalScore">
+				AND s.total_score = #{totalScore}
+			</if>
+			<if test="detailScore != null and '' != detailScore">
+				AND s.detail_score = #{detailScore}
+			</if>
+			<if test="chineseScore != null and '' != chineseScore">
+				AND s.chinese_score = #{chineseScore}
+			</if>
+			<if test="mathScore != null and '' != mathScore">
+				AND s.math_score = #{mathScore}
+			</if>
+			<if test="englishScore != null and '' != englishScore">
+				AND s.english_score = #{englishScore}
+			</if>
+			<if test="physicalScore != null and '' != physicalScore">
+				AND s.physical_score = #{physicalScore}
+			</if>
+			<if test="chemicalScore != null and '' != chemicalScore">
+				AND s.chemical_score = #{chemicalScore}
+			</if>
+			<if test="biologyScore != null and '' != biologyScore">
+				AND s.biology_score = #{biologyScore}
+			</if>
+			<if test="geographyScore != null and '' != geographyScore">
+				AND s.geography_score = #{geographyScore}
+			</if>
+			<if test="scienceScore != null and '' != scienceScore">
+				AND s.science_score = #{scienceScore}
+			</if>
+			<if test="politicsScore != null and '' != politicsScore">
+				AND s.politics_score = #{politicsScore}
+			</if>
+			<if test="historyScore != null and '' != historyScore">
+				AND s.history_score = #{historyScore}
+			</if>
+			<if test="moralScore != null and '' != moralScore">
+				AND s.moral_score = #{moralScore}
+			</if>
+			<if test="historySocietyScore != null and '' != historySocietyScore">
+				AND s.history_society_score = #{historySocietyScore}
+			</if>
+			<if test="qualitySocietyScore != null and '' != qualitySocietyScore">
+				AND s.quality_society_score = #{qualitySocietyScore}
+			</if>
+			<if test="qualityLifeScore != null and '' != qualityLifeScore">
+				AND s.quality_life_score = #{qualityLifeScore}
+			</if>
+			<if test="paintingScore != null and '' != paintingScore">
+				AND s.painting_score = #{paintingScore}
+			</if>
+			<if test="artScore != null and '' != artScore">
+				AND s.art_score = #{artScore}
+			</if>
+			<if test="musicScore != null and '' != musicScore">
+				AND s.music_score = #{musicScore}
+			</if>
+			<if test="sportsScore != null and '' != sportsScore">
+				AND s.sports_score = #{sportsScore}
+			</if>
+			<if test="subject1Score != null and '' != subject1Score">
+				AND s.subject1_score = #{subject1Score}
+			</if>
+			<if test="subject2Score != null and '' != subject2Score">
+				AND s.subject2_score = #{subject2Score}
+			</if>
+			<if test="subject3Score != null and '' != subject3Score">
+				AND s.subject3_score = #{subject3Score}
+			</if>
+			<if test="subject4Score != null and '' != subject4Score">
+				AND s.subject4_score = #{subject4Score}
+			</if>
+			<if test="subject5Score != null and '' != subject5Score">
+				AND s.subject5_score = #{subject5Score}
+			</if>
+		<if test="sort != null and '' != sort">
+			ORDER BY  ${sort}
+			<if test="sortType != null and '' != sortType">
+				${sortType}
+			</if>
+		</if>
+		<if test="type != null and type != ''">
+			limit 0,#{type}
+		</if>
+    </select>
+
+	<select id="getSubjScoresByExamIds" resultMap="BaseResultMap">
+		SELECT
+		<if test="totalScore1 != null">s.total_score,</if>
+		<if test="detailScore1 != null">s.detail_score,</if>
+		<if test="chineseScore1 != null">s.chinese_score,</if>
+		<if test="mathScore1 != null">s.math_score,</if>
+		<if test="englishScore1 != null">s.english_score,</if>
+		<if test="physicalScore1 != null">s.physical_score,</if>
+		<if test="chemicalScore1 != null">s.chemical_score,</if>
+		<if test="biologyScore1 != null">s.biology_score,</if>
+		<if test="geographyScore1 != null">s.geography_score,</if>
+		<if test="scienceScore1 != null">s.science_score,</if>
+		<if test="politicsScore1 != null">s.politics_score,</if>
+		<if test="historyScore1 != null">s.history_score,</if>
+		<if test="moralScore1 != null">s.moral_score,</if>
+		<if test="historySocietyScore1 != null">s.history_society_score,</if>
+		<if test="qualitySocietyScore1 != null">s.quality_society_score,</if>
+		<if test="qualityLifeScore1 != null">s.quality_life_score,</if>
+		<if test="paintingScore1 != null">s.painting_score,</if>
+		<if test="artScore1 != null">s.art_score,</if>
+		<if test="musicScore1 != null">s.music_score,</if>
+		<if test="sportsScore1 != null">s.sports_score,</if>
+		exam_id, classroom_id, student_id
+		FROM jy_score s WHERE exam_id IN
+		<foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+		#{item.id,jdbcType=VARCHAR}
+		</foreach>
+	</select>
+	
+    <select id="queryScoresFilterNewOne" resultMap="BaseResultMap">
+        SELECT
+		<if test="examId1 != null">s.exam_id,</if>
+		<if test="classroomName1 != null">b.classroom_name,</if>
+		<if test="studentId1 != null">s.student_id,</if>
+		<if test="classroomId1 != null">s.classroom_id,</if>
+		<if test="orgId1 != null">s.org_id,</if>
+		<if test="schoolId1 != null">s.school_id,</if>
+		<if test="totalScore1 != null">s.total_score,</if>
+		<if test="detailScore1 != null">s.detail_score,</if>
+		<if test="chineseScore1 != null">s.chinese_score,</if>
+		<if test="mathScore1 != null">s.math_score,</if>
+		<if test="englishScore1 != null">s.english_score,</if>
+		<if test="physicalScore1 != null">s.physical_score,</if>
+		<if test="chemicalScore1 != null">s.chemical_score,</if>
+		<if test="biologyScore1 != null">s.biology_score,</if>
+		<if test="geographyScore1 != null">s.geography_score,</if>
+		<if test="scienceScore1 != null">s.science_score,</if>
+		<if test="politicsScore1 != null">s.politics_score,</if>
+		<if test="historyScore1 != null">s.history_score,</if>
+		<if test="moralScore1 != null">s.moral_score,</if>
+		<if test="historySocietyScore1 != null">s.history_society_score,</if>
+		<if test="qualitySocietyScore1 != null">s.quality_society_score,</if>
+		<if test="qualityLifeScore1 != null">s.quality_life_score,</if>
+		<if test="paintingScore1 != null">s.painting_score,</if>
+		<if test="artScore1 != null">s.art_score,</if>
+		<if test="musicScore1 != null">s.music_score,</if>
+		<if test="sportsScore1 != null">s.sports_score,</if>
+		<if test="studentName1 != null">c.student_name,</if>
+		<if test="studentNo1 != null">c.student_no,</if>
+		s.id
+        from `JY_SCORE` s
+        <if test="classroomName1 != null">
+			LEFT JOIN jy_classroom b ON s.classroom_id = b.id        
+        </if>
+        <if test="studentName1 != null || studentNo1 != null">
+			LEFT JOIN jy_student c ON s.student_id = c.id        
+        </if>
+         <if test="regionCode != null || regionCode != null">
+			LEFT JOIN `JY_ORGANIZATION` o ON s.org_id = o.id
+        </if>
+        WHERE 1 = 1
+			<if test="regionCode != null and '' != regionCode">
+				AND o.region_code = #{regionCode}
+			</if>
+			<if test="orgId != null and '' != orgId">
+				AND s.org_id = #{orgId}
+			</if>
+			<if test="examId != null and '' != examId">
+				AND s.exam_id = #{examId}
+			</if>
+			<if test="studentId != null and '' != studentId">
+				AND s.student_id = #{studentId}
+			</if>
+			<if test="classroomId != null and '' != classroomId">
+				AND s.classroom_id = #{classroomId}
+			</if>
+			<if test="schoolId != null and '' != schoolId">
+				AND s.school_id = #{schoolId}
+			</if>
+			<if test="totalScore != null and '' != totalScore">
+				AND s.total_score = #{totalScore}
+			</if>
+			<if test="detailScore != null and '' != detailScore">
+				AND s.detail_score = #{detailScore}
+			</if>
+			<if test="chineseScore != null and '' != chineseScore">
+				AND s.chinese_score = #{chineseScore}
+			</if>
+			<if test="mathScore != null and '' != mathScore">
+				AND s.math_score = #{mathScore}
+			</if>
+			<if test="englishScore != null and '' != englishScore">
+				AND s.english_score = #{englishScore}
+			</if>
+			<if test="physicalScore != null and '' != physicalScore">
+				AND s.physical_score = #{physicalScore}
+			</if>
+			<if test="chemicalScore != null and '' != chemicalScore">
+				AND s.chemical_score = #{chemicalScore}
+			</if>
+			<if test="biologyScore != null and '' != biologyScore">
+				AND s.biology_score = #{biologyScore}
+			</if>
+			<if test="geographyScore != null and '' != geographyScore">
+				AND s.geography_score = #{geographyScore}
+			</if>
+			<if test="scienceScore != null and '' != scienceScore">
+				AND s.science_score = #{scienceScore}
+			</if>
+			<if test="politicsScore != null and '' != politicsScore">
+				AND s.politics_score = #{politicsScore}
+			</if>
+			<if test="historyScore != null and '' != historyScore">
+				AND s.history_score = #{historyScore}
+			</if>
+			<if test="moralScore != null and '' != moralScore">
+				AND s.moral_score = #{moralScore}
+			</if>
+			<if test="historySocietyScore != null and '' != historySocietyScore">
+				AND s.history_society_score = #{historySocietyScore}
+			</if>
+			<if test="qualitySocietyScore != null and '' != qualitySocietyScore">
+				AND s.quality_society_score = #{qualitySocietyScore}
+			</if>
+			<if test="qualityLifeScore != null and '' != qualityLifeScore">
+				AND s.quality_life_score = #{qualityLifeScore}
+			</if>
+			<if test="paintingScore != null and '' != paintingScore">
+				AND s.painting_score = #{paintingScore}
+			</if>
+			<if test="artScore != null and '' != artScore">
+				AND s.art_score = #{artScore}
+			</if>
+			<if test="musicScore != null and '' != musicScore">
+				AND s.music_score = #{musicScore}
+			</if>
+			<if test="sportsScore != null and '' != sportsScore">
+				AND s.sports_score = #{sportsScore}
+			</if>
+			<if test="subject1Score != null and '' != subject1Score">
+				AND s.subject1_score = #{subject1Score}
+			</if>
+			<if test="subject2Score != null and '' != subject2Score">
+				AND s.subject2_score = #{subject2Score}
+			</if>
+			<if test="subject3Score != null and '' != subject3Score">
+				AND s.subject3_score = #{subject3Score}
+			</if>
+			<if test="subject4Score != null and '' != subject4Score">
+				AND s.subject4_score = #{subject4Score}
+			</if>
+			<if test="subject5Score != null and '' != subject5Score">
+				AND s.subject5_score = #{subject5Score}
+			</if>
+		<if test="sort != null and '' != sort">
+			ORDER BY  ${sort}
+			<if test="sortType != null and '' != sortType">
+				${sortType}
+			</if>
+		</if>
+		<if test="type != null and type != ''">
+			limit 0,#{type}
+		</if>
+    </select>
+    <!-- 优化 -->
+	<select id="queryScoresFilterNewTwo" resultMap="BaseResultMap">
+		SELECT 
+			<if test="examId1 != null">c.exam_id,</if>
+			<if test="studentId1 != null">c.student_id,</if>
+			<if test="classroomId1 != null">c.classroom_id,</if>
+			<if test="orgId1 != null">c.org_id,</if>
+			<if test="schoolId1 != null">c.school_id,</if>
+			<if test="totalScore1 != null">c.total_score,</if>
+			<if test="detailScore1 != null">c.detail_score,</if>
+			<if test="chineseScore1 != null">c.chinese_score,</if>
+			<if test="mathScore1 != null">c.math_score,</if>
+			<if test="englishScore1 != null">c.english_score,</if>
+			<if test="physicalScore1 != null">c.physical_score,</if>
+			<if test="chemicalScore1 != null">c.chemical_score,</if>
+			<if test="biologyScore1 != null">c.biology_score,</if>
+			<if test="geographyScore1 != null">c.geography_score,</if>
+			<if test="scienceScore1 != null">c.science_score,</if>
+			<if test="politicsScore1 != null">c.politics_score,</if>
+			<if test="historyScore1 != null">c.history_score,</if>
+			<if test="moralScore1 != null">c.moral_score,</if>
+			<if test="historySocietyScore1 != null">c.history_society_score,</if>
+			<if test="qualitySocietyScore1 != null">c.quality_society_score,</if>
+			<if test="qualityLifeScore1 != null">c.quality_life_score,</if>
+			<if test="paintingScore1 != null">c.painting_score,</if>
+			<if test="artScore1 != null">c.art_score,</if>
+			<if test="musicScore1 != null">c.music_score,</if>
+			<if test="sportsScore1 != null">c.sports_score,</if>
+			<if test="studentNo1 != null">c.student_no,</if>
+			c.id
+		FROM
+			jy_score c
+			WHERE
+			exists(
+				SELECT
+					s.id
+				FROM
+				jy_score s
+				WHERE
+				1=1
+				<if test="orgId != null and '' != orgId">
+				AND s.org_id = #{orgId}
+				</if>
+				<if test="examId != null and '' != examId">
+					AND s.exam_id = #{examId}
+				</if>
+				<if test="studentId != null and '' != studentId">
+					AND s.student_id = #{studentId}
+				</if>
+				<if test="classroomId != null and '' != classroomId">
+					AND s.classroom_id = #{classroomId}
+				</if>
+				<if test="schoolId != null and '' != schoolId">
+					AND s.school_id = #{schoolId}
+				</if>
+				<if test="totalScore != null and '' != totalScore">
+					AND s.total_score = #{totalScore}
+				</if>
+				<if test="detailScore != null and '' != detailScore">
+					AND s.detail_score = #{detailScore}
+				</if>
+				<if test="chineseScore != null and '' != chineseScore">
+					AND s.chinese_score = #{chineseScore}
+				</if>
+				<if test="mathScore != null and '' != mathScore">
+					AND s.math_score = #{mathScore}
+				</if>
+				<if test="englishScore != null and '' != englishScore">
+					AND s.english_score = #{englishScore}
+				</if>
+				<if test="physicalScore != null and '' != physicalScore">
+					AND s.physical_score = #{physicalScore}
+				</if>
+				<if test="chemicalScore != null and '' != chemicalScore">
+					AND s.chemical_score = #{chemicalScore}
+				</if>
+				<if test="biologyScore != null and '' != biologyScore">
+					AND s.biology_score = #{biologyScore}
+				</if>
+				<if test="geographyScore != null and '' != geographyScore">
+					AND s.geography_score = #{geographyScore}
+				</if>
+				<if test="scienceScore != null and '' != scienceScore">
+					AND s.science_score = #{scienceScore}
+				</if>
+				<if test="politicsScore != null and '' != politicsScore">
+					AND s.politics_score = #{politicsScore}
+				</if>
+				<if test="historyScore != null and '' != historyScore">
+					AND s.history_score = #{historyScore}
+				</if>
+				<if test="moralScore != null and '' != moralScore">
+					AND s.moral_score = #{moralScore}
+				</if>
+				<if test="historySocietyScore != null and '' != historySocietyScore">
+					AND s.history_society_score = #{historySocietyScore}
+				</if>
+				<if test="qualitySocietyScore != null and '' != qualitySocietyScore">
+					AND s.quality_society_score = #{qualitySocietyScore}
+				</if>
+				<if test="qualityLifeScore != null and '' != qualityLifeScore">
+					AND s.quality_life_score = #{qualityLifeScore}
+				</if>
+				<if test="paintingScore != null and '' != paintingScore">
+					AND s.painting_score = #{paintingScore}
+				</if>
+				<if test="artScore != null and '' != artScore">
+					AND s.art_score = #{artScore}
+				</if>
+				<if test="musicScore != null and '' != musicScore">
+					AND s.music_score = #{musicScore}
+				</if>
+				<if test="sportsScore != null and '' != sportsScore">
+					AND s.sports_score = #{sportsScore}
+				</if>
+				<if test="subject1Score != null and '' != subject1Score">
+					AND s.subject1_score = #{subject1Score}
+				</if>
+				<if test="subject2Score != null and '' != subject2Score">
+					AND s.subject2_score = #{subject2Score}
+				</if>
+				<if test="subject3Score != null and '' != subject3Score">
+					AND s.subject3_score = #{subject3Score}
+				</if>
+				<if test="subject4Score != null and '' != subject4Score">
+					AND s.subject4_score = #{subject4Score}
+				</if>
+				<if test="subject5Score != null and '' != subject5Score">
+					AND s.subject5_score = #{subject5Score}
+				</if>
+				and c.id = s.id 
+			)
+			<if test="sort != null and '' != sort">
+				ORDER BY  ${sort}
+			<if test="sortType != null and '' != sortType">
+				${sortType}
+			</if>
+		</if>
+	</select>
+	
+	<!-- 优化3 -->
+	<select id="queryScoresFilterNewThree" resultType="Map">
+		SELECT 
+			<if test="examId1 != null">c.exam_id as examId,</if>
+			<if test="studentId1 != null">c.student_id as studentId,</if>
+			<if test="classroomId1 != null">c.classroom_id as classroomId,</if>
+			<if test="totalScore1 != null">c.total_score as totalScore,</if>
+			<if test="detailScore1 != null">c.detail_score as detailScore,</if>
+			<if test="chineseScore1 != null">c.chinese_score as chineseScore,</if>
+			<if test="mathScore1 != null">c.math_score as mathScore,</if>
+			<if test="englishScore1 != null">c.english_score as englishScore,</if>
+			<if test="physicalScore1 != null">c.physical_score as physicalScore,</if>
+			<if test="chemicalScore1 != null">c.chemical_score as chemicalScore,</if>
+			<if test="biologyScore1 != null">c.biology_score as biologyScore,</if>
+			<if test="geographyScore1 != null">c.geography_score as geographyScore,</if>
+			<if test="scienceScore1 != null">c.science_score as scienceScore,</if>
+			<if test="politicsScore1 != null">c.politics_score as politicsScore,</if>
+			<if test="historyScore1 != null">c.history_score as historyScore,</if>
+			<if test="moralScore1 != null">c.moral_score as moralScore,</if>
+			<if test="historySocietyScore1 != null">c.history_society_score as historySocietyScore,</if>
+			<if test="qualitySocietyScore1 != null">c.quality_society_score as qualitySocietyScore,</if>
+			<if test="qualityLifeScore1 != null">c.quality_life_score as qualityLifeScore,</if>
+			<if test="paintingScore1 != null">c.painting_score as paintingScore,</if>
+			<if test="artScore1 != null">c.art_score as artScore,</if>
+			<if test="musicScore1 != null">c.music_score as musicScore,</if>
+			<if test="sportsScore1 != null">c.sports_score as sportsScore,</if>
+			<if test="studentNo1 != null">c.student_no as studentNo,</if>
+			c.id
+		FROM
+			jy_score c
+			WHERE
+			exists(
+				SELECT
+					s.id
+				FROM
+				jy_score s
+				WHERE
+				1=1
+				<if test="orgId != null and '' != orgId">
+				AND s.org_id = #{orgId}
+				</if>
+				<if test="examId != null and '' != examId">
+					AND s.exam_id = #{examId}
+				</if>
+				<if test="studentId != null and '' != studentId">
+					AND s.student_id = #{studentId}
+				</if>
+				<if test="classroomId != null and '' != classroomId">
+					AND s.classroom_id = #{classroomId}
+				</if>
+				<if test="schoolId != null and '' != schoolId">
+					AND s.school_id = #{schoolId}
+				</if>
+				<if test="totalScore != null and '' != totalScore">
+					AND s.total_score = #{totalScore}
+				</if>
+				<if test="detailScore != null and '' != detailScore">
+					AND s.detail_score = #{detailScore}
+				</if>
+				<if test="chineseScore != null and '' != chineseScore">
+					AND s.chinese_score = #{chineseScore}
+				</if>
+				<if test="mathScore != null and '' != mathScore">
+					AND s.math_score = #{mathScore}
+				</if>
+				<if test="englishScore != null and '' != englishScore">
+					AND s.english_score = #{englishScore}
+				</if>
+				<if test="physicalScore != null and '' != physicalScore">
+					AND s.physical_score = #{physicalScore}
+				</if>
+				<if test="chemicalScore != null and '' != chemicalScore">
+					AND s.chemical_score = #{chemicalScore}
+				</if>
+				<if test="biologyScore != null and '' != biologyScore">
+					AND s.biology_score = #{biologyScore}
+				</if>
+				<if test="geographyScore != null and '' != geographyScore">
+					AND s.geography_score = #{geographyScore}
+				</if>
+				<if test="scienceScore != null and '' != scienceScore">
+					AND s.science_score = #{scienceScore}
+				</if>
+				<if test="politicsScore != null and '' != politicsScore">
+					AND s.politics_score = #{politicsScore}
+				</if>
+				<if test="historyScore != null and '' != historyScore">
+					AND s.history_score = #{historyScore}
+				</if>
+				<if test="moralScore != null and '' != moralScore">
+					AND s.moral_score = #{moralScore}
+				</if>
+				<if test="historySocietyScore != null and '' != historySocietyScore">
+					AND s.history_society_score = #{historySocietyScore}
+				</if>
+				<if test="qualitySocietyScore != null and '' != qualitySocietyScore">
+					AND s.quality_society_score = #{qualitySocietyScore}
+				</if>
+				<if test="qualityLifeScore != null and '' != qualityLifeScore">
+					AND s.quality_life_score = #{qualityLifeScore}
+				</if>
+				<if test="paintingScore != null and '' != paintingScore">
+					AND s.painting_score = #{paintingScore}
+				</if>
+				<if test="artScore != null and '' != artScore">
+					AND s.art_score = #{artScore}
+				</if>
+				<if test="musicScore != null and '' != musicScore">
+					AND s.music_score = #{musicScore}
+				</if>
+				<if test="sportsScore != null and '' != sportsScore">
+					AND s.sports_score = #{sportsScore}
+				</if>
+				<if test="subject1Score != null and '' != subject1Score">
+					AND s.subject1_score = #{subject1Score}
+				</if>
+				<if test="subject2Score != null and '' != subject2Score">
+					AND s.subject2_score = #{subject2Score}
+				</if>
+				<if test="subject3Score != null and '' != subject3Score">
+					AND s.subject3_score = #{subject3Score}
+				</if>
+				<if test="subject4Score != null and '' != subject4Score">
+					AND s.subject4_score = #{subject4Score}
+				</if>
+				<if test="subject5Score != null and '' != subject5Score">
+					AND s.subject5_score = #{subject5Score}
+				</if>
+				and c.id = s.id 
+			)
+	</select>
+	
+    <select id="queryScoresFilter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_SCORE` s
+		LEFT JOIN `JY_ORGANIZATION` o ON s.org_id = o.id
+		LEFT JOIN `JY_STUDENT` stu ON s.student_id = stu.id
+        WHERE 1 = 1
+			<if test="orgId != null and '' != orgId">
+				AND s.org_id = #{orgId}
+			</if>
+			<if test="examId != null and '' != examId">
+				AND s.exam_id = #{examId}
+			</if>
+			<if test="studentId != null and '' != studentId">
+				AND s.student_id = #{studentId}
+			</if>
+			<if test="classroomId != null and '' != classroomId">
+				AND s.classroom_id = #{classroomId}
+			</if>
+			<if test="regionCode != null and '' != regionCode">
+				AND o.region_code = #{regionCode}
+			</if>
+			<if test="schoolId != null and '' != schoolId">
+				AND s.school_id = #{schoolId}
+			</if>
+			<if test="totalScore != null and '' != totalScore">
+				AND s.total_score = #{totalScore}
+			</if>
+			<if test="detailScore != null and '' != detailScore">
+				AND s.detail_score = #{detailScore}
+			</if>
+			<if test="chineseScore != null and '' != chineseScore">
+				AND s.chinese_score = #{chineseScore}
+			</if>
+			<if test="mathScore != null and '' != mathScore">
+				AND s.math_score = #{mathScore}
+			</if>
+			<if test="englishScore != null and '' != englishScore">
+				AND s.english_score = #{englishScore}
+			</if>
+			<if test="physicalScore != null and '' != physicalScore">
+				AND s.physical_score = #{physicalScore}
+			</if>
+			<if test="chemicalScore != null and '' != chemicalScore">
+				AND s.chemical_score = #{chemicalScore}
+			</if>
+			<if test="biologyScore != null and '' != biologyScore">
+				AND s.biology_score = #{biologyScore}
+			</if>
+			<if test="geographyScore != null and '' != geographyScore">
+				AND s.geography_score = #{geographyScore}
+			</if>
+			<if test="scienceScore != null and '' != scienceScore">
+				AND s.science_score = #{scienceScore}
+			</if>
+			<if test="politicsScore != null and '' != politicsScore">
+				AND s.politics_score = #{politicsScore}
+			</if>
+			<if test="historyScore != null and '' != historyScore">
+				AND s.history_score = #{historyScore}
+			</if>
+			<if test="moralScore != null and '' != moralScore">
+				AND s.moral_score = #{moralScore}
+			</if>
+			<if test="historySocietyScore != null and '' != historySocietyScore">
+				AND s.history_society_score = #{historySocietyScore}
+			</if>
+			<if test="qualitySocietyScore != null and '' != qualitySocietyScore">
+				AND s.quality_society_score = #{qualitySocietyScore}
+			</if>
+			<if test="qualityLifeScore != null and '' != qualityLifeScore">
+				AND s.quality_life_score = #{qualityLifeScore}
+			</if>
+			<if test="paintingScore != null and '' != paintingScore">
+				AND s.painting_score = #{paintingScore}
+			</if>
+			<if test="artScore != null and '' != artScore">
+				AND s.art_score = #{artScore}
+			</if>
+			<if test="musicScore != null and '' != musicScore">
+				AND s.music_score = #{musicScore}
+			</if>
+			<if test="sportsScore != null and '' != sportsScore">
+				AND s.sports_score = #{sportsScore}
+			</if>
+			<if test="subject1Score != null and '' != subject1Score">
+				AND s.subject1_score = #{subject1Score}
+			</if>
+			<if test="subject2Score != null and '' != subject2Score">
+				AND s.subject2_score = #{subject2Score}
+			</if>
+			<if test="subject3Score != null and '' != subject3Score">
+				AND s.subject3_score = #{subject3Score}
+			</if>
+			<if test="subject4Score != null and '' != subject4Score">
+				AND s.subject4_score = #{subject4Score}
+			</if>
+			<if test="subject5Score != null and '' != subject5Score">
+				AND s.subject5_score = #{subject5Score}
+			</if>
+		<if test="sort != null and '' != sort">
+			ORDER BY  ${sort}
+			<if test="sortType != null and '' != sortType">
+				${sortType}
+			</if>
+		</if>
+		<if test="recordNum!= null and '' != recordNum">
+			limit ${recordNum}
+		</if>
+    </select>
+    
+    <delete id="deleteScoreById" parameterType="java.lang.String">
+        delete from `JY_SCORE`
+        where id = #{id}
+    </delete>
+    
+    <delete id="deleteScores" parameterType="java.lang.String">
+        delete from `JY_SCORE`
+        where id IN 
+        <foreach collection="ids" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

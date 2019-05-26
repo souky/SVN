@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.systemConfig.dao.SystemConfigDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.systemConfig.entity.SystemConfig">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+		<result column="keys" property="keys" jdbcType="VARCHAR"/>
+		<result column="values" property="values" jdbcType="VARCHAR"/>
+		<result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        id, keys, values, create_user, create_date, update_user, update_date
+    </sql>
+    
+    <insert id="insertSystemConfig">
+        INSERT INTO SYNC_SYSTEM_CONFIG
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+			<if test="keys != null">keys,</if>
+			<if test="values != null">values,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateDate != null">update_date,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+			<if test="keys != null">#{keys},</if>
+			<if test="values != null">#{values},</if>
+            <if test="createUser != null">#{createUser,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">#{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateUser != null">#{updateUser,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">#{updateDate,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+    
+    <update id="updateSystemConfig">
+        update SYNC_SYSTEM_CONFIG
+        <set>
+			<if test="key != null and '' != key">
+				keys = #{keys},
+			</if>
+			<if test="value != null and '' != value">
+				values = #{values},
+			</if>
+            <if test="createUser != null and ''!=createUser">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null and ''!=createDate">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null and ''!=updateUser">
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null  and ''!=updateDate">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <select id="getSystemConfigById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `SYNC_SYSTEM_CONFIG`
+        WHERE id = #{id}
+    </select>
+    
+    <select id="querySystemConfigsFilter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `SYNC_SYSTEM_CONFIG`
+        WHERE 1 = 1
+			<if test="key != null and '' != key">
+				AND key = #{keys}
+			</if>
+			<if test="value != null and '' != value">
+				AND value = #{values}
+			</if>
+    </select>
+    
+    <select id="getSystemConfigByKey" parameterType="java.lang.String" resultType="java.lang.String">
+    	 SELECT sc.values
+        from `SYNC_SYSTEM_CONFIG` sc
+        WHERE sc.keys = #{key}
+    </select>
+    
+    <update id="updateSystemConfigByKey" >
+    	 update `SYNC_SYSTEM_CONFIG` sc set sc.values = #{values}
+        WHERE sc.keys = #{keys}
+    </update>
+    
+    <delete id="deleteSystemConfigById" parameterType="java.lang.String">
+        delete from `SYNC_SYSTEM_CONFIG`
+        where id = #{id}
+    </delete>
+    
+    <delete id="deleteSystemConfigs" parameterType="java.lang.String">
+        delete from `SYNC_SYSTEM_CONFIG`
+        where id IN 
+        <foreach collection="list" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

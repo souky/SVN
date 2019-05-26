@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.shieldUser.dao.ShieldUserDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.shieldUser.entity.ShieldUser">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+		<result column="user_name" property="userName" jdbcType="VARCHAR"/>
+		<result column="login_name" property="loginName" jdbcType="VARCHAR"/>
+		<result column="password" property="password" jdbcType="VARCHAR"/>
+		<result column="user_resource" property="userResource" jdbcType="INTEGER"/>
+		<result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        id, user_name, login_name, password, user_resource, create_user, create_date, update_user, update_date
+    </sql>
+    
+    <insert id="insertShieldUser">
+        INSERT INTO JY_SHIELD_USER_TAB
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+			<if test="userName != null">user_name,</if>
+			<if test="loginName != null">login_name,</if>
+			<if test="password != null">password,</if>
+			<if test="userResource != null">user_resource,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateDate != null">update_date,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+			<if test="userName != null">#{userName},</if>
+			<if test="loginName != null">#{loginName},</if>
+			<if test="password != null">#{password},</if>
+			<if test="userResource != null">#{userResource},</if>
+            <if test="createUser != null">#{createUser,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">#{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateUser != null">#{updateUser,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">#{updateDate,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+    
+    <update id="updateShieldUser">
+        update JY_SHIELD_USER_TAB
+        <set>
+			<if test="userName != null and '' != userName">
+				user_name = #{userName},
+			</if>
+			<if test="loginName != null and '' != loginName">
+				login_name = #{loginName},
+			</if>
+			<if test="password != null and '' != password">
+				password = #{password},
+			</if>
+			<if test="userResource != null and '' != userResource">
+				user_resource = #{userResource},
+			</if>
+            <if test="createUser != null and ''!=createUser">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null and ''!=createDate">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null and ''!=updateUser">
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null  and ''!=updateDate">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <select id="getShieldUserById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_SHIELD_USER_TAB`
+        WHERE id = #{id}
+    </select>
+    
+    <select id="queryShieldUsersFilter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_SHIELD_USER_TAB`
+        WHERE 1 = 1
+			<if test="userName != null and '' != userName">
+				AND user_name = #{userName}
+			</if>
+			<if test="loginName != null and '' != loginName">
+				AND login_name = #{loginName}
+			</if>
+			<if test="password != null and '' != password">
+				AND password = #{password}
+			</if>
+			<if test="userResource != null and '' != userResource">
+				AND user_resource = #{userResource}
+			</if>
+    </select>
+    
+    <delete id="deleteShieldUserById" parameterType="java.lang.String">
+        delete from `JY_SHIELD_USER_TAB`
+        where id = #{id}
+    </delete>
+    
+    <select id="getUserByPassword" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+       		id, user_name, login_name, user_resource, create_user, create_date, update_user, update_date
+        from `JY_SHIELD_USER_TAB`
+        WHERE login_name = #{loginName} AND password = #{password}
+    </select>
+    
+    <delete id="deleteShieldUsers" parameterType="java.lang.String">
+        delete from `JY_SHIELD_USER_TAB`
+        where id IN 
+        <foreach collection="list" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

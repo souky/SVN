@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.clockDevicePosition.dao.ClockDevicePositionDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.clockDevicePosition.entity.ClockDevicePosition">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+		<result column="clock_id" property="clockId" jdbcType="VARCHAR"/>
+		<result column="logical_exam_room" property="logicalExamRoom" jdbcType="VARCHAR"/>
+		<result column="physical_exam_room" property="physicalExamRoom" jdbcType="VARCHAR"/>
+		<result column="clock_position_builings" property="clockPositionBuilings" jdbcType="INTEGER"/>
+		<result column="clock_position_floor" property="clockPositionFloor" jdbcType="INTEGER"/>
+		<result column="clock_position_room" property="clockPositionRoom" jdbcType="INTEGER"/>
+		<result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+        
+        <result column="clock_status" property="clockStatus" jdbcType="INTEGER"/>
+        <result column="self_check_info" property="selfCheckInfo" jdbcType="VARCHAR"/>
+        <result column="clock_ip_addr" property="clockIpAddr" jdbcType="VARCHAR"/>
+		<result column="clock_mac" property="clockMac" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        id, clock_id, logical_exam_room, physical_exam_room, clock_position_builings, clock_position_floor ,
+         clock_position_room, create_user, create_date, update_user, update_date
+    </sql>
+    <sql id="Base_Column_List_with_clock">
+        JY_CLOCK_DEVICE_POSITION_TAB.id, clock_id, logical_exam_room, physical_exam_room, clock_position_builings, clock_position_floor ,
+         clock_position_room, clock_status,self_check_info
+    </sql>
+    
+    <insert id="insertClockDevicePosition">
+        INSERT INTO JY_CLOCK_DEVICE_POSITION_TAB
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+			<if test="clockId != null">clock_id,</if>
+			<if test="logicalExamRoom != null">logical_exam_room,</if>
+			<if test="physicalExamRoom != null">physical_exam_room,</if>
+			<if test="clockPositionBuilings != null">clock_position_builings,</if>
+			<if test="clockPositionFloor  != null">clock_position_floor,</if>
+			<if test="clockPositionRoom != null">clock_position_room,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateDate != null">update_date,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+			<if test="clockId != null">#{clockId},</if>
+			<if test="logicalExamRoom != null">#{logicalExamRoom},</if>
+			<if test="physicalExamRoom != null">#{physicalExamRoom},</if>
+			<if test="clockPositionBuilings != null">#{clockPositionBuilings},</if>
+			<if test="clockPositionFloor  != null">#{clockPositionFloor},</if>
+			<if test="clockPositionRoom != null">#{clockPositionRoom},</if>
+            <if test="createUser != null">#{createUser,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">#{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateUser != null">#{updateUser,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">#{updateDate,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+    
+    <insert id="insertBatch">
+	    INSERT INTO JY_CLOCK_DEVICE_POSITION_TAB
+	            (id, clock_position_builings, clock_position_floor,clock_position_room)
+	    VALUES
+	    <foreach collection ="list" item="e" separator =",">
+	         (#{e.id}, #{e.clockPositionBuilings}, #{e.clockPositionFloor},#{e.clockPositionRoom})
+	    </foreach >
+	</insert>
+
+    
+    <update id="updateClockDevicePosition">
+        update JY_CLOCK_DEVICE_POSITION_TAB
+        <set>
+			<if test="clockId != null and '' != clockId">
+				clock_id = #{clockId},
+			</if>
+			<if test="logicalExamRoom != null and '' != logicalExamRoom">
+				logical_exam_room = #{logicalExamRoom},
+			</if>
+			<if test="physicalExamRoom != null and '' != physicalExamRoom">
+				physical_exam_room = #{physicalExamRoom},
+			</if>
+			<if test="clockPositionBuilings != null and '' != clockPositionBuilings">
+				clock_position_builings = #{clockPositionBuilings},
+			</if>
+			<if test="clockPositionFloor  != null and '' != clockPositionFloor ">
+				clock_position_floor  = #{clockPositionFloor },
+			</if>
+			<if test="clockPositionRoom != null and '' != clockPositionRoom">
+				clock_position_room = #{clockPositionRoom},
+			</if>
+            <if test="createUser != null and ''!=createUser">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null and ''!=createDate">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null and ''!=updateUser">
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null  and ''!=updateDate">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <update id="unBinding">
+        update JY_CLOCK_DEVICE_POSITION_TAB set clock_id='',logical_exam_room='',physical_exam_room='' where id = #{id}
+    </update>
+    
+    
+    <select id="getClockDevicePositionById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_CLOCK_DEVICE_POSITION_TAB`
+        WHERE id = #{id}
+    </select>
+    
+    <select id="getClockDevicePositionByClockId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_CLOCK_DEVICE_POSITION_TAB`
+        WHERE clock_id = #{clockId}
+    </select>
+    
+    
+    <select id="queryClockDevicePositionsFilter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List_with_clock"/>
+        from `JY_CLOCK_DEVICE_POSITION_TAB` left join JY_CLOCK_DEVICE_TAB on JY_CLOCK_DEVICE_TAB.id = JY_CLOCK_DEVICE_POSITION_TAB.clock_id
+        WHERE 1 = 1
+			<if test="clockId != null and '' != clockId">
+				AND clock_id = #{clockId}
+			</if>
+			<if test="logicalExamRoom != null and '' != logicalExamRoom">
+				AND logical_exam_room = #{logicalExamRoom}
+			</if>
+			<if test="physicalExamRoom != null and '' != physicalExamRoom">
+				AND physical_exam_room = #{physicalExamRoom}
+			</if>
+			<if test="clockPositionBuilings != null and '' != clockPositionBuilings">
+				AND clock_position_builings = #{clockPositionBuilings}
+			</if>
+			<if test="clockPositionFloor  != null and '' != clockPositionFloor ">
+				AND clock_position_floor  = #{clockPositionFloor }
+			</if>
+			<if test="clockPositionRoom != null and '' != clockPositionRoom">
+				AND clock_position_room = #{clockPositionRoom}
+			</if>
+		order BY clock_position_builings,clock_position_floor,clock_position_room
+    </select>
+    
+    <delete id="deleteClockDevicePositionById" parameterType="java.lang.String">
+        delete from `JY_CLOCK_DEVICE_POSITION_TAB`
+        where id = #{id}
+    </delete>
+    
+    <delete id="deleteClockDevicePositionAll">
+        delete from `JY_CLOCK_DEVICE_POSITION_TAB`
+    </delete>
+    
+    <delete id="deleteClockDevicePositions">
+        delete from `JY_CLOCK_DEVICE_POSITION_TAB`
+        where clock_id IN 
+        <foreach collection="list" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

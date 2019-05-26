@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.shieldDevicePosition.dao.ShieldDevicePositionDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.shieldDevicePosition.entity.ShieldDevicePosition">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+		<result column="shield_id" property="shieldId" jdbcType="VARCHAR"/>
+		<result column="logical_exam_room" property="logicalExamRoom" jdbcType="VARCHAR"/>
+		<result column="physical_exam_room" property="physicalExamRoom" jdbcType="VARCHAR"/>
+		<result column="shield_position_builings" property="shieldPositionBuilings" jdbcType="INTEGER"/>
+		<result column="shield_position_floor" property="shieldPositionFloor" jdbcType="INTEGER"/>
+		<result column="shield_position_room" property="shieldPositionRoom" jdbcType="INTEGER"/>
+		<result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        id, shield_id, logical_exam_room, physical_exam_room, shield_position_builings, shield_position_floor, shield_position_room, create_user, create_date, update_user, update_date
+    </sql>
+    
+    <insert id="insertShieldDevicePosition">
+        INSERT INTO JY_SHIELD_DEVICE_POSITION_TAB
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+			<if test="shieldId != null">shield_id,</if>
+			<if test="logicalExamRoom != null">logical_exam_room,</if>
+			<if test="physicalExamRoom != null">physical_exam_room,</if>
+			<if test="shieldPositionBuilings != null">shield_position_builings,</if>
+			<if test="shieldPositionFloor != null">shield_position_floor,</if>
+			<if test="shieldPositionRoom != null">shield_position_room,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateDate != null">update_date,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+			<if test="shieldId != null">#{shieldId},</if>
+			<if test="logicalExamRoom != null">#{logicalExamRoom},</if>
+			<if test="physicalExamRoom != null">#{physicalExamRoom},</if>
+			<if test="shieldPositionBuilings != null">#{shieldPositionBuilings},</if>
+			<if test="shieldPositionFloor != null">#{shieldPositionFloor},</if>
+			<if test="shieldPositionRoom != null">#{shieldPositionRoom},</if>
+            <if test="createUser != null">#{createUser,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">#{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateUser != null">#{updateUser,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">#{updateDate,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+    
+    <update id="updateShieldDevicePosition">
+        update JY_SHIELD_DEVICE_POSITION_TAB
+        <set>
+			<if test="shieldId != null and '' != shieldId">
+				shield_id = #{shieldId},
+			</if>
+			<if test="logicalExamRoom != null and '' != logicalExamRoom">
+				logical_exam_room = #{logicalExamRoom},
+			</if>
+			<if test="physicalExamRoom != null and '' != physicalExamRoom">
+				physical_exam_room = #{physicalExamRoom},
+			</if>
+			<if test="shieldPositionBuilings != null and '' != shieldPositionBuilings">
+				shield_position_builings = #{shieldPositionBuilings},
+			</if>
+			<if test="shieldPositionFloor != null and '' != shieldPositionFloor">
+				shield_position_floor = #{shieldPositionFloor},
+			</if>
+			<if test="shieldPositionRoom != null and '' != shieldPositionRoom">
+				shield_position_room = #{shieldPositionRoom},
+			</if>
+            <if test="createUser != null and ''!=createUser">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null and ''!=createDate">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null and ''!=updateUser">
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null  and ''!=updateDate">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <select id="getShieldDevicePositionById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_SHIELD_DEVICE_POSITION_TAB`
+        WHERE id = #{id}
+    </select>
+    
+    <select id="queryShieldDevicePositionsFilter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_SHIELD_DEVICE_POSITION_TAB`
+        WHERE 1 = 1
+			<if test="shieldId != null and '' != shieldId">
+				AND shield_id = #{shieldId}
+			</if>
+			<if test="logicalExamRoom != null and '' != logicalExamRoom">
+				AND logical_exam_room = #{logicalExamRoom}
+			</if>
+			<if test="physicalExamRoom != null and '' != physicalExamRoom">
+				AND physical_exam_room = #{physicalExamRoom}
+			</if>
+			<if test="shieldPositionBuilings != null and '' != shieldPositionBuilings">
+				AND shield_position_builings = #{shieldPositionBuilings}
+			</if>
+			<if test="shieldPositionFloor != null and '' != shieldPositionFloor">
+				AND shield_position_floor = #{shieldPositionFloor}
+			</if>
+			<if test="shieldPositionRoom != null and '' != shieldPositionRoom">
+				AND shield_position_room = #{shieldPositionRoom}
+			</if>
+    </select>
+    
+    <delete id="deleteShieldDevicePositionById" parameterType="java.lang.String">
+        delete from `JY_SHIELD_DEVICE_POSITION_TAB`
+        where id = #{id}
+    </delete>
+    
+    <delete id="deleteShieldDevicePositions" parameterType="java.lang.String">
+        delete from `JY_SHIELD_DEVICE_POSITION_TAB`
+        where id IN 
+        <foreach collection="list" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

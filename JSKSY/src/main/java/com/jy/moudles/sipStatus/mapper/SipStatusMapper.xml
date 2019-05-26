@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.sipStatus.dao.SipStatusDao">
+  <resultMap id="BaseResultMap" type="com.jy.moudles.sipStatus.entity.SipStatus">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="SBBH" jdbcType="VARCHAR" property="sbbh" />
+    <result column="SBCSDM" jdbcType="VARCHAR" property="sbcsdm" />
+    <result column="GZZT" jdbcType="VARCHAR" property="gzzt" />
+    <result column="SIPZCZT" jdbcType="VARCHAR" property="sipzczt" />
+    <result column="SJPYMS" jdbcType="VARCHAR" property="sjpyms" />
+    <result column="SJLLS" jdbcType="VARCHAR" property="sjlls" />
+    <result column="BJLLS" jdbcType="VARCHAR" property="bjlls" />
+    <result column="SJLL" jdbcType="VARCHAR" property="sjll" />
+    <result column="BJLL" jdbcType="VARCHAR" property="bjll" />
+    <result column="WLLLUP" jdbcType="VARCHAR" property="wlllup" />
+    <result column="WLLLDOWN" jdbcType="VARCHAR" property="wllldown" />
+    <result column="OrgCode" jdbcType="VARCHAR" property="orgcode" />
+    <result column="OrgIdenCode" jdbcType="VARCHAR" property="orgidencode" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sync_sip_status
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jy.moudles.sipStatus.entity.SipStatus">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sync_sip_status (SBBH, SBCSDM, GZZT, 
+      SIPZCZT, SJPYMS, SJLLS, 
+      BJLLS, SJLL, BJLL, 
+      WLLLUP, WLLLDOWN, OrgCode, 
+      OrgIdenCode)
+    values (#{sbbh,jdbcType=VARCHAR}, #{sbcsdm,jdbcType=VARCHAR}, #{gzzt,jdbcType=VARCHAR}, 
+      #{sipzczt,jdbcType=VARCHAR}, #{sjpyms,jdbcType=VARCHAR}, #{sjlls,jdbcType=VARCHAR}, 
+      #{bjlls,jdbcType=VARCHAR}, #{sjll,jdbcType=VARCHAR}, #{bjll,jdbcType=VARCHAR}, 
+      #{wlllup,jdbcType=VARCHAR}, #{wllldown,jdbcType=VARCHAR}, #{orgcode,jdbcType=VARCHAR}, 
+      #{orgidencode,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.jy.moudles.sipStatus.entity.SipStatus">
+    update sync_sip_status
+    set SBBH = #{sbbh,jdbcType=VARCHAR},
+      SBCSDM = #{sbcsdm,jdbcType=VARCHAR},
+      GZZT = #{gzzt,jdbcType=VARCHAR},
+      SIPZCZT = #{sipzczt,jdbcType=VARCHAR},
+      SJPYMS = #{sjpyms,jdbcType=VARCHAR},
+      SJLLS = #{sjlls,jdbcType=VARCHAR},
+      BJLLS = #{bjlls,jdbcType=VARCHAR},
+      SJLL = #{sjll,jdbcType=VARCHAR},
+      BJLL = #{bjll,jdbcType=VARCHAR},
+      WLLLUP = #{wlllup,jdbcType=VARCHAR},
+      WLLLDOWN = #{wllldown,jdbcType=VARCHAR},
+      OrgCode = #{orgcode,jdbcType=VARCHAR},
+      OrgIdenCode = #{orgidencode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select id, SBBH, SBCSDM, GZZT, SIPZCZT, SJPYMS, SJLLS, BJLLS, SJLL, BJLL, WLLLUP, 
+    WLLLDOWN, OrgCode, OrgIdenCode
+    from sync_sip_status
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, SBBH, SBCSDM, GZZT, SIPZCZT, SJPYMS, SJLLS, BJLLS, SJLL, BJLL, WLLLUP, 
+    WLLLDOWN, OrgCode, OrgIdenCode
+    from sync_sip_status
+  </select>
+  
+  <select id="querySipStatusFilter" resultMap="BaseResultMap">
+    select id, SBBH, SBCSDM, GZZT, SIPZCZT, SJPYMS, SJLLS, BJLLS, SJLL, BJLL, WLLLUP, 
+    WLLLDOWN, OrgCode, OrgIdenCode
+    from sync_sip_status
+        WHERE 1 = 1
+			<if test="OrgCode != null and '' != OrgCode">
+				AND OrgCode = #{OrgCode}
+			</if>
+			<if test="OrgIdenCode != null and '' != OrgIdenCode">
+				AND OrgIdenCode = #{OrgIdenCode}
+			</if>
+    </select>
+    
+    
+</mapper>

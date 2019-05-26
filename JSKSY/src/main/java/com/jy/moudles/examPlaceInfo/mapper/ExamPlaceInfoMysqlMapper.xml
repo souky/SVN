@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.examPlaceInfo.dao.ExamPlaceInfoDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.examPlaceInfo.entity.ExamPlaceInfo">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+		<result column="exam_no" property="examNo" jdbcType="VARCHAR"/>
+		<result column="exam_season_no" property="examSeasonNo" jdbcType="VARCHAR"/>
+		<result column="CSBH" property="csbh" jdbcType="VARCHAR"/>
+		<result column="SBBH" property="sbbh" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        id, exam_no, exam_season_no, CSBH, SBBH
+    </sql>
+    
+    <insert id="insertExamPlaceInfo">
+        INSERT INTO SYNC_EXAM_PLACE_INFO
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+			<if test="examNo != null">exam_no,</if>
+			<if test="examSeasonNo != null">exam_season_no,</if>
+			<if test="csbh != null">CSBH,</if>
+			<if test="sbbh != null">SBBH,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+			<if test="examNo != null">#{examNo},</if>
+			<if test="examSeasonNo != null">#{examSeasonNo},</if>
+			<if test="csbh != null">#{csbh},</if>
+			<if test="sbbh != null">#{sbbh},</if>
+        </trim>
+    </insert>
+    
+    <insert id="insertExamPlaceInfos" parameterType="java.util.List">
+        INSERT INTO SYNC_EXAM_PLACE_INFO (id, exam_no, exam_season_no, CSBH, SBBH) values 
+        <foreach collection="list" item="place" separator=",">  
+            ('${place.id}','${place.examNo}','${place.examSeasonNo}','${place.csbh}','${place.sbbh}')  
+        </foreach>
+    </insert>
+    
+    
+    <update id="updateExamPlaceInfo">
+        update SYNC_EXAM_PLACE_INFO
+        <set>
+			<if test="examNo != null and '' != examNo">
+				exam_no = #{examNo},
+			</if>
+			<if test="examSeasonNo != null and '' != examSeasonNo">
+				exam_season_no = #{examSeasonNo},
+			</if>
+			<if test="csbh != null and '' != csbh">
+				CSBH = #{csbh},
+			</if>
+			<if test="sbbh != null and '' != sbbh">
+				SBBH = #{sbbh},
+			</if>
+        </set>
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <select id="getExamPlaceInfoById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `SYNC_EXAM_PLACE_INFO`
+        WHERE id = #{id}
+    </select>
+    
+    <select id="queryExamPlaceInfosFilter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `SYNC_EXAM_PLACE_INFO`
+        WHERE 1 = 1
+			<if test="examNo != null and '' != examNo">
+				AND exam_no = #{examNo}
+			</if>
+			<if test="examSeasonNo != null and '' != examSeasonNo">
+				AND exam_season_no = #{examSeasonNo}
+			</if>
+			<if test="csbh != null and '' != csbh">
+				AND CSBH = #{csbh}
+			</if>
+			<if test="sbbh != null and '' != sbbh">
+				AND SBBH = #{sbbh}
+			</if>
+    </select>
+    
+    <delete id="deleteExamPlaceInfoByExamNo" parameterType="java.lang.String">
+        delete from `SYNC_EXAM_PLACE_INFO`
+        where exam_no = #{examNo}
+    </delete>
+    
+    <delete id="deleteExamPlaceInfos" parameterType="java.lang.String">
+        delete from `SYNC_EXAM_PLACE_INFO`
+        where id IN 
+        <foreach collection="list" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

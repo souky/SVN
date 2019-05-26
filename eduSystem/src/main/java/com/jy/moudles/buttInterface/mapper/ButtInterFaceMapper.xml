@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.buttInterface.dao.ButtInterFaceDao">
+    <!-- 查询考试管理信息 -->
+    <select id="queryExamInfoMsg" resultType="com.jy.moudles.exam.entity.Exam">
+    	SELECT
+			a.id,
+			a.exam_name AS examName,
+			a.exam_start_date AS examStartDate,
+			a.exam_end_date AS examEndDate,
+			a.classroom,
+			a.subject,
+			a.exam_status as examStatus,
+			a.org_id as orgId,
+			b.id as schoolId
+		FROM
+			jy_exam_info a
+			left join jy_school b on a.org_id = b.org_id
+		where
+		1=1
+		<if test="examId != null and examId != ''">
+			and a.id = #{examId}
+		</if>
+		<if test="orgId != null and orgId != ''">
+			and a.org_id = #{orgId}
+		</if>
+		<if test="examStatus != null and examStatus != ''">
+			and a.exam_status = #{examStatus}
+		</if>
+    </select>
+    
+    <!-- 根据条件查询场考试的所有科目双向细目表-->
+    <select id="queryTwoWaySpecificationMsg" resultType="com.jy.moudles.buttInterface.entity.TwoWaySpecificationDetailNew">
+    	SELECT
+			a.exam_id as examId,
+			b.subject_code as subjectCode,
+			c.item_no as itemNo,
+			c.item_type as itemType,
+			c.item_score as itemScore,
+			c.item_answer as itemAnswer
+		FROM
+			jy_exam_specification_relation a
+			LEFT JOIN jy_two_way_specification b ON a.sp_id = b.id
+			LEFT JOIN jy_two_way_specification_detail c ON c.parent_id = b.id
+		WHERE
+		 1=1
+		 <if test="examId != null and examId != ''">
+		 	and a.exam_id = #{examId}
+		 </if>
+    </select>
+    
+    <!-- 根据条件查询教师信息 -->
+    <select id="queryTeachermsg" resultType="com.jy.moudles.teacher.entity.Teacher">
+    	SELECT
+			id,
+			teacher_name as teacherName,
+			teacher_duty as teacherDuty,
+			school_id as schoolId,
+			subject,
+			org_id as orgId,
+			classroom
+			FROM
+			jy_teacher
+		WHERE
+		1=1
+		<if test="id != null and id != ''">
+			and id = #{id}
+		</if>
+		<if test="orgId != null and orgId != ''">
+			and org_id = #{orgId}
+		</if>
+		<if test="schoolId != null and schoolId != ''">
+			and school_id = #{schoolId}
+		</if>
+		<if test="gradeCode != null and gradeCode != ''">
+			AND classroom LIKE CONCAT(CONCAT('%',#{gradeCode}),'%')
+		</if>
+    </select>
+    
+    <!-- 根据条件筛选考试学生信息 -->
+    <select id="queryStudentExamMsg" resultType="com.jy.moudles.buttInterface.entity.StudentExam">
+    	SELECT
+			a.exam_id as examId,
+			a.exam_stu_no as examStuNo,
+			a.status,
+			b.school_id as schoolId,
+			b.org_id as orgId,
+			b.classroom_id as classroomId,
+			c.school_name as schoolName,
+			d.classroom_name AS classroomName,
+			d.grade_code AS gradeCode,
+			b.student_name as studentName,
+			b.student_no as studentNo,
+			b.id as studentId
+		FROM
+			jy_exam_student_relation a
+			LEFT JOIN jy_student b ON a.student_id = b.id
+			LEFT JOIN jy_school c ON c.id = b.school_id
+			LEFT JOIN jy_classroom d ON d.id = b.classroom_id
+		WHERE
+			1=1
+			<if test="examId != null and examId != ''">
+				and a.exam_id = #{examId}
+			</if>
+			<if test="orgId != null and orgId != ''">
+				and b.org_id = #{orgId}
+			</if>
+			<if test="schoolId != null and schoolId != ''">
+				and b.school_id = #{schoolId}
+			</if>
+    </select>
+    
+    <!-- 修改考试信息 -->
+    <update id="updateExamInfo">
+    	UPDATE 
+    		jy_exam_info
+    	<set>
+    		<if test="examStatus != null and examStatus != ''">
+    			exam_status = #{examStatus},
+    		</if>
+    		<if test="synchronousState != null and synchronousState != ''">
+    			synchronous_state = #{synchronousState},
+    		</if>
+    	</set>
+		WHERE
+			id = #{examId}
+    </update>
+    
+   	
+    <!-- 批量插入 分数信息-->
+    <insert id="beatchInsertScores">
+    	INSERT INTO jy_score
+    	<trim prefix="(" suffix=")" suffixOverrides=",">
+            id,
+			exam_id,
+			student_id,
+			org_id,
+			classroom_id,
+			school_id,
+			total_score,
+			detail_score,
+            chinese_score,
+            math_score,
+            english_score,
+            physical_score,
+            chemical_score,
+            biology_score,
+            geography_score,
+            science_score,
+            politics_score,
+            history_score,
+            moral_score,
+            history_society_score,
+            quality_society_score,
+            quality_life_score,
+            painting_score,
+            art_score,
+            music_score,
+            sports_score,
+            create_user,
+            create_date,
+        </trim>
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{item.id,jdbcType=VARCHAR},
+			#{item.examId,jdbcType=VARCHAR},
+			#{item.studentId,jdbcType=VARCHAR},
+			#{item.orgId,jdbcType=VARCHAR},
+			#{item.classroomId,jdbcType=VARCHAR},
+			#{item.schoolId,jdbcType=VARCHAR},
+			#{item.totalScore,jdbcType=DECIMAL},
+			#{item.detailScore},
+			#{item.chineseScore,jdbcType=DECIMAL},
+			#{item.mathScore,jdbcType=DECIMAL},
+			#{item.englishScore,jdbcType=DECIMAL},
+			#{item.physicalScore,jdbcType=DECIMAL},
+			#{item.chemicalScore,jdbcType=DECIMAL},
+			#{item.biologyScore,jdbcType=DECIMAL},
+			#{item.geographyScore,jdbcType=DECIMAL},
+			#{item.scienceScore,jdbcType=DECIMAL},
+			#{item.politicsScore,jdbcType=DECIMAL},
+			#{item.historyScore,jdbcType=DECIMAL},
+			#{item.moralScore,jdbcType=DECIMAL},
+			#{item.historySocietyScore,jdbcType=DECIMAL},
+			#{item.qualitySocietyScore,jdbcType=DECIMAL},
+			#{item.qualityLifeScore,jdbcType=DECIMAL},
+			#{item.paintingScore,jdbcType=DECIMAL},
+			#{item.artScore,jdbcType=DECIMAL},
+			#{item.musicScore,jdbcType=DECIMAL},
+			#{item.sportsScore,jdbcType=DECIMAL},
+            #{item.createUser,jdbcType=VARCHAR},
+            #{item.createDate,jdbcType=TIMESTAMP},
+        </trim>
+        </foreach>
+    </insert>
+    
+    <!-- 批量插入 分步信息-->
+    <insert id="beatchInsertSpecificationDetailStep">
+    	INSERT INTO jy_two_way_specification_detail_step
+    	<trim prefix="(" suffix=")" suffixOverrides=",">
+            id,
+			sp_detail_id,
+			sort,
+			sp_id,
+			step_score,
+			step_answer,
+			create_user,
+			create_date,
+        </trim>
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{item.id,jdbcType=VARCHAR},
+			#{item.spDetailId,jdbcType=VARCHAR},
+			#{item.sort,jdbcType=INTEGER},
+			#{item.spId,jdbcType=VARCHAR},
+			#{item.stepScore,jdbcType=TINYINT},
+			#{item.stepAnswer,jdbcType=VARCHAR},
+			#{item.createUser,jdbcType=VARCHAR},
+			#{item.createDate,jdbcType=TIMESTAMP},
+        </trim>
+        </foreach>
+    </insert>
+    
+    <!-- 批量插入 双目表详情信息-->
+    <insert id="beatchInsertSpecificationDetail">
+    	INSERT INTO jy_two_way_specification_detail
+    	<trim prefix="(" suffix=")" suffixOverrides=",">
+            id,
+			item_no,
+			item_type,
+			item_score,
+			item_answer,
+			parent_id,
+			org_id,
+			create_user,
+			create_date,
+        </trim>
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{item.id,jdbcType=VARCHAR},
+			#{item.itemNo,jdbcType=TINYINT},
+			#{item.itemType,jdbcType=TINYINT},
+			#{item.itemScore,jdbcType=TINYINT},
+			#{item.itemAnswer,jdbcType=VARCHAR},
+			#{item.parentId,jdbcType=VARCHAR},
+			#{item.orgId,jdbcType=VARCHAR},
+			#{item.createUser,jdbcType=VARCHAR},
+			#{item.createDate,jdbcType=TIMESTAMP},
+        </trim>
+        </foreach>
+    </insert>
+    
+    <!-- 批量插入 双目表信息-->
+    <insert id="beatchInsertSpecification">
+    	INSERT INTO jy_two_way_specification
+    	<trim prefix="(" suffix=")" suffixOverrides=",">
+            id,
+			specification_name,
+			subject_code,
+			grade_code,
+			org_id,
+			create_user,
+			create_date,
+        </trim>
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{item.id,jdbcType=VARCHAR},
+			#{item.specificationName,jdbcType=VARCHAR},
+			#{item.subjectCode,jdbcType=VARCHAR},
+			#{item.gradeCode,jdbcType=VARCHAR},
+			#{item.orgId,jdbcType=VARCHAR},
+			#{item.createUser,jdbcType=VARCHAR},
+			#{item.createDate,jdbcType=TIMESTAMP},
+        </trim>
+        </foreach>
+    </insert>
+    
+    <!-- 批量插入 考试双向细目表关系表-->
+    <insert id="beatchInsertSpecificationRelation">
+    	INSERT INTO jy_exam_specification_relation
+    	<trim prefix="(" suffix=")" suffixOverrides=",">
+            id,
+			exam_id,
+			sp_id,
+			create_user,
+			create_date,
+        </trim>
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{item.id,jdbcType=VARCHAR},
+			#{item.examId,jdbcType=VARCHAR},
+			#{item.spId,jdbcType=VARCHAR},
+			#{item.createUser,jdbcType=VARCHAR},
+			#{item.createDate,jdbcType=TIMESTAMP},
+        </trim>
+        </foreach>
+    </insert>
+    <!-- 删除接收的考试关联双向表等信息 -->
+    <delete id="deleteSpecificationRelation">
+    	DELETE 
+    	 a,
+		 b,
+		 c,
+		 d
+		FROM
+			jy_exam_specification_relation a
+			LEFT JOIN jy_two_way_specification b ON a.sp_id = b.id
+			LEFT JOIN jy_two_way_specification_detail c ON c.parent_id = b.id
+			LEFT JOIN jy_two_way_specification_detail_step d ON d.sp_detail_id = c.id
+		WHERE
+			1 = 1
+		AND a.exam_id = #{examId}
+		AND b.subject_code = #{subjectCode}
+    </delete>
+    
+    <!-- 删除某场考试的分数信息 -->
+    <delete id="deleteScore">
+    	DELETE
+		FROM
+			jy_score
+		WHERE
+			exam_id = #{examId}
+    </delete>
+    
+    <!-- 修改考试状态 定时任务用 -->
+    <update id="updateExamStatus">
+	   	UPDATE jy_exam_info
+		SET exam_status = CASE
+		WHEN (
+			NOW() >= exam_start_date
+			AND exam_end_date > NOW()
+		) THEN
+			1
+		WHEN NOW() >= exam_end_date THEN
+			2
+		END
+		WHERE
+		NOW() >= exam_start_date
+		and exam_status != 3
+		and exam_status != 4
+    </update>
+</mapper>

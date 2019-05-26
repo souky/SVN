@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.user.dao.UserDao">
+
+    <resultMap id="BaseResultMap" type="com.jy.moudles.user.entity.User">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+        <result column="user_psw" property="userPsw" jdbcType="VARCHAR"/>
+        <result column="user_img" property="userImg" jdbcType="VARCHAR"/>
+        <result column="user_type" property="userType" jdbcType="INTEGER"/>
+        <result column="role_id" property="roleId" jdbcType="VARCHAR"/>
+        <result column="role_name" property="roleName" jdbcType="VARCHAR"/>
+        <result column="source_id" property="sourceId" jdbcType="VARCHAR"/>
+        <result column="org_id" property="orgId" jdbcType="VARCHAR"/>
+        <result column="is_changed_psw" property="isChangedPsw" jdbcType="INTEGER"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <resultMap id="MenuResultMap" type="com.jy.common.entity.MenuInfo">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="bsid" property="bsid" jdbcType="VARCHAR"/>
+        <result column="icon" property="icon" jdbcType="VARCHAR"/>
+        <result column="menuName" property="menuName" jdbcType="VARCHAR"/>
+        <result column="menuOrder" property="menuOrder" jdbcType="INTEGER"/>
+        <result column="path" property="path" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        u.id, u.name, u.user_name, u.user_img, u.user_type, u.role_id, r.role_name, u.source_id, u.org_id, u.is_changed_psw, u.remark, u.create_user, u.create_date, u.update_user, u.update_date
+    </sql>
+
+    <insert id="insertUser">
+        INSERT INTO JY_USER
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="userPsw != null">user_psw,</if>
+            <if test="userImg != null">user_img,</if>
+            <if test="userType != null">user_type,</if>
+            <if test="roleId != null">role_id,</if>
+            <if test="sourceId != null">source_id,</if>
+            <if test="orgId != null">org_id,</if>
+            <if test="isChangedPsw != null">is_changed_psw,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateDate != null">update_date,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+            <if test="name != null">#{name},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="userPsw != null">#{userPsw},</if>
+            <if test="userImg != null">#{userImg},</if>
+            <if test="userType != null">#{userType},</if>
+            <if test="roleId != null">#{roleId},</if>
+            <if test="sourceId != null">#{sourceId},</if>
+            <if test="orgId != null">#{orgId},</if>
+            <if test="isChangedPsw != null">#{isChangedPsw},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createUser != null">#{createUser,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">#{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateUser != null">#{updateUser,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">#{updateDate,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+
+	<update id="initPassword">
+		UPDATE JY_USER SET user_psw = #{initPassword}, is_changed_psw = 1 WHERE id = #{userId}
+	</update>
+
+    <update id="updateUser">
+        update JY_USER
+        <set>
+            <if test="name != null and '' != name">
+                name = #{name},
+            </if>
+            <if test="userName != null and '' != userName">
+                user_name = #{userName},
+            </if>
+            <if test="userPsw != null and '' != userPsw">
+                user_psw = #{userPsw},
+            </if>
+            <if test="userImg != null and '' != userImg">
+                user_img = #{userImg},
+            </if>
+            <if test="userType != null and '' != userType">
+                user_type = #{userType},
+            </if>
+            <if test="roleId != null and '' != roleId">
+                role_id = #{roleId},
+            </if>
+            <!-- <if test="roleName != null and '' != roleName">
+                role_name = #{roleName},
+            </if> -->
+            <if test="sourceId != null and '' != sourceId">
+                source_id = #{sourceId},
+            </if>
+            <if test="orgId != null and '' != orgId">
+                org_id = #{orgId},
+            </if>
+            <if test="isChangedPsw != null and '' != isChangedPsw">
+                is_changed_psw = #{isChangedPsw},
+            </if>
+            <if test="remark != null and '' != remark">
+                remark = #{remark},
+            </if>
+            <if test="createUser != null and ''!=createUser">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null and ''!=createDate">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null and ''!=updateUser">
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null  and ''!=updateDate">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+            </choose>
+        </where>
+    </update>
+
+    <select id="getUserById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        ,o.org_name AS orgName
+        from `JY_USER` u
+        LEFT JOIN `JY_ROLE` r ON u.role_id = r.id
+        LEFT JOIN `jy_organization` o ON u.org_id = o.id
+        WHERE u.id = #{id}
+    </select>
+
+    <select id="isExistTeacherUser" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_USER` u
+        LEFT JOIN `JY_ROLE` r ON u.role_id = r.id
+        LEFT JOIN `JY_TEACHER` t ON u.source_id = t.id
+        WHERE t.teacher_mobile = #{phone}
+    </select>
+
+    <select id="getUserByNameAndPwd" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_USER` u
+        LEFT JOIN `JY_ROLE` r ON u.role_id = r.id
+        WHERE user_name = #{0} AND user_psw = #{1}
+    </select>
+
+    <select id="queryUsersFilter" resultMap="BaseResultMap">
+        SELECT
+        u.id, u.user_name, u.user_img, u.user_type, u.role_id, r.role_name, u.source_id, u.org_id, u.is_changed_psw,
+        u.remark, u.create_user, u.create_date, u.update_user, u.update_date
+        <choose>
+            <when test="currentUserType == 0">
+                ,CONCAT(u.name, '(', o.org_name, ')') AS name
+            </when>
+            <otherwise>
+                , u.name
+            </otherwise>
+        </choose>
+        from `JY_USER` u
+        LEFT JOIN `JY_ROLE` r ON u.role_id = r.id
+        <if test="currentUserType == 0">
+            LEFT JOIN `jy_organization` o ON u.org_id = o.id
+        </if>
+        WHERE 1 = 1
+        <if test="name != null and '' != name">
+            AND name LIKE CONCAT(CONCAT('%',#{name}),'%')
+        </if>
+        <if test="userName != null and '' != userName">
+            AND user_name LIKE CONCAT(CONCAT('%',#{userName}),'%')
+        </if>
+        <if test="userType != null and '' != userType">
+            AND user_type = #{userType}
+        </if>
+        <if test="roleId != null and '' != roleId">
+            AND role_id = #{roleId}
+        </if>
+        <if test="roleName != null and '' != roleName">
+            AND role_name LIKE CONCAT(CONCAT('%',#{role_name}),'%')
+        </if>
+        <if test="sourceId != null and '' != sourceId">
+            AND source_id = #{sourceId}
+        </if>
+        <if test="orgId != null and '' != orgId">
+            AND u.org_id = #{orgId}
+        </if>
+        <if test="currentOrgId != null and '' != currentOrgId">
+            AND u.org_id = #{currentOrgId}
+        </if>
+        <if test="isChangedPsw != null and '' != isChangedPsw">
+            AND is_changed_psw = #{isChangedPsw}
+        </if>
+        <if test="remark != null and '' != remark">
+            AND u.remark = #{remark}
+        </if>
+        AND r.is_shown = 1
+        order by create_date desc
+    </select>
+
+    <delete id="deleteUserById" parameterType="java.lang.String">
+        delete from `JY_USER`
+        where id = #{id}
+    </delete>
+    
+    <delete id="deleteUserBySourceId" parameterType="java.lang.String">
+        delete from `JY_USER`
+        where source_id = #{sourceId}
+    </delete>
+
+    <delete id="deleteUsers" parameterType="java.lang.String">
+        delete from `JY_USER`
+        where id IN
+        <foreach collection="ids" item="id" index="index" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="getMenusByUserId" parameterType="java.lang.String" resultMap="MenuResultMap">
+    	SELECT
+			T1.id AS id,
+			T1.bsid AS bsid,
+			T1.menu_icon AS icon,
+			T1.menu_name AS menuName,
+			T1.menu_order AS menuOrder,
+			T1.menu_jsp AS path
+		FROM
+			`jy_menu_tab` T1
+		INNER JOIN `jy_permission_menu_relation` T2 ON (
+			T1.id = T2.menu_id
+			)
+		INNER JOIN `jy_role_permission_relation` T3 ON (
+			T2.permission_id = T3.permission_id
+			)
+		INNER JOIN `jy_user` T4 ON (
+			T3.role_id = T4.role_id
+			)
+		WHERE
+			T4.id = #{userId}
+		ORDER BY T1.menu_order
+    </select>
+    
+    <select id="getAllMenus" resultMap="MenuResultMap">
+    	SELECT
+			T1.id AS id,
+			T1.bsid AS bsid,
+			T1.menu_icon AS icon,
+			T1.menu_name AS menuName,
+			T1.menu_order AS menuOrder,
+			T1.menu_jsp AS path
+		FROM
+			`jy_menu_tab` T1
+		WHERE
+			1 = 1
+		ORDER BY T1.menu_order
+    </select>
+
+</mapper>

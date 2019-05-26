@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.knowledgePoint.dao.KnowledgePointDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.knowledgePoint.entity.KnowledgePoint">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+		<result column="knowledge_code" property="knowledgeCode" jdbcType="VARCHAR"/>
+		<result column="knowledge_content" property="knowledgeContent" jdbcType="VARCHAR"/>
+		<result column="subject_id" property="subjectId" jdbcType="VARCHAR"/>
+		<result column="grade_code" property="gradeCode" jdbcType="VARCHAR"/>
+		<result column="parent_id" property="parentId" jdbcType="VARCHAR"/>
+		<result column="org_id" property="orgId" jdbcType="VARCHAR"/>
+		<result column="remark" property="remark" jdbcType="VARCHAR"/>
+		<result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, knowledge_code, knowledge_content,grade_code, subject_id, parent_id, org_id, remark, create_user, create_date, update_user, update_date
+    </sql>
+
+    <insert id="insertKnowledgePoint">
+        INSERT INTO JY_KNOWLEDGE_POINT
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+			<if test="knowledgeCode != null">knowledge_code,</if>
+			<if test="knowledgeContent != null">knowledge_content,</if>
+			<if test="subjectId != null">subject_id,</if>
+			<if test="gradeCode != null">grade_code,</if>
+			<if test="parentId != null">parent_id,</if>
+			<if test="orgId != null">org_id,</if>
+			<if test="remark != null">remark,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateDate != null">update_date,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+			<if test="knowledgeCode != null">#{knowledgeCode},</if>
+			<if test="knowledgeContent != null">#{knowledgeContent},</if>
+			<if test="subjectId != null">#{subjectId},</if>
+			<if test="gradeCode != null">#{gradeCode},</if>
+			<if test="parentId != null">#{parentId},</if>
+			<if test="orgId != null">#{orgId},</if>
+			<if test="remark != null">#{remark},</if>
+            <if test="createUser != null">#{createUser,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">#{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateUser != null">#{updateUser,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">#{updateDate,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+
+    <update id="updateKnowledgePoint">
+        update JY_KNOWLEDGE_POINT
+        <set>
+				<if test="knowledgeCode != null and '' != knowledgeCode">
+				knowledge_code = #{knowledgeCode},
+				</if>
+				<if test="knowledgeContent != null and '' != knowledgeContent">
+				knowledge_content = #{knowledgeContent},
+				</if>
+				<if test="subjectId != null and '' != subjectId">
+				subject_id = #{subjectId},
+				</if>
+				<if test="parentId != null and '' != parentId">
+				parent_id = #{parentId},
+				</if>
+				<if test="orgId != null and '' != orgId">
+				org_id = #{orgId},
+				</if>
+				<if test="remark != null and '' != remark">
+				remark = #{remark},
+				</if>
+            <if test="createUser != null and ''!=createUser">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null and ''!=createDate">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null and ''!=updateUser">
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null  and ''!=updateDate">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+            </choose>
+        </where>
+    </update>
+
+    <select id="getKnowledgePointById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_KNOWLEDGE_POINT`
+        WHERE id = #{id}
+    </select>
+
+    <select id="queryKnowledgePointsFilter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_KNOWLEDGE_POINT`
+        WHERE 1 = 1
+			<if test="knowledgeCode != null and '' != knowledgeCode">
+				AND knowledge_code = #{knowledgeCode}
+			</if>
+			<if test="knowledgeContent != null and '' != knowledgeContent">
+				AND knowledge_content = #{knowledgeContent}
+			</if>
+			<if test="subjectId != null and '' != subjectId">
+				AND subject_id = #{subjectId}
+			</if>
+			<if test="parentId != null and '' != parentId">
+				AND parent_id = #{parentId}
+			</if>
+			<if test="gradeCode != null and '' != gradeCode">
+				AND grade_code = #{gradeCode}
+			</if>
+			<if test="orgId != null and '' != orgId">
+				AND org_id = #{orgId}
+			</if>
+			<if test="remark != null and '' != remark">
+				AND remark = #{remark},
+			</if>
+        ORDER BY create_date desc
+    </select>
+    
+    <delete id="deleteKnowledgePointById" parameterType="java.lang.String">
+        delete from `JY_KNOWLEDGE_POINT`
+        where id = #{id}
+    </delete>
+    
+    <delete id="deleteKnowledgePoints" parameterType="java.lang.String">
+        delete from `JY_KNOWLEDGE_POINT`
+        where id IN 
+        <foreach collection="ids" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

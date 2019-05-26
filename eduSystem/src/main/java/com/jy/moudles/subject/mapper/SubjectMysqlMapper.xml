@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.subject.dao.SubjectDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.subject.entity.Subject">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        	<result column="subject_code" property="subjectCode" jdbcType="VARCHAR"/>
+			<result column="subject_name" property="subjectName" jdbcType="VARCHAR"/>
+			<result column="subject_color" property="subjectColor" jdbcType="VARCHAR"/>
+			<result column="school_id" property="schoolId" jdbcType="VARCHAR"/>
+			<result column="org_id" property="orgId" jdbcType="VARCHAR"/>
+			<result column="remark" property="remark" jdbcType="VARCHAR"/>
+		<result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        id, subject_code, subject_name, subject_color, school_id, org_id, remark, create_user, create_date, update_user, update_date
+    </sql>
+    
+    <insert id="insertSubject">
+        INSERT INTO JY_SUBJECT
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+				<if test="subjectName != null">subject_name,</if>
+				<if test="subjectColor != null">subject_color,</if>
+				<if test="schoolId != null">school_id,</if>
+				<if test="orgId != null">org_id,</if>
+				<if test="remark != null">remark,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateDate != null">update_date,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+				<if test="subjectName != null">#{subjectName},</if>
+				<if test="subjectColor != null">#{subjectColor},</if>
+				<if test="schoolId != null">#{schoolId},</if>
+				<if test="orgId != null">#{orgId},</if>
+				<if test="remark != null">#{remark},</if>
+            <if test="createUser != null">#{createUser,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">#{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateUser != null">#{updateUser,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">#{updateDate,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+    
+    <update id="updateSubject">
+        update JY_SUBJECT
+        <set>
+				<if test="subjectName != null and '' != subjectName">
+				subject_name = #{subjectName},
+				</if>
+				<if test="subjectColor != null and '' != subjectColor">
+				subject_color = #{subjectColor},
+				</if>
+				<if test="schoolId != null and '' != schoolId">
+				school_id = #{schoolId},
+				</if>
+				<if test="orgId != null and '' != orgId">
+				org_id = #{orgId},
+				</if>
+				<if test="remark != null and '' != remark">
+				remark = #{remark},
+				</if>
+            <if test="createUser != null and ''!=createUser">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null and ''!=createDate">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null and ''!=updateUser">
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null  and ''!=updateDate">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <select id="getSubjectById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_SUBJECT`
+        WHERE id = #{id}
+    </select>
+    
+    <select id="querySubjectsFilter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_SUBJECT`
+        WHERE 1 = 1
+        	<if test="subjectCode != null and '' != subjectCode">
+				AND subject_code = #{subjectCode}
+			</if>
+			<if test="subjectName != null and '' != subjectName">
+				AND subject_name like CONCAT('%','${subjectName}','%')
+			</if>
+			<if test="subjectColor != null and '' != subjectColor">
+				AND subject_color = #{subjectColor}
+			</if>
+			<if test="schoolId != null and '' != schoolId">
+				AND school_id = #{schoolId}
+			</if>
+			<if test="orgId != null and '' != orgId">
+				AND org_id = #{orgId}
+			</if>
+			<if test="remark != null and '' != remark">
+				AND remark = #{remark}
+			</if>
+		ORDER BY subject_code
+    </select>
+    
+    <select id="querySubjectsByNames" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_SUBJECT`
+        WHERE subject_name IN 
+        <foreach collection="list" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+        ORDER BY subject_code
+    </select>
+    
+    <delete id="deleteSubjectById" parameterType="java.lang.String">
+        delete from `JY_SUBJECT`
+        where id = #{id}
+    </delete>
+    
+    <delete id="deleteSubjects" parameterType="java.lang.String">
+        delete from `JY_SUBJECT`
+        where id IN 
+        <foreach collection="ids" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

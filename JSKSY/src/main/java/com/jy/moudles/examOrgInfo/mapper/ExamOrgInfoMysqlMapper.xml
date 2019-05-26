@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.examOrgInfo.dao.ExamOrgInfoDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.examOrgInfo.entity.ExamOrgInfo">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+		<result column="exam_no" property="examNo" jdbcType="VARCHAR"/>
+		<result column="JGDM" property="jgdm" jdbcType="VARCHAR"/>
+		<result column="JGMC" property="jgmc" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        id, exam_no, JGDM, JGMC
+    </sql>
+    
+    <insert id="insertExamOrgInfos" parameterType="java.util.List">
+        INSERT INTO SYNC_EXAM_ORG_INFO (id, exam_no, JGDM, JGMC) values 
+        <foreach collection="list" item="org" separator=",">  
+            ('${org.id}','${org.examNo}','${org.jgdm}','${org.jgmc}')  
+        </foreach>
+    </insert>
+    
+    <insert id="insertExamOrgInfo">
+        INSERT INTO SYNC_EXAM_ORG_INFO
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+			<if test="examNo != null">exam_no,</if>
+			<if test="jgdm != null">JGDM,</if>
+			<if test="jgmc != null">JGMC,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+			<if test="examNo != null">#{examNo},</if>
+			<if test="jgdm != null">#{jgdm},</if>
+			<if test="jgmc != null">#{jgmc},</if>
+        </trim>
+    </insert>
+    
+    <update id="updateExamOrgInfo">
+        update SYNC_EXAM_ORG_INFO
+        <set>
+			<if test="examNo != null and '' != examNo">
+				exam_no = #{examNo},
+			</if>
+			<if test="jgdm != null and '' != jgdm">
+				JGDM = #{jgdm},
+			</if>
+			<if test="jgmc != null and '' != jgmc">
+				JGMC = #{jgmc},
+			</if>
+        </set>
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <select id="getExamOrgInfoById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `SYNC_EXAM_ORG_INFO`
+        WHERE id = #{id}
+    </select>
+    
+    <select id="queryExamOrgInfosFilter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `SYNC_EXAM_ORG_INFO`
+        WHERE 1 = 1
+			<if test="examNo != null and '' != examNo">
+				AND exam_no = #{examNo}
+			</if>
+			<if test="jgdm != null and '' != jgdm">
+				AND JGDM = #{jgdm}
+			</if>
+			<if test="jgmc != null and '' != jgmc">
+				AND JGMC = #{jgmc}
+			</if>
+    </select>
+    
+    <delete id="deleteExamOrgInfoById" parameterType="java.lang.String">
+        delete from `SYNC_EXAM_ORG_INFO`
+        where id = #{id}
+    </delete>
+    
+    <delete id="deleteExamOrgInfos" parameterType="java.lang.String">
+        delete from `SYNC_EXAM_ORG_INFO`
+    </delete>
+    
+</mapper>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.deviceInfo.dao.DeviceInfoDao">
+  <resultMap id="BaseResultMap" type="com.jy.moudles.deviceInfo.entity.DeviceInfo">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="SBBH" jdbcType="VARCHAR" property="sbbh" />
+    <result column="SBMC" jdbcType="VARCHAR" property="sbmc" />
+    <result column="SBLXM" jdbcType="VARCHAR" property="sblxm" />
+    <result column="SBXH" jdbcType="VARCHAR" property="sbxh" />
+    <result column="SIPDZ" jdbcType="VARCHAR" property="sipdz" />
+    <result column="FJSIPDZ" jdbcType="VARCHAR" property="fjsipdz" />
+    <result column="OSDCD" jdbcType="VARCHAR" property="osdcd" />
+    <result column="SBTDXH" jdbcType="VARCHAR" property="sbtdxh" />
+    <result column="SBMAC" jdbcType="VARCHAR" property="sbmac" />
+    <result column="SBIP" jdbcType="VARCHAR" property="sbip" />
+    <result column="SBDK" jdbcType="VARCHAR" property="sbdk" />
+    <result column="SBYHM" jdbcType="VARCHAR" property="sbyhm" />
+    <result column="SBMM" jdbcType="VARCHAR" property="sbmm" />
+    <result column="SBCSDM" jdbcType="VARCHAR" property="sbcsdm" />
+    <result column="SBRJBB" jdbcType="VARCHAR" property="sbrjbb" />
+    <result column="SBYJBB" jdbcType="VARCHAR" property="sbyjbb" />
+    <result column="SBGJBB" jdbcType="VARCHAR" property="sbgjbb" />
+    <result column="OrgCode" jdbcType="VARCHAR" property="orgcode" />
+    <result column="OrgIdenCode" jdbcType="VARCHAR" property="orgidencode" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sync_device_info
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jy.moudles.deviceInfo.entity.DeviceInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sync_device_info (SBBH, SBMC, SBLXM, 
+      SBXH, SIPDZ, FJSIPDZ, 
+      OSDCD, SBTDXH, SBMAC, 
+      SBIP, SBDK, SBYHM, 
+      SBMM, SBCSDM, SBRJBB, 
+      SBYJBB, SBGJBB, OrgCode, 
+      OrgIdenCode)
+    values (#{sbbh,jdbcType=VARCHAR}, #{sbmc,jdbcType=VARCHAR}, #{sblxm,jdbcType=VARCHAR}, 
+      #{sbxh,jdbcType=VARCHAR}, #{sipdz,jdbcType=VARCHAR}, #{fjsipdz,jdbcType=VARCHAR}, 
+      #{osdcd,jdbcType=VARCHAR}, #{sbtdxh,jdbcType=VARCHAR}, #{sbmac,jdbcType=VARCHAR}, 
+      #{sbip,jdbcType=VARCHAR}, #{sbdk,jdbcType=VARCHAR}, #{sbyhm,jdbcType=VARCHAR}, 
+      #{sbmm,jdbcType=VARCHAR}, #{sbcsdm,jdbcType=VARCHAR}, #{sbrjbb,jdbcType=VARCHAR}, 
+      #{sbyjbb,jdbcType=VARCHAR}, #{sbgjbb,jdbcType=VARCHAR}, #{orgcode,jdbcType=VARCHAR}, 
+      #{orgidencode,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.jy.moudles.deviceInfo.entity.DeviceInfo">
+    update sync_device_info
+    set SBBH = #{sbbh,jdbcType=VARCHAR},
+      SBMC = #{sbmc,jdbcType=VARCHAR},
+      SBLXM = #{sblxm,jdbcType=VARCHAR},
+      SBXH = #{sbxh,jdbcType=VARCHAR},
+      SIPDZ = #{sipdz,jdbcType=VARCHAR},
+      FJSIPDZ = #{fjsipdz,jdbcType=VARCHAR},
+      OSDCD = #{osdcd,jdbcType=VARCHAR},
+      SBTDXH = #{sbtdxh,jdbcType=VARCHAR},
+      SBMAC = #{sbmac,jdbcType=VARCHAR},
+      SBIP = #{sbip,jdbcType=VARCHAR},
+      SBDK = #{sbdk,jdbcType=VARCHAR},
+      SBYHM = #{sbyhm,jdbcType=VARCHAR},
+      SBMM = #{sbmm,jdbcType=VARCHAR},
+      SBCSDM = #{sbcsdm,jdbcType=VARCHAR},
+      SBRJBB = #{sbrjbb,jdbcType=VARCHAR},
+      SBYJBB = #{sbyjbb,jdbcType=VARCHAR},
+      SBGJBB = #{sbgjbb,jdbcType=VARCHAR},
+      OrgCode = #{orgcode,jdbcType=VARCHAR},
+      OrgIdenCode = #{orgidencode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select id, SBBH, SBMC, SBLXM, SBXH, SIPDZ, FJSIPDZ, OSDCD, SBTDXH, SBMAC, SBIP, SBDK, 
+    SBYHM, SBMM, SBCSDM, SBRJBB, SBYJBB, SBGJBB, OrgCode, OrgIdenCode
+    from sync_device_info
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, SBBH, SBMC, SBLXM, SBXH, SIPDZ, FJSIPDZ, OSDCD, SBTDXH, SBMAC, SBIP, SBDK, 
+    SBYHM, SBMM, SBCSDM, SBRJBB, SBYJBB, SBGJBB, OrgCode, OrgIdenCode
+    from sync_device_info
+  </select>
+  
+  <select id="queryDeviceInfoFilter" resultMap="BaseResultMap">
+    select id, SBBH, SBMC, SBLXM, SBXH, SIPDZ, FJSIPDZ, OSDCD, SBTDXH, SBMAC, SBIP, SBDK, 
+    SBYHM, SBMM, SBCSDM, SBRJBB, SBYJBB, SBGJBB, OrgCode, OrgIdenCode
+    from sync_device_info
+        WHERE 1 = 1
+			<if test="OrgCode != null and '' != OrgCode">
+				AND OrgCode = #{OrgCode}
+			</if>
+			<if test="OrgIdenCode != null and '' != OrgIdenCode">
+				AND OrgIdenCode = #{OrgIdenCode}
+			</if>
+    </select>
+</mapper>

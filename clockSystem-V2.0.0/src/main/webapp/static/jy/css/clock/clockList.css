@@ -1,0 +1,60 @@
+.rightSide {
+	float: left;
+	width: 96%;
+	margin: 0 2%;
+}
+
+.node-selected {
+	background-color: #e33b3b !important
+}
+
+.debuttons {
+	float: left;
+	width: 10%
+}
+
+.navi {
+	float: left;
+	width: 80%
+}
+
+.textButton {
+	border-radius: 4px;
+	padding: 10px 0px;
+	margin-top: 10px;
+	color: white;
+	background-color: #e33b3b;
+	text-align: center;
+	cursor: pointer;
+}
+
+.textButton:hover {
+	background-color: #eb1c1c;
+}
+
+.Jry_table .table_body thead th {
+	text-align: center;
+	border-bottom: 1px #e0e0e0 solid;
+}
+
+.Jry_table .table_body .tdImg {
+	width: 28px
+}
+
+.Jcustom_content_items span {
+	line-height: 37px;
+	font-size: 16px;
+}
+
+.Jry_popup .Jcustom .Jcustom_content .Jcustom_content_items textarea {
+	float: left;
+	width: 298px;
+	padding: 0px 10px;
+	line-height: 38px;
+	background: #fff;
+	box-shadow: none;
+	border-image: none;
+	outline-offset: none;
+	border: 1px #e0e0e0 solid;
+	font-family: "Microsoft YaHei" !important;
+}

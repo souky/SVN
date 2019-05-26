@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.shieldDevice.dao.ShieldDeviceDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.shieldDevice.entity.ShieldDevice">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+		<result column="shield_ip_addr" property="shieldIpAddr" jdbcType="VARCHAR"/>
+		<result column="shield_mac" property="shieldMac" jdbcType="VARCHAR"/>
+		<result column="shield_status" property="shieldStatus" jdbcType="INTEGER"/>
+		<result column="shield_on_off" property="shieldOnOff" jdbcType="INTEGER"/>
+		<result column="models_info" property="modelsInfo" jdbcType="VARCHAR"/>
+		<result column="software_version" property="softwareVersion" jdbcType="VARCHAR"/>
+		<result column="hardware_version" property="hardwareVersion" jdbcType="VARCHAR"/>
+		<result column="shield_resource" property="shieldResource" jdbcType="INTEGER"/>
+		<result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+        
+        
+        <result column="logical_exam_room" property="logicalExamRoom" jdbcType="VARCHAR"/>
+		<result column="physical_exam_room" property="physicalExamRoom" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <resultMap id="countMap" type="com.jy.moudles.shieldDevice.VO.CountVO">
+        <result column="shield_status" property="shieldStatus" jdbcType="VARCHAR"/>
+		<result column="counts" property="count" jdbcType="INTEGER"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        id, shield_ip_addr, shield_mac, shield_status, shield_on_off, models_info, software_version, hardware_version, shield_resource, create_user, create_date, update_user, update_date
+    </sql>
+    
+    <sql id="Base_Column_List_with_position">
+        JY_SHIELD_DEVICE_TAB.id, shield_ip_addr, shield_mac, models_info, shield_status, shield_on_off, software_version, shield_resource, 
+        hardware_version, JY_SHIELD_DEVICE_TAB.create_user, JY_SHIELD_DEVICE_TAB.create_date, JY_SHIELD_DEVICE_TAB.update_user,
+         JY_SHIELD_DEVICE_TAB.update_date,logical_exam_room,physical_exam_room
+    </sql>
+    
+    <select id="getShieldStatusCount" resultMap="countMap">
+    	SELECT shield_status,count(*) as counts from JY_SHIELD_DEVICE_TAB GROUP BY shield_status
+    </select>
+    
+    <insert id="insertShieldDevice">
+        INSERT INTO JY_SHIELD_DEVICE_TAB
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+			<if test="shieldIpAddr != null">shield_ip_addr,</if>
+			<if test="shieldMac != null">shield_mac,</if>
+			<if test="shieldStatus != null">shield_status,</if>
+			<if test="shieldOnOff != null">shield_on_off,</if>
+			<if test="modelsInfo != null">models_info,</if>
+			<if test="softwareVersion != null">software_version,</if>
+			<if test="hardwareVersion != null">hardware_version,</if>
+			<if test="shieldResource != null">shield_resource,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateDate != null">update_date,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+			<if test="shieldIpAddr != null">#{shieldIpAddr},</if>
+			<if test="shieldMac != null">#{shieldMac},</if>
+			<if test="shieldStatus != null">#{shieldStatus},</if>
+			<if test="shieldOnOff != null">#{shieldOnOff},</if>
+			<if test="modelsInfo != null">#{modelsInfo},</if>
+			<if test="softwareVersion != null">#{softwareVersion},</if>
+			<if test="hardwareVersion != null">#{hardwareVersion},</if>
+			<if test="shieldResource != null">#{shieldResource},</if>
+            <if test="createUser != null">#{createUser,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">#{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateUser != null">#{updateUser,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">#{updateDate,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+    
+    <update id="updateShieldDevice">
+        update JY_SHIELD_DEVICE_TAB
+        <set>
+			<if test="shieldIpAddr != null and '' != shieldIpAddr">
+				shield_ip_addr = #{shieldIpAddr},
+			</if>
+			<if test="shieldMac != null and '' != shieldMac">
+				shield_mac = #{shieldMac},
+			</if>
+			<if test="shieldStatus != null and '' != shieldStatus">
+				shield_status = #{shieldStatus},
+			</if>
+			<if test="shieldOnOff != null and '' != shieldOnOff">
+				shield_on_off = #{shieldOnOff},
+			</if>
+			<if test="modelsInfo != null and '' != modelsInfo">
+				models_info = #{modelsInfo},
+			</if>
+			<if test="softwareVersion != null and '' != softwareVersion">
+				software_version = #{softwareVersion},
+			</if>
+			<if test="hardwareVersion != null and '' != hardwareVersion">
+				hardware_version = #{hardwareVersion},
+			</if>
+			<if test="shieldResource != null and '' != shieldResource">
+				shield_resource = #{shieldResource},
+			</if>
+            <if test="createUser != null and ''!=createUser">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null and ''!=createDate">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null and ''!=updateUser">
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null  and ''!=updateDate">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <select id="getShieldDeviceById" resultMap="BaseResultMap">
+        SELECT
+       <include refid="Base_Column_List_with_position"/>
+        from `JY_SHIELD_DEVICE_TAB` left join JY_SHIELD_DEVICE_POSITION_TAB on JY_SHIELD_DEVICE_TAB.id = JY_SHIELD_DEVICE_POSITION_TAB.shield_id
+        WHERE JY_SHIELD_DEVICE_TAB.id = #{id}
+    </select>
+    
+    <select id="getUnBindingShieldDevice" resultMap="BaseResultMap">
+       SELECT
+			s.id,s.shield_ip_addr,s.shield_mac,s.shield_status
+		FROM
+			jy_shield_device_tab s
+		LEFT JOIN jy_shield_device_position_tab p ON s.id = p.shield_id
+		where (p.shield_position_builings = 0 or p.shield_position_room is null) 
+		<if test="shieldResource != null and '' != shieldResource">
+			shield_resource = #{shieldResource},
+		</if>
+    </select>
+    
+    <select id="getShieldDeviceByMac" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_SHIELD_DEVICE_TAB`
+        WHERE shield_mac = #{shieldMac}
+    </select>
+    
+    <select id="queryShieldDevicesFilter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_SHIELD_DEVICE_TAB`
+        WHERE 1 = 1
+			<if test="shieldIpAddr != null and '' != shieldIpAddr">
+				AND shield_ip_addr = #{shieldIpAddr}
+			</if>
+			<if test="shieldMac != null and '' != shieldMac">
+				AND shield_mac = #{shieldMac}
+			</if>
+			<if test="shieldStatus != null">
+				AND shield_status = #{shieldStatus}
+			</if>
+			<if test="shieldOnOff != null and '' != shieldOnOff">
+				AND shield_on_off = #{shieldOnOff}
+			</if>
+			<if test="modelsInfo != null and '' != modelsInfo">
+				AND models_info = #{modelsInfo}
+			</if>
+			<if test="softwareVersion != null and '' != softwareVersion">
+				AND software_version = #{softwareVersion}
+			</if>
+			<if test="hardwareVersion != null and '' != hardwareVersion">
+				AND hardware_version = #{hardwareVersion}
+			</if>
+			<if test="shieldResource != null and '' != shieldResource">
+				AND shield_resource = #{shieldResource}
+			</if>
+    </select>
+    
+    <select id="queryShieldDevicesFilterWithPosition" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List_with_position"/>
+        from `JY_SHIELD_DEVICE_TAB` left join JY_SHIELD_DEVICE_POSITION_TAB on JY_SHIELD_DEVICE_TAB.id = JY_SHIELD_DEVICE_POSITION_TAB.shield_id
+        WHERE 1 = 1
+			<if test="shieldIpAddr != null and '' != shieldIpAddr">
+				AND shield_ip_addr LIKE CONCAT('%',#{shieldIpAddr},'%')
+			</if>
+			<if test="shieldMac != null and '' != shieldMac">
+				AND shield_mac LIKE CONCAT('%',#{shieldMac},'%')
+			</if>
+			<if test="shieldStatus != null">
+				AND shield_status = #{shieldStatus}
+			</if>
+			<if test="shieldOnOff != null and '' != shieldOnOff">
+				AND shield_on_off = #{shieldOnOff}
+			</if>
+			<if test="modelsInfo != null and '' != modelsInfo">
+				AND models_info = #{modelsInfo}
+			</if>
+			<if test="softwareVersion != null and '' != softwareVersion">
+				AND software_version = #{softwareVersion}
+			</if>
+			<if test="hardwareVersion != null and '' != hardwareVersion">
+				AND hardware_version = #{hardwareVersion}
+			</if>
+			<if test="shieldResource != null and '' != shieldResource">
+				AND shield_resource = #{shieldResource}
+			</if>
+			<if test="logicalExamRoom != null and '' != logicalExamRoom">
+				AND logical_exam_room  LIKE CONCAT('%',#{logicalExamRoom},'%')
+			</if>
+			<if test="physicalExamRoom != null and '' != physicalExamRoom">
+				AND physical_exam_room  LIKE CONCAT('%',#{physicalExamRoom},'%')
+			</if>
+		ORDER BY inet_aton(shield_ip_addr)
+    </select>
+    
+    <delete id="deleteShieldDeviceById" parameterType="java.lang.String">
+        delete from `JY_SHIELD_DEVICE_TAB`
+        where id = #{id}
+    </delete>
+    
+    <delete id="deleteShieldDevices" parameterType="java.lang.String">
+        delete from `JY_SHIELD_DEVICE_TAB`
+        where id IN 
+        <foreach collection="list" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

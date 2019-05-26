@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.clockDevice.dao.ClockDeviceDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.clockDevice.entity.ClockDevice">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+		<result column="mac" property="mac" jdbcType="VARCHAR"/>
+		<result column="ip" property="ip" jdbcType="VARCHAR"/>
+		<result column="port" property="port" jdbcType="VARCHAR"/>
+		<result column="address" property="address" jdbcType="VARCHAR"/>
+		<result column="status" property="status" jdbcType="VARCHAR"/>
+		<result column="list_order" property="listOrder" jdbcType="VARCHAR"/>
+		<result column="clock_time" property="clockTime" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+		<result column="show_sec" property="showSec" jdbcType="INTEGER"/>
+		<result column="source" property="source" jdbcType="INTEGER"/>
+		<result column="remark" property="remark" jdbcType="VARCHAR"/>
+		<result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        id, mac, ip, port, address, status, list_order,clock_time,show_sec,source,remark, create_user, create_date, update_user, update_date
+    </sql>
+    
+    <insert id="insertClockDevice">
+        INSERT INTO jy_clock_device_tab
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+			<if test="mac != null">mac,</if>
+			<if test="ip != null">ip,</if>
+			<if test="port != null">port,</if>
+			<if test="address != null">address,</if>
+			<if test="status != null">status,</if>
+			<if test="listOrder != null">list_order,</if>
+			<if test="clockTime != null">clock_time,</if>
+			<if test="remark != null">remark,</if>
+			<if test="showSec != null">show_sec,</if>
+			<if test="source != null">source,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateDate != null">update_date,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+			<if test="mac != null">#{mac},</if>
+			<if test="ip != null">#{ip},</if>
+			<if test="port != null">#{port},</if>
+			<if test="address != null">#{address},</if>
+			<if test="status != null">#{status},</if>
+			<if test="listOrder != null">#{listOrder},</if>
+			<if test="clockTime != null">#{clockTime},</if>
+			<if test="remark != null">#{remark},</if>
+			<if test="showSec != null">#{showSec},</if>
+			<if test="source != null">#{source},</if>
+            <if test="createUser != null">#{createUser,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">#{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateUser != null">#{updateUser,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">#{updateDate,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+    
+    <update id="updateClockDevice">
+        update jy_clock_device_tab
+        <set>
+			<if test="mac != null and '' != mac">
+				mac = #{mac},
+			</if>
+			<if test="ip != null and '' != ip">
+				ip = #{ip},
+			</if>
+			<if test="port != null and '' != port">
+				port = #{port},
+			</if>
+			<if test="address != null and '' != address">
+				address = #{address},
+			</if>
+			<if test="status != null and '' != status">
+				status = #{status},
+			</if>
+			<if test="listOrder != null and '' != listOrder">
+				list_order = #{listOrder},
+			</if>
+			<if test="clockTime != null and '' != clockTime">
+				clock_time = #{clockTime},
+			</if>
+			<if test="showSec != null and '' != showSec">
+				show_sec = #{showSec},
+			</if>
+			<if test="source != null and '' != source">
+				source = #{source},
+			</if>
+			<if test="remark != null and '' != remark">
+				remark = #{remark},
+			</if>
+            <if test="createUser != null and ''!=createUser">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null and ''!=createDate">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null and ''!=updateUser">
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null  and ''!=updateDate">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <select id="getClockDeviceById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `jy_clock_device_tab`
+        WHERE id = #{id}
+    </select>
+    
+    <update id="updateStatusBySource">
+    	update jy_clock_device_tab set status = 0 where source=#{source}
+    </update>
+    
+    <select id="queryClockDevicesFilter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `jy_clock_device_tab`
+        WHERE 1 = 1
+		<if test="mac != null and '' != mac">
+			AND mac = #{mac}
+		</if>
+		<if test="ip != null and '' != ip">
+			AND ip LIKE CONCAT('%',#{ip},'%')
+		</if>
+		<if test="port != null and '' != port">
+			AND port = #{port}
+		</if>
+		<if test="address != null and '' != address">
+			AND address LIKE CONCAT('%',#{address},'%')
+		</if>
+		<if test="remark != null and '' != remark">
+			AND remark LIKE CONCAT('%',#{remark},'%')
+		</if>
+		<if test="status != null and '' != status">
+			AND status = #{status}
+		</if>
+		<if test="listOrder != null and '' != listOrder">
+			AND list_order = #{listOrder}
+		</if>
+		<if test="source != null and '' != source">
+			AND source = #{source}
+		</if>
+    </select>
+    
+    <select id="queryClockDevicesByOrderList" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `jy_clock_device_tab`
+		order by list_order asc		
+    </select>
+    
+    <select id="getIdleClockDevices" resultMap="BaseResultMap">
+        SELECT
+        id,ip,mac
+        from `jy_clock_device_tab`
+		where list_order = '' or list_order is null	
+    </select>
+    
+    <update id="bootDevice" parameterType="java.lang.String">
+        update jy_clock_device_tab
+        set list_order = null
+        where id = #{id}
+    </update>
+    
+    <delete id="deleteClockDeviceById" parameterType="java.lang.String">
+        delete from `jy_clock_device_tab`
+        where id = #{id}
+    </delete>
+    
+    <delete id="deleteClockDeviceAll" >
+        delete from `jy_clock_device_tab` where now() > date_add(update_date, interval 1 day);
+    </delete>
+    
+    <delete id="deleteClockDevices">
+        delete from `jy_clock_device_tab`
+        where id IN 
+        <foreach collection="list" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+    </delete>
+    
+    <update id="bitchModifyStatus" parameterType="java.util.List">
+    	update `jy_clock_device_tab` 
+    	set status = '2' AND update_date = now()
+    	where ip in
+    	<foreach collection="ips" index="index" item="ip" 
+       		separator="," open="(" close=")">
+        	#{ip}
+    	</foreach>
+ 	</update>
+ 	
+ 	<update id="bitchUpdateClock" parameterType="java.util.List">
+ 		update jy_clock_device_tab set port = 
+ 		<foreach collection="clocks" item="item" index="index" separator=" " open="case IP" close="end">  
+        	when #{item.ip} then #{item.port}  
+        </foreach>
+ 		,clock_time = 
+ 		<foreach collection="clocks" item="item" index="index" separator=" " open="case IP" close="end">  
+        	when #{item.ip} then #{item.clockTime}  
+        </foreach>
+        ,status = 
+ 		<foreach collection="clocks" item="item" index="index" separator=" " open="case IP" close="end">  
+        	when #{item.ip} then #{item.status}  
+        </foreach>
+        ,update_user = 
+ 		<foreach collection="clocks" item="item" index="index" separator=" " open="case IP" close="end">  
+        	when #{item.ip} then #{item.updateUser}  
+        </foreach>
+        ,mac = 
+        <foreach collection="clocks" item="item" index="index" separator=" " open="case IP" close="end">  
+        	when #{item.ip} then #{item.mac}  
+        </foreach>
+        ,update_date = now()
+        where ip IN 
+        <foreach collection="clocks" index="index" item="item" separator="," open="(" close=")">  
+        	#{item.ip}  
+        </foreach>
+ 	</update>
+    
+</mapper>

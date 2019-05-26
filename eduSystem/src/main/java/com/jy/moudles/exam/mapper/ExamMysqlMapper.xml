@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.moudles.exam.dao.ExamDao">
+
+	<resultMap id="BaseResultMap" type="com.jy.moudles.exam.entity.Exam">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+			<result column="exam_name" property="examName" jdbcType="VARCHAR"/>
+			<result column="exam_start_date" property="examStartDate" jdbcType="TIMESTAMP"/>
+			<result column="exam_end_date" property="examEndDate" jdbcType="TIMESTAMP"/>
+			<result column="classroom" property="classroom" jdbcType="VARCHAR"/>
+			<result column="subject" property="subject" jdbcType="VARCHAR"/>
+			<result column="exam_status" property="examStatus" jdbcType="TINYINT"/>
+			<result column="org_id" property="orgId" jdbcType="VARCHAR"/>
+			<result column="remark" property="remark" jdbcType="VARCHAR"/>
+		<result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        e.id, e.exam_name, e.exam_start_date, e.exam_end_date, e.classroom, e.subject, e.exam_status, e.org_id, e.remark, e.create_user, e.create_date, e.update_user, e.update_date
+    </sql>
+    
+    <insert id="insertExam">
+        INSERT INTO JY_EXAM_INFO
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+				<if test="examName != null">exam_name,</if>
+				<if test="examStartDate != null">exam_start_date,</if>
+				<if test="examEndDate != null">exam_end_date,</if>
+				<if test="classroom != null">classroom,</if>
+				<if test="subject != null">subject,</if>
+				<if test="examStatus != null">exam_status,</if>
+				<if test="orgId != null">org_id,</if>
+				<if test="remark != null">remark,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateDate != null">update_date,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+				<if test="examName != null">#{examName},</if>
+				<if test="examStartDate != null">#{examStartDate},</if>
+				<if test="examEndDate != null">#{examEndDate},</if>
+				<if test="classroom != null">#{classroom},</if>
+				<if test="subject != null">#{subject},</if>
+				<if test="examStatus != null">#{examStatus},</if>
+				<if test="orgId != null">#{orgId},</if>
+				<if test="remark != null">#{remark},</if>
+            <if test="createUser != null">#{createUser,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">#{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateUser != null">#{updateUser,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">#{updateDate,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+    
+    <update id="updateExam">
+        update JY_EXAM_INFO
+        <set>
+				<if test="examName != null and '' != examName">
+				exam_name = #{examName},
+				</if>
+				<if test="examStartDate != null and '' != examStartDate">
+				exam_start_date = #{examStartDate},
+				</if>
+				<if test="examEndDate != null and '' != examEndDate">
+				exam_end_date = #{examEndDate},
+				</if>
+				<if test="classroom != null and '' != classroom">
+				classroom = #{classroom},
+				</if>
+				<if test="subject != null and '' != subject">
+				subject = #{subject},
+				</if>
+				<if test="examStatus != null and '' != examStatus">
+				exam_status = #{examStatus},
+				</if>
+				<if test="orgId != null and '' != orgId">
+				org_id = #{orgId},
+				</if>
+				<if test="remark != null and '' != remark">
+				remark = #{remark},
+				</if>
+            <if test="createUser != null and ''!=createUser">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null and ''!=createDate">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null and ''!=updateUser">
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null  and ''!=updateDate">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            <choose>
+                <when test="id != null">
+                    id = #{id}
+                </when>
+            </choose>
+        </where>
+    </update>
+    
+    <select id="getExamById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_EXAM_INFO` e
+        WHERE id = #{id}
+    </select>
+    
+    <select id="getOrgLastCompletedExam" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_EXAM_INFO` e
+        WHERE org_id = #{orgId} and exam_status = 2
+		ORDER BY exam_end_date desc limit 1
+    </select>
+
+	
+    <select id="queryExamsFilter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_EXAM_INFO` e
+        WHERE 1 = 1
+			<if test="examName != null and '' != examName">
+				AND exam_name LIKE CONCAT(CONCAT('%',#{examName}),'%')
+			</if>
+			<if test="examStartDate != null and '' != examStartDate">
+				AND exam_start_date = #{examStartDate}
+			</if>
+			<if test="examEndDate != null and '' != examEndDate">
+				AND exam_end_date = #{examEndDate}
+			</if>
+			<if test="classroom != null and '' != classroom">
+				AND classroom LIKE CONCAT(CONCAT('%',#{classroom}),'%')
+			</if>
+			<if test="subject != null and '' != subject">
+				AND subject LIKE CONCAT(CONCAT('%',#{subject}),'%')
+			</if>
+			<if test="examStatus != null and '' != examStatus">
+				AND exam_status = #{examStatus}
+			</if>
+			<if test="orgId != null and '' != orgId">
+				AND org_id = #{orgId}
+			</if>
+			<if test="remark != null and '' != remark">
+				AND remark = #{remark}
+			</if>
+		ORDER BY create_date DESC
+    </select>
+
+	<select id="queryExamsFilterNew" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from `JY_EXAM_INFO` e
+        WHERE 1 = 1
+			<if test="examName != null and '' != examName">
+				AND exam_name LIKE CONCAT(CONCAT('%',#{examName}),'%')
+			</if>
+			<if test="examStartDate != null and '' != examStartDate">
+				AND exam_start_date = #{examStartDate}
+			</if>
+			<if test="examEndDate != null and '' != examEndDate">
+				AND exam_end_date &lt;= #{examEndDate}
+			</if>
+			<if test="classroom != null and '' != classroom">
+				AND classroom LIKE CONCAT(CONCAT('%',#{classroom}),'%')
+			</if>
+			<if test="subject != null and '' != subject">
+				AND subject LIKE CONCAT(CONCAT('%',#{subject}),'%')
+			</if>
+			<if test="examStatus != null and '' != examStatus">
+				AND exam_status = #{examStatus}
+			</if>
+			<if test="orgId != null and '' != orgId">
+				AND org_id = #{orgId}
+			</if>
+			<if test="remark != null and '' != remark">
+				AND remark = #{remark}
+			</if>
+		<if test="sort != null and '' != sort">
+			ORDER BY  ${sort}
+			<if test="sortType != null and '' != sortType">
+				${sortType}
+			</if>
+		</if>
+		<if test="type != null and '' != type">
+			LIMIT ${type}
+		</if>
+    </select>
+
+	<select id="queryStuExamsFilter" resultMap="BaseResultMap">
+        SELECT
+		<if test="examName1 != null">e.exam_name,</if>
+		<if test="examStartDate1 != null">e.exam_start_date,</if>
+		<if test="examEndDate1 != null">e.exam_end_date,</if>
+		<if test="classroom1 != null">e.classroom,</if>
+		<if test="subject1 != null">e.subject,</if>
+		<if test="examStatus1 != null">e.exam_status,</if>
+		<if test="orgId1 != null">e.org_id,</if>
+		<if test="remark1 != null">e.remark,</if>
+		<if test="createUser1 != null">e.create_user,</if>
+		<if test="createDate1 != null">e.create_date,</if>
+		<if test="updateUser1 != null">e.update_user,</if>
+		<if test="updateDate1 != null">e.update_date,</if>
+		e.id
+        from `JY_EXAM_STUDENT_RELATION` es
+		LEFT JOIN `JY_EXAM_INFO` e on es.exam_id = e.id
+        WHERE 1 = 1
+			<if test="examId != null and '' != examId">
+				AND es.exam_id = #{examId}
+			</if>
+			<if test="studentId != null and '' != studentId">
+				AND es.student_id = #{studentId}
+			</if>
+			<if test="examStuNo != null and '' != examStuNo">
+				AND es.exam_stu_no = #{examStuNo}
+			</if>
+			<if test="status != null and '' != status">
+				AND es.status = #{status}
+			</if>
+			<if test="examName != null and '' != examName">
+				AND e.exam_name LIKE CONCAT(CONCAT('%',#{examName}),'%')
+			</if>
+			<if test="examStartDate != null and '' != examStartDate">
+				AND e.exam_start_date = #{examStartDate}
+			</if>
+			<if test="examEndDate != null and '' != examEndDate">
+				AND e.exam_end_date &lt;= #{examEndDate}
+			</if>
+			<if test="classroom != null and '' != classroom">
+				AND e.classroom LIKE CONCAT(CONCAT('%',#{classroom}),'%')
+			</if>
+			<if test="subject != null and '' != subject">
+				AND e.subject LIKE CONCAT(CONCAT('%',#{subject}),'%')
+			</if>
+			<if test="examStatus != null and '' != examStatus">
+				AND e.exam_status = #{examStatus}
+			</if>
+			<if test="orgId != null and '' != orgId">
+				AND e.org_id = #{orgId}
+			</if>
+			<if test="remark != null and '' != remark">
+				AND e.remark = #{remark}
+			</if>
+		<if test="sort != null and '' != sort">
+			ORDER BY  ${sort}
+			<if test="sortType != null and '' != sortType">
+				${sortType}
+			</if>
+		</if>
+		<if test="type != null and '' != type">
+			LIMIT ${type}
+		</if>
+    </select>
+
+	<select id="getExamListForTab" resultMap="BaseResultMap">
+		SELECT DISTINCT
+		<include refid="Base_Column_List"/>
+		from `JY_EXAM_INFO` e
+		left JOIN `JY_EXAM_STUDENT_RELATION` es
+		ON e.id = es.exam_id
+		WHERE 1 = 1
+		<if test="examId != null and '' != examId">
+			AND e.exam_id = #{examId}
+		</if>
+		<if test="studentId != null and '' != studentId">
+			AND es.student_id = #{studentId}
+		</if>
+		<if test="stuStatus != null and '' != stuStatus">
+			AND es.status = #{stuStatus}
+		</if>
+		<if test="status != null and '' != status">
+			AND e.status = #{status}
+		</if>
+		<if test="remark != null and '' != remark">
+			AND e.remark = #{remark}
+		</if>
+		<if test="classroom != null and '' != classroom">
+			AND e.classroom LIKE CONCAT(CONCAT('%',#{classroom}),'%')
+		</if>
+		<if test="subject != null and '' != subject">
+			AND e.subject LIKE CONCAT(CONCAT('%',#{subject}),'%')
+		</if>
+		<if test="examStatus != null and '' != examStatus">
+			AND e.exam_status = #{examStatus}
+		</if>
+		<if test="orgId != null and '' != orgId">
+			AND e.org_id = #{orgId}
+		</if>
+		<if test="sort != null and '' != sort">
+			ORDER BY  ${sort}
+			<if test="sortType != null and '' != sortType">
+				${sortType}
+			</if>
+		</if>
+	</select>
+	
+    <!-- 优化版 -->
+    <select id="getExamListForTabNew" resultMap="BaseResultMap">
+		SELECT
+		DISTINCT
+		<include refid="Base_Column_List"/>
+		FROM
+			JY_EXAM_STUDENT_RELATION es
+			LEFT JOIN jy_exam_info e ON es.exam_id = e.id
+		WHERE 1 = 1
+		<if test="examId != null and '' != examId">
+			AND e.exam_id = #{examId}
+		</if>
+		<if test="studentId != null and '' != studentId">
+			AND es.student_id = #{studentId}
+		</if>
+		<if test="stuStatus != null and '' != stuStatus">
+			AND es.status = #{stuStatus}
+		</if>
+		<if test="status != null and '' != status">
+			AND e.status = #{status}
+		</if>
+		<if test="remark != null and '' != remark">
+			AND e.remark = #{remark}
+		</if>
+		<if test="classroom != null and '' != classroom">
+			AND e.classroom LIKE CONCAT(CONCAT('%',#{classroom}),'%')
+		</if>
+		<if test="subject != null and '' != subject">
+			AND e.subject LIKE CONCAT(CONCAT('%',#{subject}),'%')
+		</if>
+		<if test="examStatus != null and '' != examStatus">
+			AND e.exam_status = #{examStatus}
+		</if>
+		<if test="orgId != null and '' != orgId">
+			AND e.org_id = #{orgId}
+		</if>
+		<if test="sort != null and '' != sort">
+			ORDER BY  ${sort}
+			<if test="sortType != null and '' != sortType">
+				${sortType}
+			</if>
+		</if>
+		<if test="type != null and type != ''">
+			LIMIT 0,#{type}
+		</if>
+	</select>
+    
+    
+    <delete id="deleteExamById" parameterType="java.lang.String">
+        delete from  JY_EXAM_INFO 
+        where id = #{id}
+    </delete>
+    
+    <delete id="deleteExams" parameterType="java.lang.String">
+        delete from `JY_EXAM_INFO` 
+        where id IN 
+        <foreach collection="ids" item="id" index="index" separator="," open="(" close=")">
+             #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
