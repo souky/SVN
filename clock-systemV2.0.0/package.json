@@ -15,7 +15,7 @@
     "axios": "^0.16.2",
     "element-ui": "^2.4.6",
     "mockjs": "^1.0.1-beta3",
-    "moment": "^2.18.1",
+    "moment": "^2.29.2",
     "vue": "^2.5.2",
     "es6-promise": "^4.2.4",
     "vue-axios": "^2.0.2",
